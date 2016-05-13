@@ -13,11 +13,11 @@
 
 |  # | Part                             | RefDes  | Digi-Key Part Number       | Substitute Part Number          |
 |---:|----------------------------------|---------|----------------------------|---------------------------------|
-|  2 | C 22pF 16V NP0 (0805)            | C1 C2   | 1276-1047-1-ND             |                                 |
+|  2 | C 22pF 16V NP0 (0603)            | C1 C2   | 478-1167-1-ND              |                                 |
 |  4 | C 100nF X7R (0805)               | C3-C6   | 399-1170-1-ND              |                                 |
 |  2 | C 10uF 35V X5R (0805)            | C7-C8   | 490-10515-1-ND             |                                 |
 |  2 | C 10uF 35V X5R (0805) *          | C9-C10  | 490-10515-1-ND             |                                 |
-|  1 | D PESD1CAN-UX (SOT23-3)          | D1      | 568-10731-1-ND             |                                 |
+|  1 | D PESD1CAN-UX (SOT23-3)          | D1      | 568-4032-1-ND              |                                 |
 |  3 | DS LED (3mm)                     | DS1-DS3 | 754-1218-ND                |                                 |
 |  3 | DS LED (0805)                    | DS4-DS6 | 475-1415-1-ND              |                                 |
 |  1 | F 2A (1206) *                    | F1      | 507-1881-1-ND              |                                 |
@@ -25,7 +25,7 @@
 |  1 | J MCV 1,5/ 4-G-3,81 (4w)         | J2      | 277-1223-ND                | ED2821-ND                       |
 |  1 | Q DMG2305UX-13 (SOT23-3) *       | Q1      | DMG2305UX-13DICT-ND        |                                 |
 |  1 | Q DMMT5401-7-F (SOT23-6) *       | Q2      | DMMT5401-FDICT-ND          |                                 |
-|  2 | R 120 0.5W (1206)                | R1 R2   | RHM120YCT-ND               |                                 |
+|  2 | R 120 0.5W (1206)                | R1 R2   | P120ALCT-ND                |                                 |
 |  3 | R 220 0.125W (0805)              | R3-R5   | RMCF0805FT220RCT-ND        |                                 |
 |  4 | R 1K 0.125W (0805)               | R6-R9   | RMCF0805FT1K00CT-ND        |                                 |
 |  2 | R 3.9K 0.125W (0805)             | R10 R11 | RMCF0805FT3K90CT-ND        |                                 |
@@ -36,7 +36,7 @@
 |  1 | U CAT24C32WI-GT3 (SOIC-8)        | U3      | CAT24C32WI-GT3CT-ND        |                                 |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)       | VR1     | 945-1655-5-ND              | 1470-1397-5-ND                  |
 |  1 | VR DC-DC 12V->5V 10W (1x1") *    | VR2     | 941-1586-ND                | 454-1712-ND                     |
-|  1 | Y Crystal 12MHz 50ppm 20pF       | Y1      | 887-2011-ND                | 887-1238-ND                     |
+|  1 | Y Crystal 12MHz 50ppm 20pF       | Y1      | 887-2015-ND                | 887-1244-ND                     |
 |  1 | P MC 1,5/ 4-ST-3,81              |         | 277-1163-ND                | ED2877-ND                       |
 
 * Optional power-back component
