@@ -27,10 +27,10 @@
 |  1 | Q DMMT5401-7-F (SOT23-6) *       | Q2      | DMMT5401-FDICT-ND          |                                 |
 |  2 | R 120 0.5W (1206) †              | R1 R2   | P120ALCT-ND                |                                 |
 |  3 | R 220 0.125W (0805)              | R3-R5   | RMCF0805FT220RCT-ND        |                                 |
-|  4 | R 1K 0.125W (0805)               | R6-R9   | RMCF0805FT1K00CT-ND        |                                 |
-|  2 | R 3.9K 0.125W (0805)             | R10 R11 | RMCF0805FT3K90CT-ND        |                                 |
-|  1 | R 10K 0.125W (0805) *            | R12     | RMCF0805FT10K0CT-ND        |                                 |
-|  1 | R 47K 0.125W (0805) *            | R13     | RMCF0805FT47K0CT-ND        |                                 |
+|  3 | R 1K 0.125W (0805)               | R6-R8   | RMCF0805FT1K00CT-ND        |                                 |
+|  2 | R 3.9K 0.125W (0805)             | R9 R10  | RMCF0805FT3K90CT-ND        |                                 |
+|  1 | R 10K 0.125W (0805) *            | R11     | RMCF0805FT10K0CT-ND        |                                 |
+|  1 | R 47K 0.125W (0805) *            | R12     | RMCF0805FT47K0CT-ND        |                                 |
 |  1 | U MCP2515 (SOIC-18)              | U1      | MCP2515T-I/SOCT-ND         |                                 |
 |  1 | U ISO1050 (SOP-8)                | U2      | 296-24818-1-ND             |                                 |
 |  1 | U CAT24C32WI-GT3 (SOIC-8)        | U3      | CAT24C32WI-GT3CT-ND        |                                 |
