@@ -37,7 +37,7 @@
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)       | VR1     | 945-1655-5-ND              | 1470-1397-5-ND                  |
 |  1 | VR DC-DC 12V->5V 10W (1x1") *    | VR2     | 941-1586-ND                | 454-1712-ND                     |
 |  1 | Y Crystal 16MHz 50ppm 20pF       | Y1      | 887-2015-ND                | 887-1244-ND                     |
-|  1 | P MC 1,5/ 4-ST-3,81              |         | 277-1163-ND                | ED2877-ND                       |
+|  1 | P MC 1,5/ 4-ST-3,81              |         | 277-1163-ND                | 609-3799-ND                     |
 
 * Optional power-back component
 † Optional termination resistor
