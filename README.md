@@ -24,9 +24,9 @@ After system has rebooted, flash the EEPROM:
     sudo ./eepflash.sh -w -f=hat.eep -t=24c32
     sudo reboot
 
-Now you can remove jumper from your board and disable EEPROM I2C:
+Now you can solder WP jumper on your board and disable EEPROM I2C:
 
-    sudo bash -c 'sed -i "s/^dtparam=i2c_vc=on$//g" /boot/config.txt'
+    sudo bash -c 'sed -i "/^dtparam=i2c_vc=on$/d" /boot/config.txt'
     sudo reboot
 
 
