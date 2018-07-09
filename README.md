@@ -8,6 +8,9 @@ Details for each supported hardware interface are available in their respective
 read-me file:
 
 * [HAT](HAT/README.md)
+* [USB](USB/README.md)
+* [USB-RJ45](USB-RJ45/README.md)
+* [USB/mini](USBmini/README.md)
 
 ---
 
