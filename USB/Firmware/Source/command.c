@@ -196,7 +196,8 @@ bool command_process(uint8_t *buffer, uint8_t count) {
         
         case 'V': { //Version
             if (count == 1) {
-                uart_writeString("V1");
+                uart_writeString("V");
+                uart_writeUInt8(device_getRevision());
                 switch (device_getType()) {
                     case DEVICE_CANANKA_USB: uart_writeString("0"); break;
                     case DEVICE_CANANKA_USB_RJ45: uart_writeString("1"); break;
@@ -301,7 +302,7 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
         }
 
         case 'T': {
-            if (device_getType() == DEVICE_CANANKA_USB_MINI) {
+            if (device_supportsTermination()) {
                 if (count == 1) {
                     io_out_terminationOn();
                     return true;
@@ -315,14 +316,14 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                     if (State_ExtendedError) { uart_writeString("p!"); }
                     return false;
                 }
-            } else { //only supported on Cananka USB/mini
+            } else { //only supported on some devices
                 if (State_ExtendedError) { uart_writeString("x!"); }
                 return false;
             }
         }
 
         case 'P': {
-            if (device_getType() == DEVICE_CANANKA_USB_MINI) {
+            if (device_supportsPower()) {
                 if (count == 1) {
                     io_out_powerOn();
                     return true;
@@ -336,7 +337,7 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                     if (State_ExtendedError) { uart_writeString("p!"); }
                     return false;
                 }
-            } else { //only supported on Cananka USB/mini
+            } else { //only supported on some devices
                 if (State_ExtendedError) { uart_writeString("x!"); }
                 return false;
             }
@@ -487,7 +488,7 @@ bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
         }
 
         case 'T': {
-            if (device_getType() == DEVICE_CANANKA_USB_MINI) {
+            if (device_supportsTermination()) {
                 if (count == 1) {
                     uart_writeString("*T");
                     if (io_out_getTermination()) { uart_writeByte('1'); } else { uart_writeByte('0'); }
@@ -496,14 +497,14 @@ bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
                     if (State_ExtendedError) { uart_writeString("p!"); }
                     return false;
                 }
-            } else { //only supported on Cananka USB/mini
+            } else { //only supported on some devices
                 if (State_ExtendedError) { uart_writeString("x!"); }
                 return false;
             }
         }
 
         case 'P': {
-            if (device_getType() == DEVICE_CANANKA_USB_MINI) {
+            if (device_supportsPower()) {
                 if (count == 1) {
                     uart_writeString("*P");
                     if (io_out_getPower()) { uart_writeByte('1'); } else { uart_writeByte('0'); }
@@ -512,7 +513,7 @@ bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
                     if (State_ExtendedError) { uart_writeString("p!"); }
                     return false;
                 }
-            } else { //only supported on Cananka USB/mini
+            } else { //only supported on some devices
                 if (State_ExtendedError) { uart_writeString("x!"); }
                 return false;
             }

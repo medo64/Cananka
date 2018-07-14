@@ -2,22 +2,58 @@
 
 #include "device.h"
 
-DEVICE_TYPE cachedDeviceType = DEVICE_UNKNOWN;
+DEVICE_TYPE cachedType = DEVICE_UNKNOWN;
+bool cachedSupportsPower;
+bool cachedSupportsTermination;
+uint8_t cachedRevision;
+
+
+void device_initialize() {
+    unsigned bitA5 = PORTAbits.RA5;
+    unsigned bitA3 = PORTAbits.RA3;
+    unsigned bitB1 = PORTBbits.RB1;
+    unsigned bitB4 = PORTBbits.RB4;
+
+    if (!bitA3 && bitA5) {
+        cachedType = DEVICE_CANANKA_USB;
+        cachedRevision = !bitB1 ? 2 : 1;
+        cachedSupportsPower = false;
+        cachedSupportsTermination = (cachedRevision > 1);
+    } else if (bitA3 && bitA5) {
+        cachedType = DEVICE_CANANKA_USB_RJ45;
+        cachedRevision = !bitB1 ? 2 : 1;
+        cachedSupportsPower = false;
+        cachedSupportsTermination = (cachedRevision > 1);
+    } else if (!bitA3 && !bitA5) {
+        cachedType = DEVICE_CANANKA_USB_MINI;
+        cachedRevision = 1;
+        cachedSupportsPower = true;
+        cachedSupportsTermination = true;
+    } else {
+        cachedType = DEVICE_CANANKA_USB;
+        cachedRevision = 0;
+        cachedSupportsPower = false;
+        cachedSupportsTermination = false;
+    }
+}
+
 
 DEVICE_TYPE device_getType() {
-    if (cachedDeviceType == DEVICE_UNKNOWN) {
-        TRISA5 = 0; TRISA3 = 0;
-        ANSEL4 = 0; ANSEL3 = 0;
+    if (cachedType == DEVICE_UNKNOWN) { device_initialize(); }
+    return cachedType;
+}
 
-        if (PORTAbits.RA5 && !PORTAbits.RA3) {
-            cachedDeviceType = DEVICE_CANANKA_USB;
-        } else if (PORTAbits.RA5 && PORTAbits.RA3) {
-            cachedDeviceType = DEVICE_CANANKA_USB_RJ45;
-        } else if (!PORTAbits.RA5 && !PORTAbits.RA3) {
-            cachedDeviceType = DEVICE_CANANKA_USB_MINI;
-        } else {
-            cachedDeviceType = DEVICE_CANANKA_USB;
-        }
-    }
-    return cachedDeviceType;
+uint8_t device_getRevision() {
+    if (cachedType == DEVICE_UNKNOWN) { device_initialize(); }
+    return cachedRevision;
+}
+
+bool device_supportsPower() {
+    if (cachedType == DEVICE_UNKNOWN) { device_initialize(); }
+    return cachedSupportsPower;
+}
+
+bool device_supportsTermination() {
+    if (cachedType == DEVICE_UNKNOWN) { device_initialize(); }
+    return cachedSupportsTermination;
 }

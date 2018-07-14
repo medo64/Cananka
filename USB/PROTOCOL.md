@@ -219,9 +219,9 @@ Returns hardware and software version.
 | Example (error) | V0`CR`  | `BEL`                                    | Invalid parameters (p!)                   |
 
 Second digit of hardware revisions shows board type:
-  * 0: CanStick
-  * 1: CanStick/jack
-  * 2: CanStick/mini
+  * 0: Cananka USB
+  * 1: Cananka USB-RJ45
+  * 2: Cananka USB/mini
 
 
 ###### Serial number (N) ######
@@ -317,7 +317,8 @@ Following extended errors are currently returned:
 
 ###### Terminate CAN bus (*T) ######
 
-Turns on termination resistors on CAN bus. Works only on CanStick/mini.
+Turns on termination resistors on CAN bus. Works on Cananka USB (revision C),
+Cananka USB-RJ45 (revision C), and Cananka USB/mini.
 
 |                 | Send    | Receive         | Notes                               |
 |-----------------|---------|-----------------|-------------------------------------|
@@ -326,7 +327,7 @@ Turns on termination resistors on CAN bus. Works only on CanStick/mini.
 | Query           | ?*T`CR` | *T{1:state}`CR` | Returns the current state           |
 | Example         | *T0`CR` | `CR`            | Turns termination off               |
 | Example (error) | *T2`CR` | `BEL`           | Invalid value (p!)                  |
-| Example (error) | *T1`CR` | `BEL`           | Works only on CanStick/mini (x!)    |
+| Example (error) | *T1`CR` | `BEL`           | Unsupported device (x!)             |
 
 Following values are allowed:
   * 0: off
@@ -335,7 +336,7 @@ Following values are allowed:
 
 ###### Power CAN bus (*P) ######
 
-Powers CAN bus from device itself. Works only on CanStick/mini.
+Powers CAN bus from device itself. Works only on Cananka USB/mini.
 
 |                 | Send    | Receive         | Notes                            |
 |-----------------|---------|-----------------|----------------------------------|
@@ -344,7 +345,7 @@ Powers CAN bus from device itself. Works only on CanStick/mini.
 | Query           | ?*P`CR` | *P{1:state}`CR` | Returns the current state        |
 | Example         | *P0`CR` | `CR`            | Turns V+ off                     |
 | Example (error) | *P2`CR` | `BEL`           | Invalid value (p!)               |
-| Example (error) | *P1`CR` | `BEL`           | Works only on CanStick/mini (x!) |
+| Example (error) | *P1`CR` | `BEL`           | Unsupported device (x!)          |
 
 Following values are allowed:
   * 0: off

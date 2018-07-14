@@ -78,6 +78,12 @@ void init(void) {
     REFOCONbits.ROON = 1;
     TRISC3 = 0;
 
+    //versioning
+    WPUB = 0; //disable all pull-ups
+    RBPU = 0; //enable port B pull-ups
+    TRISA3 = 0; TRISA5 = 0; TRISB1 = 0; TRISB4 = 0;
+    ANSEL3 = 0; ANSEL4 = 0; ANSEL8 = 0; ANSEL9 = 0;
+
     //clear all outputs
     LATA = 0b00000000;
     LATB = 0b00000000;
