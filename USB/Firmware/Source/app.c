@@ -31,8 +31,8 @@ void reportBufferEmpty(void);
 
 void main(void) {    
     init();
-    io_init();
 
+    io_setup();
     for (uint8_t i = 0; i < 3; i++) {
         io_led_on();
         wait_short();
@@ -40,8 +40,8 @@ void main(void) {
         wait_short();
     }
 
-    uart_init(115200);
-    can_init_125k();
+    uart_setup(115200);
+    can_setup_125k();
 
 
     uint16_t ledDelay = 0;

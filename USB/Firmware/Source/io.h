@@ -1,7 +1,7 @@
 #ifndef IO_H
 #define IO_H
 
-void io_init(void);
+void io_setup(void);
 
 #define io_led_on()              LC5 = 0
 #define io_led_off()             LC5 = 1

@@ -50,31 +50,31 @@ typedef enum CAN_STATE {
 
 
 /** Initializes CAN module. */
-void can_init(uint8_t brp, uint8_t prseg, uint8_t seg1ph, uint8_t seg2ph, uint8_t sjw, bool sampleThree);
+void can_setup(uint8_t brp, uint8_t prseg, uint8_t seg1ph, uint8_t seg2ph, uint8_t sjw, bool sampleThree);
 
 /** Initializes CAN module at 20 kbps. */
-void can_init_20k(void);
+void can_setup_20k(void);
 
 /** Initializes CAN module at 50 kbps. */
-void can_init_50k(void);
+void can_setup_50k(void);
 
 /** Initializes CAN module at 100 kbps. */
-void can_init_100k(void);
+void can_setup_100k(void);
 
 /** Initializes CAN module at 125 kbps. */
-void can_init_125k(void);
+void can_setup_125k(void);
 
 /** Initializes CAN module at 250 kbps. */
-void can_init_250k(void);
+void can_setup_250k(void);
 
 /** Initializes CAN module at 500 kbps. */
-void can_init_500k(void);
+void can_setup_500k(void);
 
 /** Initializes CAN module at 800 kbps. */
-void can_init_800k(void);
+void can_setup_800k(void);
 
 /** Initializes CAN module at 1000 kbps. */
-void can_init_1000k(void);
+void can_setup_1000k(void);
 
 
 /** Returns CAN bus speed. */

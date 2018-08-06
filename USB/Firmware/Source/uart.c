@@ -18,7 +18,7 @@ void resetRx() {
 }
 
 
-void uart_init(uint32_t desiredBaudRate) { //must be 19200 or less
+void uart_setup(uint32_t desiredBaudRate) { //must be 19200 or less
     SPBRG = (uint16_t)(_XTAL_FREQ / desiredBaudRate / 4);
     BRG161 = 1; //16-bit
     BRGH1  = 1; //high speed

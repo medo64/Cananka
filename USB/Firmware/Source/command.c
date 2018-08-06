@@ -33,14 +33,14 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     case '0':
                         if (State_ExtendedError) { uart_writeString("e!"); }
                         return false;
-                    case '1':   can_init_20k(); return true;
-                    case '2':   can_init_50k(); return true;
-                    case '3':  can_init_100k(); return true;
-                    case '4':  can_init_125k(); return true;
-                    case '5':  can_init_250k(); return true;
-                    case '6':  can_init_500k(); return true;
-                    case '7':  can_init_800k(); return true;
-                    case '8': can_init_1000k(); return true;
+                    case '1':   can_setup_20k(); return true;
+                    case '2':   can_setup_50k(); return true;
+                    case '3':  can_setup_100k(); return true;
+                    case '4':  can_setup_125k(); return true;
+                    case '5':  can_setup_250k(); return true;
+                    case '6':  can_setup_500k(); return true;
+                    case '7':  can_setup_800k(); return true;
+                    case '8': can_setup_1000k(); return true;
                     default: {
                         if (State_ExtendedError) { uart_writeString("p!"); }
                         return false;
@@ -68,7 +68,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     if ((newBrp > 0) && (newSeg1Tq >= 2)) {
                         uint8_t newPrseg  = (newSeg1Tq > 8) ? (newSeg1Tq - 8 - 1) : 0;
                         uint8_t newSeg1Ph = (newSeg1Tq > 8) ? 7 : (newSeg1Tq - 1 - 1);
-                        can_init(newBrp, newPrseg, newSeg1Ph, newSeg2Ph, newSjw, newSam);
+                        can_setup(newBrp, newPrseg, newSeg1Ph, newSeg2Ph, newSjw, newSam);
                         return true;
                     } else {
                         if (State_ExtendedError) { uart_writeString("e!"); }

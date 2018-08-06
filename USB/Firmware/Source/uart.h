@@ -6,7 +6,7 @@
 
 
 /** Initializes UART. */
-void uart_init(uint32_t desiredBaudRate);
+void uart_setup(uint32_t desiredBaudRate);
 
 /** Returns true if there is data waiting to be read. */
 bool uart_canRead(void);

@@ -27,6 +27,11 @@ void init(void) {
     TRISA3 = 0; TRISA5 = 0; TRISB1 = 0; TRISB4 = 0;
     ANSEL3 = 0; ANSEL4 = 0; ANSEL8 = 0; ANSEL9 = 0;
 
+    //io
+    TRISC5 = 0; //O LED
+    TRISC4 = 0; //O Termination
+    TRISB5 = 0; //O Power
+
     //clear all outputs
     LATA = 0b00000000;
     LATB = 0b00000000;
