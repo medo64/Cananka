@@ -2,6 +2,7 @@
 
 #include "device.h"
 
+
 DEVICE_TYPE cachedType = DEVICE_UNKNOWN;
 bool cachedSupportsPower;
 bool cachedSupportsTermination;
@@ -12,7 +13,7 @@ void device_initialize() {
     unsigned bitA5 = PORTAbits.RA5;
     unsigned bitA3 = PORTAbits.RA3;
     unsigned bitB1 = PORTBbits.RB1;
-    unsigned bitB4 = PORTBbits.RB4;
+    //unsigned bitB4 = PORTBbits.RB4;
 
     if (!bitA3 && bitA5) {
         cachedType = DEVICE_CANANKA_USB;

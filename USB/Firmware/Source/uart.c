@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "hardware.h"
 #include "uart.h"
-#include "config.h"
 
 
 void resetRx() {

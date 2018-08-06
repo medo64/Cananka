@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <pic18f25k80.h>
 #include "can.h"
-#include "config.h"
 #include "device.h"
+#include "hardware.h"
 #include "io.h"
 #include "uart.h"
 #include "state.h"

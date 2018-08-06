@@ -3,7 +3,7 @@
 
 #include "can.h"
 #include "command.h"
-#include "config.h"
+#include "hardware.h"
 #include "io.h"
 #include "state.h"
 #include "uart.h"

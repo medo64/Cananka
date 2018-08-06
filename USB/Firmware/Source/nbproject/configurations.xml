@@ -4,13 +4,13 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>config.h</itemPath>
       <itemPath>uart.h</itemPath>
       <itemPath>io.h</itemPath>
       <itemPath>can.h</itemPath>
       <itemPath>command.h</itemPath>
       <itemPath>device.h</itemPath>
       <itemPath>state.h</itemPath>
+      <itemPath>hardware.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -20,12 +20,12 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>app.c</itemPath>
-      <itemPath>config.c</itemPath>
       <itemPath>uart.c</itemPath>
       <itemPath>io.c</itemPath>
       <itemPath>can.c</itemPath>
       <itemPath>command.c</itemPath>
       <itemPath>device.c</itemPath>
+      <itemPath>hardware.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
