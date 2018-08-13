@@ -55,7 +55,7 @@ typedef union {
 
 CAN_RX* RxRegisters[8] = { (CAN_RX*)&RXB0CON, (CAN_RX*)&RXB1CON, (CAN_RX*)&B0CON, (CAN_RX*)&B1CON, (CAN_RX*)&B2CON, (CAN_RX*)&B3CON, (CAN_RX*)&B4CON, (CAN_RX*)&B5CON };
 uint16_t speed = 0;
-CAN_STATE state = CAN_STATE_CLOSED;
+CAN_STATE canState = CAN_STATE_CLOSED;
 
 void can_init() {
     TRISB2 = 0;
@@ -73,7 +73,7 @@ void can_init() {
     }
 
     CANCONbits.REQOP = 0b001; //set to sleep/disabled
-    state = CAN_STATE_CLOSED;
+    canState = CAN_STATE_CLOSED;
 }
 
 
@@ -137,19 +137,19 @@ uint16_t can_getSpeed() {
 void can_open() {
     CANCONbits.REQOP = 0b000; //set to normal mode
     while (CANCONbits.REQOP != 0b000);
-    state = CAN_STATE_OPEN;
+    canState = CAN_STATE_OPEN;
 }
 
 void can_openListenOnly() {
     CANCONbits.REQOP = 0b011; //set to listen-only mode
     while (CANCONbits.REQOP != 0b011);
-    state = CAN_STATE_OPEN_LISTENONLY;
+    canState = CAN_STATE_OPEN_LISTENONLY;
 }
 
 void can_openLoopback() {
     CANCONbits.REQOP = 0b010; //set to loopback mode
     while (CANCONbits.REQOP != 0b010);
-    state = CAN_STATE_OPEN_LOOPBACK;
+    canState = CAN_STATE_OPEN_LOOPBACK;
 }
 
 void can_close() {
@@ -157,16 +157,16 @@ void can_close() {
     while (CANCONbits.REQOP != 0b100);
     CANCONbits.REQOP = 0b001; //set to sleep/disabled
     while (CANCONbits.REQOP != 0b001);
-    state = CAN_STATE_CLOSED;
+    canState = CAN_STATE_CLOSED;
 }
 
 
 CAN_STATE can_getState() {
-    return state;
+    return canState;
 }
 
 bool can_isOpen() {
-    return (state != CAN_STATE_CLOSED) ? true : false;
+    return (canState != CAN_STATE_CLOSED) ? true : false;
 }
 
 
