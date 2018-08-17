@@ -24,14 +24,12 @@ Current: 150 mA (max)
 |  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                            |
 |  1 | J RJ-45 (56) LED                          | J2      | RJHSE-5381-ND              |                            |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                            |
-|  1 | Q P-MOSFET 20V LowVgs (DMG2305UX)         | Q1      | DMG2305UX-13DICT-ND        |                            |
-|  1 | R 120 0.5W (1206)                         | R1      | P120ALCT-ND                |                            |
-|  5 | R 330 0.125W (0805)                       | R2-R6   | RMCF0805FT330RCT-ND        |                            |
-|  7 | R 1K 0.125W (0805)                        | R7-R13  | RMCF0805FT1K00CT-ND        |                            |
+|  4 | R 120 0.125W (0805)                       | R1-R4   | 311-120CRDKR-ND            |                            |
+|  4 | R 330 0.125W (0805)                       | R5-R8   | RMCF0805FT330RCT-ND        |                            |
+|  6 | R 1K 0.125W (0805)                        | R9-R14  | RMCF0805FT1K00CT-ND        |                            |
 |  1 | U FT232RL (SSOP-28)                       | U1      | 768-1007-1-ND              |                            |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                            |
 |  1 | U ISO1050 (SOP-8)                         | U3      | 296-24818-1-ND             |                            |
-|  1 | U Optocoupler (SMD-4)                     | U4      | 160-1367-5-ND              |                            |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                | VR1     | 945-1655-5-ND              |                            |
 |  1 | Y Crystal 12MHz 50ppm 20pF                | Y1      | 887-2011-ND                | 887-1238-ND                |
 |  1 | H Enclosure 1593DBK                       |         | HM861-ND                   |                            |
