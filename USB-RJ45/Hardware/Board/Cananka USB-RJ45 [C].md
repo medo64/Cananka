@@ -24,7 +24,7 @@ Current: 150 mA (max)
 |  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                            |
 |  1 | J RJ-45 (56) LED                          | J2      | RJHSE-5381-ND              |                            |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                            |
-|  1 | Q P-MOSFET /10V                           | Q1      | DMP3098LDICT-ND            |                            |
+|  1 | Q P-MOSFET 20V LowVgs (DMG2305UX)         | Q1      | DMG2305UX-13DICT-ND        |                            |
 |  1 | R 120 0.5W (1206)                         | R1      | P120ALCT-ND                |                            |
 |  5 | R 330 0.125W (0805)                       | R2-R6   | RMCF0805FT330RCT-ND        |                            |
 |  6 | R 1K 0.125W (0805)                        | R7-R12  | RMCF0805FT1K00CT-ND        |                            |

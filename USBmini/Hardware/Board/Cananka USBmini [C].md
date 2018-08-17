@@ -15,7 +15,7 @@
 |  1 | J MCV 1,5/ 4-G-3,81              | J1      | 277-1223-ND                | ED2821-ND                       |
 |  1 | L Ferrite 40Ohm (0805)           | L1      | 445-2201-1-ND              |                                 |
 |  1 | P USB A, plug, horizontal        | P1      | WM17118-ND                 |                                 |
-|  2 | Q P-MOSFET /10V                  | Q1 Q2   | DMP3098LDICT-ND            |                                 |
+|  2 | Q P-MOSFET 20V LowVgs (DMG2305UX)| Q1 Q2   | DMG2305UX-13DICT-ND        |                                 |
 |  4 | R 120 0.125W (0805)              | R1-R4   | RHM120AECT-ND              |                                 |
 |  3 | R 330 0.125W (0805)              | R5-R7   | RMCF0805FT330RCT-ND        |                                 |
 |  3 | R 1K 0.125W (0805)               | R8-R10  | RMCF0805FT1K00CT-ND        |                                 |
