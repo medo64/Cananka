@@ -39,11 +39,19 @@ that can happen with different ground potentials.
 
 
 
-#### Configuration ####
+#### UART Configuration ####
 
-In order to configure Cananka USB/mini, one has to use MCP2221 Utility
-application (download from Microchip). In configuration, one MUST change GP1
-designation to CLK_OUT. Optionally one can setup Required Current (500 mA),
-Descriptor ("Cananka USB/mini"), Manufacturer ("Josip Medved"), and check
-Enumerate with serial number. Later will allow you to have a separate serial
-port number for each of devices.
+In order to configure the device, one has to use MCP2221 Utility application
+(download from Microchip). In configuration, one MUST perform the following
+changes:
+
+    * GP1: 1 (CLK_OUT)
+
+The following changes are suggested:
+
+    * Required Current: 500 mA
+    * Descriptor: Cananka
+    * Manufacturer: Josip Medved
+    * Enumerate with serial number: Yes
+
+All other settings should remain default.

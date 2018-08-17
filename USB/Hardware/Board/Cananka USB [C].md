@@ -7,7 +7,7 @@ Panel size: 29.5 x 20.3 mm ~ 1.0 sqin (2x)
 #### Input ####
 
 Voltage: 5 V ±10%
-Current: 150 mA (max)
+Current: 100 mA
 
 
 #### Parts ####
@@ -35,3 +35,17 @@ Current: 150 mA (max)
 |  1 | H Enclosure 1593DBK                       |         | HM861-ND                   |                            |
 |  4 | H PCB Screw Self-tapping #4 1/4" (M3x6mm) |         | SR6004-ND                  |                            |
 |  1 | P MC 1,5/ 4-ST-3,81                       |         | 277-1163-ND                | ED2877-ND                  |
+
+
+
+#### UART Configuration ####
+
+In order to configure the device, one has to use MCP2221 Utility application
+(download from Microchip). Device works with factory configuration but the
+following changes are suggested:
+
+    * Descriptor: Cananka
+    * Manufacturer: Josip Medved
+    * Enumerate with serial number: Yes
+
+All other settings should remain default.
