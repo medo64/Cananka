@@ -20,7 +20,7 @@
 |  3 | R 330 0.125W (0805)              | R5-R7   | RMCF0805FT330RCT-ND        |                                 |
 |  3 | R 1K 0.125W (0805)               | R8-R10  | RMCF0805FT1K00CT-ND        |                                 |
 |  3 | R 10K 0.125W (0805)              | R11-R13 | RMCF0805JT10K0CT-ND        |                                 |
-|  1 | U MCP2221 (TSSOP-14)             | U1      | MCP2221-I/ST               |                                 |
+|  1 | U MCP2221A (TSSOP-14)            | U1      | MCP2221A-I/ST-ND           |                                 |
 |  1 | U PIC18F25K80 (SSOP-28)          | U2      | PIC18F25K80-I/SS-ND        |                                 |
 |  1 | U MCP2561 (SOIC-8)               | U3      | MCP2561-E/SN-ND            | 568-10289-1-ND  MCP2562-E/SN-ND |
 |  1 | P MC 1,5/ 4-ST-3,81              |         | 277-1163-ND                | ED2877-ND                       |
@@ -35,8 +35,9 @@ that can happen with different ground potentials.
 
 #### Configuration ####
 
-In order to configure CanStick/Mini, one has to use MCP2221 Utility application
-(download from Microchip). In configuration, one MUST change GP1 designation to
-CLK_OUT. Optionally one can setup Descriptor ("CanStick/Mini"), Manufacturer
-("Josip Medved"), and check Enumerate with serial number. Later will allow you
-to have separate COM port number for each of devices.
+In order to configure Cananka USB/mini, one has to use MCP2221 Utility
+application (download from Microchip). In configuration, one MUST change GP1
+designation to CLK_OUT. Optionally one can setup Required Current (500 mA),
+Descriptor ("Cananka USB/mini"), Manufacturer ("Josip Medved"), and check
+Enumerate with serial number. Later will allow you to have a separate serial
+port number for each of devices.
