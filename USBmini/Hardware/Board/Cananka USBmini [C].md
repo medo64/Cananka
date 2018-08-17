@@ -16,7 +16,7 @@ Current: 500 mA
 |  3 | C 100nF, X7R (0805)                       | C1-C3   | 399-1170-1-ND              |                                 |
 |  1 | C 470nF /16V X7R (0805)                   | C4      | 1276-1039-1-ND             |                                 |
 |  2 | C 10uF /16V X5R (0805)                    | C5-C6   | 399-8013-1-ND              |                                 |
-|  1 | D PMEG3010BEA,115 (SOD323)                | D1      | 568-6511-1-ND              |                                 |
+|  1 | D Shottky 30V LowVf {SDM100K30L} (SOD323) | D1      | SDM100K30LDIDKR-ND         |                                 |
 |  6 | DS LED (0805)                             | DS1-DS6 | 475-1415-1-ND              |                                 |
 |  1 | J MCV 1,5/ 4-G-3,81                       | J1      | 277-1223-ND                | ED2821-ND                       |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
