@@ -27,9 +27,8 @@ Current: 150 mA (max)
 |  1 | Q P-MOSFET /10V                           | Q1      | DMP3098LDICT-ND            |                            |
 |  1 | R 120 0.5W (1206)                         | R1      | P120ALCT-ND                |                            |
 |  5 | R 330 0.125W (0805)                       | R2-R6   | RMCF0805FT330RCT-ND        |                            |
-|  2 | R 1K 0.125W (0805)                        | R7-R8   | RMCF0805FT1K00CT-ND        |                            |
-|  1 | R 1K Array:4 (1206)                       | R9      | Y4102CT-ND                 |                            |
-|  1 | R 10K 0.125W (0805)                       | R10     | RMCF0805JT10K0CT-ND        |                                 |
+|  6 | R 1K 0.125W (0805)                        | R7-R12  | RMCF0805FT1K00CT-ND        |                            |
+|  1 | R 10K 0.125W (0805)                       | R13     | RMCF0805JT10K0CT-ND        |                            |
 |  1 | U FT232RL (SSOP-28)                       | U1      | 768-1007-1-ND              |                            |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                            |
 |  1 | U ISO1050 (SOP-8)                         | U3      | 296-24818-1-ND             |                            |
