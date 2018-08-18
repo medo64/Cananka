@@ -18,7 +18,6 @@ void init(void) {
     REFOCONbits.RODIV0 = 0;
     REFOCONbits.ROSEL = 1;
     REFOCONbits.ROSSLP = 1;
-    REFOCONbits.ROON = 1;
     TRISC3 = 0;
 
     //versioning
@@ -35,7 +34,7 @@ void init(void) {
     //clear all outputs
     LATA = 0b00000000;
     LATB = 0b00000000;
-    LATC = 0b00001000;
+    LATC = 0b00000000;
 }
 
 void reset(void) {
@@ -44,4 +43,9 @@ void reset(void) {
 
 void wait_short(void) {
     __delay_ms(150);
+}
+
+void activate_clockOut() {
+    LC3 = 1;
+    REFOCONbits.ROON = 1;
 }

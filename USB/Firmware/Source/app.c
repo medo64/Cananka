@@ -3,6 +3,7 @@
 
 #include "can.h"
 #include "command.h"
+#include "device.h"
 #include "hardware.h"
 #include "io.h"
 #include "state.h"
@@ -31,8 +32,10 @@ void reportBufferEmpty(void);
 
 void main(void) {    
     init();
-
     io_setup();
+
+    if (device_needsClockOut()) { activate_clockOut(); } //for older FTDI-based devices
+
     for (uint8_t i = 0; i < 3; i++) {
         io_led_on();
         wait_short();

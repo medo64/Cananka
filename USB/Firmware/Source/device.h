@@ -16,5 +16,6 @@ uint8_t device_getRevision(void);
 
 bool device_supportsPower(void);
 bool device_supportsTermination(void);
+bool device_needsClockOut(void);
 
 #endif
