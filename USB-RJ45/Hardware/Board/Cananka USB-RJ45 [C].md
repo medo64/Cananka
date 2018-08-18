@@ -18,7 +18,7 @@ Current: 100 mA
 |  4 | C 100nF X7R 16V (0805)                    | C3-C6   | 399-1170-1-ND              |                            |
 |  1 | C 330nF X7R 16V (0805)                    | C7      | 732-7669-1-ND              |                            |
 |  2 | C 10uF X5R 16V (0805)                     | C8-C10  | 490-10748-1-ND             |                            |
-|  1 | D PESD1CAN-UX (SOT23-3)                   | D1      | 568-4032-1-ND              |                            |
+|  1 | D TVS 150W Zenner CAN (SOT23-3)           | D1      | 568-4032-1-ND              | 568-4032-1-ND                   |
 |  1 | DS LED RGB CA (1204)                      | DS1     | 160-2234-1-ND              |                            |
 |  4 | DS LED (0805)                             | DS2-DS5 | 475-1415-1-ND              |                            |
 |  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                            |
