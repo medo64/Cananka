@@ -11,6 +11,14 @@ uint8_t cachedRevision;
 
 
 void device_initialize() {
+    //| A3 | A5 | B1 | B5 | Type     | Revision  | PIC Clock | UART Clock | Termination | Power Supply |
+    //|----|----|----|----|----------|-----------|-----------|------------|-------------|--------------|
+    //| L  | L  | H  | H  | USBmini  | 1         | MCP2221A  | MCP2221A   | Yes         | Yes          |
+    //| L  | H  | H  | H  | USB      | 1         | Crystal   | PIC        | No          | No           |
+    //| L  | H  | L  | H  | USB      | 2         | Crystal   | MCP2221A   | No          | No           |
+    //| H  | H  | H  | H  | USB-RJ45 | 1         | Crystal   | PIC        | No          | No           |
+    //| H  | H  | L  | H  | USB-RJ45 | 2         | Crystal   | MCP2221A   | No          | No           |
+
     unsigned bitA5 = PORTAbits.RA5;
     unsigned bitA3 = PORTAbits.RA3;
     unsigned bitB1 = PORTBbits.RB1;
