@@ -60,5 +60,7 @@ void reset(void);
 
 void wait_short(void);
 
+void activate_clockOut(void);
+
 
 #endif	/* HARDWARE_H */
