@@ -18,7 +18,7 @@ Current: 500 mA
 |  2 | C 10uF X5R 16V (0805)                     | C5-C6   | 490-10748-1-ND             |                                 |
 |  1 | D Shottky 30V LowVf {SDM100K30L} (SOD323) | D1      | SDM100K30LDIDKR-ND         |                                 |
 |  6 | DS LED (0805)                             | DS1-DS6 | 475-1415-1-ND              |                                 |
-|  1 | J MCV 1,5/ 4-G-3,81                       | J1      | 277-1223-ND                | ED2821-ND                       |
+|  1 | J MC 1,5/ 4-G-3,81                        | J2      | ED2810-ND                  | 277-1208-ND                     |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
 |  1 | P USB A, plug, horizontal                 | P1      | WM3983CT-ND                | WM17118-ND                      |
 |  2 | Q P-MOSFET 20V LowVgs {DMG2305UX}         | Q1 Q2   | DMG2305UX-13DICT-ND        |                                 |
