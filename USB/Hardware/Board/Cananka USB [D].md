@@ -15,18 +15,18 @@ Current: 100 mA
 |  # | Part                                      | RefDes  | Preferred Part Number      | Alternate Part Number           |
 |---:|-------------------------------------------|---------|----------------------------|---------------------------------|
 |  2 | C 22pF NP0 16V (0603)                     | C1 C2   | 399-7874-1-ND              |                                 |
-|  4 | C 100nF X7R 16V (0805)                    | C3-C6   | 399-1170-1-ND              |                                 |
+|  4 | C 100nF X7R 16V (0805)                    | C3-C6   | 478-5311-1-ND              |                                 |
 |  1 | C 330nF X7R 16V (0805)                    | C7      | 732-7669-1-ND              |                                 |
-|  2 | C 10uF X5R 16V (0805)                     | C8-C10  | 490-10748-1-ND             |                                 |
+|  2 | C 10uF X5R 16V (0805)                     | C8-C10  | 1276-1096-1-ND             |                                 |
 |  1 | D TVS 150W Zenner CAN (SOT23-3)           | D1      | 497-13262-1-ND             | 568-4032-1-ND                   |
 |  1 | DS LED RGB CA (1204)                      | DS1     | 160-2234-1-ND              |                                 |
 |  6 | DS LED (0805)                             | DS2-DS7 | 475-1415-1-ND              |                                 |
 |  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                                 |
 |  1 | J MC 1,5/ 4-G-3,81                        | J2      | ED2810-ND                  | 277-1208-ND                     |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
-|  4 | R 120 0.125W (0805)                       | R1-R4   | 311-120CRDKR-ND            |                                 |
-|  4 | R 330 0.125W (0805)                       | R5-R8   | CR0805-FX-3300GLFCT-ND     |                                 |
-|  6 | R 1K 0.125W (0805)                        | R9-R14  | 311-1.00KCRCT-ND           |                                 |
+|  4 | R 120 0.125W (0805)                       | R1-R4   | 311-120CRCT-ND             |                                 |
+|  4 | R 330 0.125W (0805)                       | R5-R8   | RMCF0805FT330RCT-ND        | CR0805-FX-3300GLFCT-ND          |
+|  6 | R 1K 0.125W (0805)                        | R9-R14  | RMCF0805FT1K00CT-ND        | 311-1.00KCRCT-ND                |
 |  1 | U MCP2221A (TSSOP-14)                     | U1      | MCP2221A-I/ST-ND           |                                 |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                                 |
 |  1 | U ISO1050 (SOP-8)                         | U3      | 296-24818-1-ND             |                                 |
