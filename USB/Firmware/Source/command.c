@@ -317,7 +317,6 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
 
         case 'F': {
             if (count == 1) {
-                uart_writeString("*F");
                 uint8_t state = 0;
                 switch (can_getState()) {
                     case CAN_STATE_CLOSED:
@@ -348,6 +347,8 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 if (io_out_getPower()) { state |= 0b00010000; }
                 if (io_out_getTermination()) { state |= 0b00100000; }
                 if (State_ExtraLf || State_ErrorDetail || State_Echo || State_Cansend) { state |= 0b10000000; }
+                uart_writeString("*F");
+                uart_writeHexUInt8(state);
                 return true;
             } else {
                 sendErrorDetail('p');
