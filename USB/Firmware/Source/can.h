@@ -1,6 +1,7 @@
 #ifndef CAN_H
 #define	CAN_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 

@@ -298,9 +298,9 @@ defined:
 | x!`BEL`   | Command not supported                                            |
 
 
-###### Status (*F) ######
+###### Extended Flags (*F) ######
 
-Reports the current status of device:
+Reports the extended flags for the device:
 
 |                 | Send            | Receive         | Notes                                                  |
 |-----------------|-----------------|-----------------|--------------------------------------------------------|
@@ -316,7 +316,7 @@ Following are bits and their meanings:
 |   3 | 0x08  | Any Errors     | Returns if any errors are present                                      |
 |   4 | 0x10  | Power          | Returns if power is turned on                                          |
 |   5 | 0x20  | Termination    | Returns if termination is turned on                                    |
-|   6 | 0x40  | Extended Error | Returns if extended errors are turned on                               |
+|   6 | 0x40  | Not used       | -                                                                      |
 |   7 | 0x80  | Any Debug      | Returns if any debug feature is on                                     |
 
 
@@ -341,6 +341,17 @@ Resets the device.
 |-----------------|---------|-----------------|----------------------------------|
 | Syntax          | *R`CR`  |                 | Reset                            |
 | Example (error) | *R1`CR` | `BEL`           | Invalid parameters (p!)          |
+
+
+###### Reset settings (*r) ######
+
+Resets all settings to their default value. Used to bring device to power on
+state.
+
+|                 | Send    | Receive         | Notes                            |
+|-----------------|---------|-----------------|----------------------------------|
+| Syntax          | *r`CR`  |                 | Reset all settings               |
+| Example (error) | *r1`CR` | `BEL`           | Invalid parameters (p!)          |
 
 
 ###### Terminate CAN bus (*T) ######

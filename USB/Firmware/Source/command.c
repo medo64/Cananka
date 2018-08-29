@@ -347,7 +347,6 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 if (anyError) { state |= 0b00001000; }
                 if (io_out_getPower()) { state |= 0b00010000; }
                 if (io_out_getTermination()) { state |= 0b00100000; }
-                if (State_ErrorDetail) { state |= 0b01000000; }
                 if (State_ExtraLf || State_ErrorDetail || State_Echo || State_Cansend) { state |= 0b10000000; }
                 return true;
             } else {
@@ -403,6 +402,33 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
         case 'R': {
             if (count == 1) {
                 reset();
+                return true;
+            } else {
+                sendErrorDetail('p');
+                return false;
+            }
+        }
+
+        case 'r': {
+            if (count == 1) {
+                can_close();
+                can_setup_125k();
+
+                io_out_powerOff();
+                io_out_terminationOff();
+                State_AutoPoll = true;
+
+                State_ExtraLf = false;
+                State_ErrorDetail = false;
+                State_Echo = false;
+                State_Cansend = false;
+
+                CAN_MESSAGE message;
+                while(can_tryRead(&message));
+                CanBufferStart = 0;
+                CanBufferEnd = 0;
+                UartBufferCount = 0;
+
                 return true;
             } else {
                 sendErrorDetail('p');

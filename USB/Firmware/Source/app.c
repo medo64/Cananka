@@ -15,16 +15,6 @@
 #define CR  '\r'
 
 
-#define UART_BUFFER_MAX  64
-uint8_t UartBuffer[UART_BUFFER_MAX];
-uint8_t UartBufferCount = 0;
-
-#define CAN_BUFFER_MAX  255
-CAN_MESSAGE CanBuffer[CAN_BUFFER_MAX];
-uint8_t CanBufferStart = 0;
-uint8_t CanBufferEnd = 0;
-uint8_t CanBufferCount = 0;
-
 void processUart(void);
 void reportBufferMessage(void);
 void reportBufferEmpty(void);
