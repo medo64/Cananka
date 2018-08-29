@@ -13,7 +13,6 @@ This command will set the CAN bus speed.
 |                 | Send            | Receive         | Notes                                                      |
 |-----------------|-----------------|-----------------|------------------------------------------------------------|
 | Syntax          | S{1:index}`CR`  | `CR` -or- `BEL` |                                                            |
-| Query           | ?S`CR`          | S{1:index}`CR`  | If predefined value is not matched, `BEL` is returned (a!) |
 | Example         | S4`CR`          | `CR`            | Speed is set to 125Kbit/s                                  |
 | Example (error) | Sx`CR`          | `BEL`           | Invalid speed (p!)                                         |
 | Example (error) | S4`CR`          | `BEL`           | Setting speed on open channel (a!)                         |
@@ -43,7 +42,6 @@ are mapped to Microchip's.
 |                 | Send                  | Receive               | Notes                                                                         |
 |-----------------|-----------------------|-----------------------|-------------------------------------------------------------------------------|
 | Syntax          | s{2:btr0}{2:btr1}`CR` | `CR` -or- `BEL`       |                                                                               |
-| Query           | ?s`CR`                | s{2:btr0}{2:btr1}`CR` | If predefined value is not matched, `BEL` is returned (a!)                    |
 | Example         | s0F98`CR`             | `CR`                  | Speed is set to 125Kbit/s (SJW:1TQ; BRP:15; SAM:triple; TSEG2:2TQ; TSEG1:9TQ) |
 | Example (error) | sg`CR`                | `BEL`                 | Invalid number (p!)                                                           |
 | Example (error) | s0F98`CR`             | `BEL`                 | Setting speed on open channel (a!)                                            |
@@ -67,7 +65,6 @@ Opening the channel so that CAN bus data can be sent and received.
 |                 | Send    | Receive         | Notes                                     |
 |-----------------|---------|-----------------|-------------------------------------------|
 | Syntax          | O`CR`   | `CR` -or- `BEL` |                                           |
-| Query           | ?O`CR`  | O{1:state}`CR`  | Returns if channel is open (1) or not (0) |
 | Example         | O`CR`   | `CR`            | Open channel                              |
 | Example (error) | O`CR`   | `BEL`           | Channel is already open (a!)              |
 
@@ -79,7 +76,6 @@ Opening the channel so that CAN bus data can be only received.
 |                 | Send    | Receive         | Notes                                                    |
 |-----------------|---------|-----------------|----------------------------------------------------------|
 | Syntax          | L`CR`   | `CR` -or- `BEL` |                                                          |
-| Query           | ?L`CR`  | L{1:state}`CR`  | Returns if channel is open as listen-only (1) or not (0) |
 | Example         | L`CR`   | `CR`            | Open channel                                             |
 | Example (error) | L`CR`   | `BEL`           | Channel is already open (a!)                             |
 
@@ -91,7 +87,6 @@ Opening the channel in loopback mode.
 |                 | Send    | Receive         | Notes                                                 |
 |-----------------|---------|-----------------|-------------------------------------------------------|
 | Syntax          | l`CR`   | `CR` -or- `BEL` |                                                       |
-| Query           | ?l`CR`  | l{1:state}`CR`  | Returns if channel is open in loopback (1) or not (0) |
 | Example         | l`CR`   | `CR`            | Open channel                                          |
 | Example (error) | l`CR`   | `BEL`           | Channel is already open (a!)                          |
 
@@ -103,7 +98,6 @@ Close the CAN bus.
 |                 | Send    | Receive         | Notes                                       |
 |-----------------|---------|-----------------|---------------------------------------------|
 | Syntax          | C`CR`   | `CR` -or- `BEL` |                                             |
-| Query           | ?C`CR`  | C{1:state}`CR`  | Returns if channel is closed (1) or not (0) |
 | Example         | C`CR`   | `CR`            | Close channel                               |
 | Example (error) | C`CR`   | `BEL`           | Channel is already closed (a!)              |
 
@@ -179,7 +173,6 @@ Determines if automatic or manual pooling is to be used. Automatic pooling is de
 |                 | Send                            | Receive         | Notes                                                         |
 |-----------------|---------------------------------|-----------------|---------------------------------------------------------------|
 | Syntax          | X{1:state}`CR`                  | `CR` -or- `BEL` |                                                               |
-| Query           | ?X`CR`                          | X{1:state}`CR`  | Returns if automatic polling is enabled (1) or not (0)        |
 | Example         | X0`CR`                          | `CR`            | Disable automatic polling                                     |
 | Example (error) | X`CR`                           | `BEL`           | No state (p!)                                                 |
 
@@ -246,14 +239,17 @@ Returns current error flags.
 | Example (error) | F0`CR`  | `BEL`                     | Invalid parameters (p!)                   |
 
 Following are bits and their meanings:
-  * 0: Rx queue full
-  * 1: Tx queue full
-  * 2: Tx/Rx warning
-  * 3: Rx overflow
-  * 4: -
-  * 5: Error-passive
-  * 6: Arbitration lost
-  * 7: Bus error
+
+| Bit | Value | Description      |
+|-----|-------|------------------|
+|   0 | 0x01  | Rx queue full    |
+|   1 | 0x02  | Tx queue full    |
+|   2 | 0x04  | Tx/Rx warning    |
+|   3 | 0x08  | Rx overflow      |
+|   4 | 0x10  | -                |
+|   5 | 0x20  | Error-passive    |
+|   6 | 0x40  | Arbitration lost |
+|   7 | 0x80  | Bus error        |
 
 
 ##### Extra commands #####
@@ -265,91 +261,76 @@ In addition to standard SLCAN commands, there are additional commands available.
 
 Turns on/off various features that will help with debugging:
 
-|                 | Send            | Receive         | Notes                                                  |
-|-----------------|-----------------|-----------------|--------------------------------------------------------|
-| Syntax          | *D{2:state}`CR` | `CR`            | Configures debugging features                          |
-| Query           | ?*D`CR`         | *D{2:state}`CR` | Returns the current state                              |
-| Example         | *D`CR`          | `CR``LF`        | Turns on all debugging features (bits 1-8)             |
-| Example         | *D00`CR`        | `CR``LF`        | Turns debugging features off                           |
-| Example         | *D07`CR`        | `CR``LF`        | Turns on all debugging features except echo            |
-| Example (error) | *DFF`CR`        | `BEL`           | Unsupported flags (x!)                                 |
-| Example (error) | *D8`CR`         | `BEL`           | Invalid value (p!)                                     |
-| Example (error) | *D888`CR`       | `BEL`           | Invalid value (p!)                                     |
+|                  | Send            | Receive         | Notes                                                  |
+|------------------|-----------------|-----------------|--------------------------------------------------------|
+| Syntax (set)     | *D{2:state}`CR` | `CR`            | Configures debugging features                          |
+| Syntax (set all) | *D{1:state}`CR` | `CR`            | Configures all debugging features (0:off 1:on)         |
+| Syntax (query)   | *D`CR`          | *D{2:state}`CR` | Returns the current state                              |
+| Example          | *D1`CR`         | `CR``LF`        | Turns on all debugging features (bits 0-7)             |
+| Example          | *D00`CR`        | `CR``LF`        | Turns debugging features off                           |
+| Example          | *D07`CR`        | `CR``LF`        | Turns on all debugging features except echo            |
+| Example (error)  | *DFF`CR`        | `BEL`           | Unsupported flags (x!)                                 |
+| Example (error)  | *D8`CR`         | `BEL`           | Invalid value (p!)                                     |
+| Example (error)  | *D888`CR`       | `BEL`           | Invalid value (p!)                                     |
 
 Following are bits and their meanings:
-  * 0: Extra LF
-  * 1: Extended errors
-  * 2: Cansend format
-  * 3: Not used
-  * 4: Not used
-  * 5: Not used
-  * 6: Not used
-  * 7: Echo
 
-  
-####### Extra LF #######
+| Bit | Value |                | Description                                                                                                           |
+|-----|-------|----------------|-----------------------------------------------------------------------------------------------------------------------|
+|   0 |  0x01 | Extra LF       | Send LF after each command is executed (in addition to CR or BEL)                                                     |
+|   1 |  0x02 | Error Detail   | If set, every error is accompanied by additional letter specifying the nature of error and an extra exclamation point |
+|   2 |  0x04 | Not used       |                                                                                                                       |
+|   3 |  0x08 | Not used       |                                                                                                                       |
+|   4 |  0x10 | Echo           | All received characters are echoed back                                                                               |
+|   5 |  0x20 | Cansend Format | If set, cansend format is used instead of default SLCAN                                                               |
+|   6 |  0x40 | Not used       |                                                                                                                       |
+|   7 |  0x80 | Not used       |                                                                                                                       |
 
-Send LF after each command is executed (in addition to CR or BEL).
-
-
-####### Extended error mode #######
-
-Turn on the extended error mode. Every `BEL` will be preceeded by an additional
-character describing error in more details, and an exclamation point (!).
-
-|                 | Send    | Receive         | Notes                                       |
-|-----------------|---------|-----------------|---------------------------------------------|
-| Syntax          | *E`CR`  | `CR`            | Turns extended error mode on                |
-| Syntax          | *E_`CR` | `CR`            | Turns extended error mode on (1) or off (0) |
-| Query           | ?*E`CR` | *E{1:state}`CR` | Returns the current state                   |
-| Example         | *E0`CR` | `CR`            | Turns extended error mode off               |
-| Example (error) | *E2`CR` | `BEL`           | Invalid value (p!)                          |
-
-Following extended errors are currently returned:
+When error details are turned on, every `BEL` will be preceeded by an additional
+character describing error in more details. The following reasons are currently
+defined:
 
 | Response | Reason                                                            |
 |----------|-------------------------------------------------------------------|
-| a!`BEL`  | Invalid access (e.g. writing in listen-only mode)                 |
-| e!`BEL`  | Generic error (e.g. cannot transmit at this time)                 |
-| p!`BEL`  | Value given to parameter is not valid (e.g. unknown speed)        |
-| x!`BEL`  | Command not supported                                             |
+| a!`BEL`   | Invalid access (e.g. writing in listen-only mode)                |
+| e!`BEL`   | Generic error (e.g. cannot transmit at this time)                |
+| p!`BEL`   | Value given to parameter is not valid (e.g. unknown speed)       |
+| x!`BEL`   | Command not supported                                            |
 
 
-###### Terminate CAN bus (*T) ######
+###### Status (*F) ######
 
-Turns on termination resistors on CAN bus. Works on Cananka USB (revision C),
-Cananka USB-RJ45 (revision C), and Cananka USB/mini.
+Reports the current status of device:
 
-|                 | Send    | Receive         | Notes                               |
-|-----------------|---------|-----------------|-------------------------------------|
-| Syntax          | *T`CR`  | `CR`            | Turns termination on                |
-| Syntax          | *T_`CR` | `CR`            | Turns termination on (1) or off (0) |
-| Query           | ?*T`CR` | *T{1:state}`CR` | Returns the current state           |
-| Example         | *T0`CR` | `CR`            | Turns termination off               |
-| Example (error) | *T2`CR` | `BEL`           | Invalid value (p!)                  |
-| Example (error) | *T1`CR` | `BEL`           | Unsupported device (x!)             |
+|                 | Send            | Receive         | Notes                                                  |
+|-----------------|-----------------|-----------------|--------------------------------------------------------|
+| Syntax          | ?*S`CR`         | *S{2:state}`CR` | Returns the current state                              |
+| Example (error) | ?*SFF`CR`       | `BEL`           | Unsupported flags (x!)                                 |
 
-Following values are allowed:
-  * 0: off
-  * 1: on
+Following are bits and their meanings:
+
+| Bit | Value | Status         | Description                                                            |
+|-----|-------|----------------|------------------------------------------------------------------------|
+| 0-1 |  0-3  | State          | Returns channel state (00: closed, 01: loopback, 10: listen, 11: open) |
+|   2 | 0x04  | Auto Pooling   | Returns if auto-pooling is enabled                                     |
+|   3 | 0x08  | Any Errors     | Returns if any errors are present                                      |
+|   4 | 0x10  | Power          | Returns if power is turned on                                          |
+|   5 | 0x20  | Termination    | Returns if termination is turned on                                    |
+|   6 | 0x40  | Extended Error | Returns if extended errors are turned on                               |
+|   7 | 0x80  | Any Debug      | Returns if any debug feature is on                                     |
 
 
 ###### Power CAN bus (*P) ######
 
-Powers CAN bus from device itself. Works only on Cananka USB/mini.
+Powers CAN bus from the device itself. Works only on Cananka USB/mini.
 
-|                 | Send    | Receive         | Notes                            |
-|-----------------|---------|-----------------|----------------------------------|
-| Syntax          | *P`CR`  | `CR`            | Turns V+ on                      |
-| Syntax          | *P_`CR` | `CR`            | Turns V+ on (1) or off (0)       |
-| Query           | ?*P`CR` | *P{1:state}`CR` | Returns the current state        |
-| Example         | *P0`CR` | `CR`            | Turns V+ off                     |
-| Example (error) | *P2`CR` | `BEL`           | Invalid value (p!)               |
-| Example (error) | *P1`CR` | `BEL`           | Unsupported device (x!)          |
-
-Following values are allowed:
-  * 0: off
-  * 1: on
+|                 | Send            | Receive         | Notes                            |
+|-----------------|-----------------|-----------------|----------------------------------|
+| Syntax (set)    | *P{1:state}`CR` | `CR`            | Turns V+ on (1) or off (0)       |
+| Syntax (query)  | *P`CR`          | *P{1:state}`CR` | Returns the current state        |
+| Example         | *P0`CR`         | `CR`            | Turns V+ off                     |
+| Example (error) | *P2`CR`         | `BEL`           | Invalid value (p!)               |
+| Example (error) | *P1`CR`         | `BEL`           | Unsupported device (x!)          |
 
 
 ###### Reset device (*R) ######
@@ -360,6 +341,19 @@ Resets the device.
 |-----------------|---------|-----------------|----------------------------------|
 | Syntax          | *R`CR`  |                 | Reset                            |
 | Example (error) | *R1`CR` | `BEL`           | Invalid parameters (p!)          |
+
+
+###### Terminate CAN bus (*T) ######
+
+Turns on termination resistors on CAN bus. Works only on Cananka USB/mini.
+
+|                 | Send            | Receive         | Notes                               |
+|-----------------|-----------------|-----------------|-------------------------------------|
+| Syntax (set)    | *T{1:state}`CR` | `CR`            | Turns termination on (1) or off (0) |
+| Syntax (query)  | *T`CR`          | *T{1:state}`CR` | Returns the current state           |
+| Example         | *T0`CR`         | `CR`            | Turns termination off               |
+| Example (error) | *T2`CR`         | `BEL`           | Invalid value (p!)                  |
+| Example (error) | *T1`CR`         | `BEL`           | Unsupported device (x!)             |
 
 
 ##### Data format #####

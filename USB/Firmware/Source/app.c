@@ -35,7 +35,6 @@ void main(void) {
     io_setup();
 
     if (device_needsClockOut()) { activate_clockOut(); } //for older FTDI-based devices
-    if (device_supportsTermination()) { io_out_terminationOn(); } //activate termination by default (essentially on USBmini only)
 
     for (uint8_t i = 0; i < 3; i++) {
         io_led_on();
