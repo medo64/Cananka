@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CanStick {
+namespace CanankaTest {
     internal class ListViewEx : ListView {
 
         public ListViewEx() : base() {

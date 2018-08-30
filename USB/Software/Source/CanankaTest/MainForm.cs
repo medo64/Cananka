@@ -1,4 +1,3 @@
-﻿using Medo.Device;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,12 +6,17 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Medo.Device;
 
-namespace CanStick {
+namespace CanankaTest {
     internal partial class MainForm : Form {
         public MainForm() {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
+
+            mnu.Renderer = Helpers.ToolStripBorderlessSystemRendererInstance;
+            Helpers.ScaleToolstrip(mnu);
+
             Medo.Windows.Forms.State.SetupOnLoadAndClose(this, lsvMessages);
 
             tmrRefresh_Tick(null, null);
@@ -93,34 +97,28 @@ namespace CanStick {
 
         #region Document
 
-        private CanStickDevice Document = null;
+        private Cananka Document = null;
 
 
-        private void bwDevice_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e) {
-            var device = (CanStickDevice)e.Argument;
+        private void bwDevice_DoWork(object sender, DoWorkEventArgs e) {
+            var device = (Cananka)e.Argument;
 
             try {
                 var stopwatch = Stopwatch.StartNew();
                 while (true) {
+                    var skipIndex = 0; //to interleave flag checks
                     if (stopwatch.ElapsedMilliseconds > 500) {
-                        if (bwDevice.CancellationPending) { break; }
-                        bwDevice.ReportProgress(-1, device.GetFlags());
-
-                        if (bwDevice.CancellationPending) { break; }
-                        bwDevice.ReportProgress(-1, device.GetStatus());
+                        if (skipIndex == 0) {
+                            if (bwDevice.CancellationPending) { break; }
+                            bwDevice.ReportProgress(-1, device.GetStatus());
+                        } else if (skipIndex == 1) {
+                            if (bwDevice.CancellationPending) { break; }
+                            bwDevice.ReportProgress(-1, device.GetExtendedStatus());
+                        }
+                        skipIndex = (skipIndex++ % 2);
 
                         stopwatch.Reset();
                         stopwatch.Start();
-                    }
-
-                    for (int i = 0; i < 64; i++) {
-                        if (bwDevice.CancellationPending) { break; }
-                        var message = device.GetMessage();
-                        if (message == null) { break; }
-                        Interlocked.Increment(ref this.MessageCount);
-                        if (Interlocked.CompareExchange(ref this.ProcessingPaused, 0, 0) == 0) {
-                            bwDevice.ReportProgress(-1, message);
-                        }
                     }
                 }
             } catch (Exception ex) {
@@ -134,65 +132,51 @@ namespace CanStick {
             if (bwDevice.CancellationPending) { e.Cancel = true; }
         }
 
-        private void bwDevice_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e) {
-            var flags = e.UserState as CanStickFlags;
-            var status = e.UserState as CanStickStatus;
-            var message = e.UserState as CanStickMessage;
+        private void bwDevice_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            var status = e.UserState as CanankaStatus;
+            var extendedStatus = e.UserState as CanankaExtendedStatus;
 
-            if (flags != null) {
-                staPower.Text = flags.IsPowerEnabled ? Strings.PowerOn : Strings.PowerOff;
-                staTermination.Text = flags.IsTerminationEnabled ? Strings.TerminationOn : Strings.TerminationOff;
+            if (extendedStatus != null) {
+                staPower.Visible = extendedStatus.PowerEnabled;
+                staTermination.Visible = extendedStatus.TerminationEnabled;
             } else if (status != null) {
-                if (status.TxOff) {
-                    staTxStatus.Text = Strings.TxOff;
-                } else if (status.TxPassive) {
-                    staTxStatus.Text = Strings.TxPassive;
-                } else if (status.TxWarning) {
-                    staTxStatus.Text = Strings.TxWarning;
-                } else {
-                    staTxStatus.Text = Strings.TxOK;
-                }
-                if (status.TxErrorCount > 0) { staTxStatus.Text += " (" + status.TxErrorCount.ToString(CultureInfo.CurrentCulture) + ")"; }
-
-                if (status.RxPassive) {
-                    staRxStatus.Text = Strings.RxPassive;
-                } else if (status.RxWarning) {
-                    staRxStatus.Text = Strings.RxWarning;
-                } else {
-                    staRxStatus.Text = Strings.RxOK;
-                }
-                if (status.RxErrorCount > 0) { staRxStatus.Text += " (" + status.RxErrorCount.ToString(CultureInfo.CurrentCulture) + ")"; }
-
-                if (status.RxOverflow) {
-                    staRxOverflowStatus.Text = Strings.RxOverflow;
-                } else if (status.RxOverflowWarning) {
-                    staRxOverflowStatus.Text = Strings.RxOverflowWarning;
-                } else {
-                    staRxOverflowStatus.Text = "";
-                }
-            } else if (message != null) {
-                var lvi = new ListViewItem(message.IsExtended ? message.ID.ToString("X8") : message.ID.ToString("X3"));
-                if (!message.IsRemoteRequest) {
-                    lvi.SubItems.Add(System.BitConverter.ToString(message.GetData()));
-                    lvi.SubItems.Add("");
-                } else {
-                    lvi.SubItems.Add("");
-                    lvi.SubItems.Add("R");
-                }
-
-                var isLast = (lsvMessages.SelectedIndices.Count == 0);
-                lsvMessages.BeginUpdate();
-                lsvMessages.Items.Add(lvi);
-                if (isLast) { lsvMessages.EnsureVisible(lsvMessages.Items.Count - 1); }
-                lsvMessages.EndUpdate();
+                staRxQueueFull.Visible = status.RxQueueFull;
+                staTxQueueFull.Visible = status.TxQueueFull;
+                staTxRxWarning.Visible = status.TxRxWarning;
+                staRxOverflow.Visible = status.RxOverflow;
+                staErrorPassive.Visible = status.ErrorPassive;
+                staArbitationLost.Visible = status.ArbitrationLost;
+                staBusError.Visible = status.BusError;
             }
 
             ProcessMenuState();
         }
 
-        private void bwDevice_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e) {
+        private void bwDevice_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
             this.Document = null;
             ProcessMenuState();
+        }
+
+
+        private void Document_MessageArrived(object sender, CanankaMessageEventArgs e) {
+            var message = e.Message;
+            Interlocked.Increment(ref this.MessageCount);
+
+            var lvi = new ListViewItem(DateTime.Now.ToLongTimeString());
+            lvi.SubItems.Add(message.IsExtended ? message.Id.ToString("X8") : message.Id.ToString("X3"));
+            if (!message.IsRemoteRequest) {
+                lvi.SubItems.Add(System.BitConverter.ToString(message.GetData()));
+                lvi.SubItems.Add("");
+            } else {
+                lvi.SubItems.Add("");
+                lvi.SubItems.Add("R");
+            }
+
+            var isLast = (lsvMessages.SelectedIndices.Count == 0);
+            lsvMessages.BeginUpdate();
+            lsvMessages.Items.Add(lvi);
+            if (isLast) { lsvMessages.EnsureVisible(lsvMessages.Items.Count - 1); }
+            lsvMessages.EndUpdate();
         }
 
         #endregion
@@ -201,12 +185,15 @@ namespace CanStick {
         #region Menu
 
         private void mnuNew_Click(object sender, EventArgs e) {
+            lsvMessages.BeginUpdate();
             lsvMessages.Items.Clear();
+            lsvMessages.EndUpdate();
+            ProcessMenuState();
         }
 
         private void mnuCopy_Click(object sender, EventArgs e) {
             var sb = new StringBuilder();
-            for (int i = lsvMessages.SelectedItems.Count - 1; i >= 0; i++) {
+            for (var i = lsvMessages.SelectedItems.Count - 1; i >= 0; i++) {
                 var id = lsvMessages.SelectedItems[i].Text;
                 var data = lsvMessages.SelectedItems[i].SubItems[1].Text;
                 var flags = lsvMessages.SelectedItems[i].SubItems[2].Text;
@@ -227,7 +214,8 @@ namespace CanStick {
                 try {
                     if (this.Document != null) { throw new InvalidOperationException("Invalid state."); }
                     if (bwDevice.IsBusy) { throw new InvalidOperationException("Processing still in progress."); }
-                    this.Document = new CanStickDevice(port);
+                    this.Document = new Cananka(port);
+                    this.Document.MessageArrived += this.Document_MessageArrived;
                     this.Document.Open();
                     bwDevice.RunWorkerAsync(this.Document);
                 } catch (Exception ex) {
@@ -236,11 +224,6 @@ namespace CanStick {
                 }
             }
             ProcessMenuState();
-            Interlocked.Exchange(ref this.ProcessingPaused, 0);
-        }
-
-        private void mnuPause_CheckStateChanged(object sender, EventArgs e) {
-            Interlocked.Exchange(ref this.ProcessingPaused, mnuPause.Checked ? 1 : 0);
         }
 
         private void mnuDisconnect_Click(object sender, EventArgs e) {
@@ -257,16 +240,12 @@ namespace CanStick {
         }
 
 
-        private void mnuListClear_Click(object sender, EventArgs e) {
-            lsvMessages.BeginUpdate();
-            lsvMessages.Items.Clear();
-            lsvMessages.EndUpdate();
-            ProcessMenuState();
-        }
-
-        private void mnuListEnd_Click(object sender, EventArgs e) {
+        private void mnuGotoEnd_Click(object sender, EventArgs e) {
             lsvMessages.SelectedItems.Clear();
-            lsvMessages.EnsureVisible(lsvMessages.Items.Count - 1);
+            lsvMessages.FocusedItem = null;
+            if (lsvMessages.Items.Count > 0) {
+                lsvMessages.EnsureVisible(lsvMessages.Items.Count - 1);
+            }
         }
 
 
@@ -283,24 +262,23 @@ namespace CanStick {
         }
 
         private void mnuAppAbout_Click(object sender, EventArgs e) {
-            Medo.Windows.Forms.AboutBox.ShowDialog(this, new Uri("http://jmedved.com/canstick/"));
+            Medo.Windows.Forms.AboutBox.ShowDialog(this, new Uri("http://medo64.com/cananka/usb/"));
         }
 
 
-        private void staPower_MouseDown(object sender, MouseEventArgs e) {
-            mnxPower.Show(sta, staPower.Bounds.X + e.Location.X, staPower.Bounds.Y + e.Location.Y);
-        }
-
-        private void mnxPower_Opening(object sender, CancelEventArgs e) {
+        private void mnxFeatures_Opening(object sender, CancelEventArgs e) {
             mnxPowerOn.Enabled = false;
             mnxPowerOff.Enabled = false;
-            try {
-                var flags = (this.Document != null) ? this.Document.GetFlags() : null;
-                if (flags != null) {
-                    mnxPowerOn.Enabled = !flags.IsPowerEnabled;
-                    mnxPowerOff.Enabled = flags.IsPowerEnabled;
-                }
-            } catch (Exception) { }
+            mnxTerminationOn.Enabled = false;
+            mnxTerminationOff.Enabled = false;
+
+            var flags = this.Document?.GetExtendedStatus();
+            if ((flags != null) && flags.IsValid) {
+                mnxPowerOn.Enabled = !flags.PowerEnabled;
+                mnxPowerOff.Enabled = flags.PowerEnabled;
+                mnxTerminationOn.Enabled = !flags.TerminationEnabled;
+                mnxTerminationOff.Enabled = flags.TerminationEnabled;
+            }
         }
 
         private void mnxPowerOn_Click(object sender, EventArgs e) {
@@ -319,23 +297,6 @@ namespace CanStick {
                 } catch (Exception) { }
                 ProcessMenuState();
             }
-        }
-
-
-        private void staTermination_MouseDown(object sender, MouseEventArgs e) {
-            mnxTermination.Show(sta, staTermination.Bounds.X + e.Location.X, staTermination.Bounds.Y + e.Location.Y);
-        }
-
-        private void mnxTermination_Opening(object sender, CancelEventArgs e) {
-            mnxTerminationOn.Enabled = false;
-            mnxTerminationOff.Enabled = false;
-            try {
-                var flags = (this.Document != null) ? this.Document.GetFlags() : null;
-                if (flags != null) {
-                    mnxTerminationOn.Enabled = !flags.IsTerminationEnabled;
-                    mnxTerminationOff.Enabled = flags.IsTerminationEnabled;
-                }
-            } catch (Exception) { }
         }
 
         private void mnxTerminationOn_Click(object sender, EventArgs e) {
@@ -361,17 +322,16 @@ namespace CanStick {
 
         private string LastPorts = "-";
         private int MessageCount = 0;
-        private int ProcessingPaused = 0;
         private DateTime ResetTime = DateTime.UtcNow;
 
         private void tmrRefresh_Tick(object sender, EventArgs e) {
-            int messageCount = Interlocked.Exchange(ref this.MessageCount, 0);
+            var messageCount = Interlocked.Exchange(ref this.MessageCount, 0);
             var timePassed = (DateTime.UtcNow - this.ResetTime).TotalMilliseconds;
             this.ResetTime = DateTime.UtcNow;
 
-            var mps = (messageCount / timePassed) * 1000;
+            var mps = ((double)messageCount / timePassed) * 1000;
             if (mps > 0) {
-                staMessagesPerSecond.Text = mps.ToString("#,##0.0 'm/s'", CultureInfo.CurrentCulture);
+                staMessagesPerSecond.Text = mps.ToString("#,##0.0", CultureInfo.CurrentCulture);
             } else {
                 staMessagesPerSecond.Text = "";
             }
@@ -381,9 +341,10 @@ namespace CanStick {
             if (mnuPorts.Enabled == false) { return; } //don't update when already connected
 
             var ports = System.IO.Ports.SerialPort.GetPortNames();
+            Array.Sort(ports);
             var nextPorts = String.Join(" ", ports);
             if (nextPorts != LastPorts) {
-                object lastSelected = mnuPorts.SelectedItem;
+                var lastSelected = mnuPorts.SelectedItem;
                 mnuPorts.BeginUpdate();
                 mnuPorts.Items.Clear();
                 foreach (var port in ports) {
@@ -401,31 +362,31 @@ namespace CanStick {
 
 
         private void ProcessMenuState() {
-            var isConnected = (this.Document != null);
-            mnuNew.Enabled = (lsvMessages.Items.Count > 0);
-            mnuCopy.Enabled = (lsvMessages.SelectedItems.Count > 0);
-            mnuPorts.Enabled = (this.Document == null);
-            mnuConnect.Enabled = (mnuPorts.SelectedItem != null) && (this.Document == null) && (!bwDevice.IsBusy);
-            mnuPause.Enabled = (this.Document != null);
-            if (!mnuPause.Enabled) { mnuPause.Checked = false; }
-            mnuDisconnect.Enabled = (this.Document != null);
-            mnuListClear.Enabled = (this.Document != null) || (lsvMessages.Items.Count > 0);
-            mnuListEnd.Enabled = (this.Document != null);
-            mnuSend.Enabled = (this.Document != null);
+            try {
+                var isConnected = (this.Document != null);
+                mnuNew.Enabled = (lsvMessages.Items.Count > 0);
+                mnuCopy.Enabled = (lsvMessages.SelectedItems.Count > 0);
+                mnuPorts.Enabled = (this.Document == null);
+                mnuConnect.Enabled = (mnuPorts.SelectedItem != null) && (this.Document == null) && (!bwDevice.IsBusy);
+                mnuDisconnect.Enabled = (this.Document != null);
+                mnuGotoEnd.Enabled = (this.Document != null);
 
-            var status = isConnected ? Strings.Connected : Strings.NotConnected;
-            if (staStatus.Text != status) {
-                staStatus.Text = status;
-                if (!isConnected) {
-                    staPower.Text = "";
-                    staTermination.Text = "";
-                    staTxStatus.Text = "";
-                    staRxStatus.Text = "";
-                    staRxOverflowStatus.Text = "";
+                var status = isConnected ? Strings.Connected : Strings.NotConnected;
+                if (staStatus.Text != status) {
+                    staStatus.Text = status;
+                    if (!isConnected) {
+                        staPower.Visible = false;
+                        staTermination.Visible = false;
+                        staRxQueueFull.Visible = false;
+                        staTxQueueFull.Visible = false;
+                        staTxRxWarning.Visible = false;
+                        staRxOverflow.Visible = false;
+                        staErrorPassive.Visible = false;
+                        staArbitationLost.Visible = false;
+                        staBusError.Visible = false;
+                    }
                 }
-            }
-
+            } catch (NullReferenceException) { } //when closing form, semi-disposed object sometime do this
         }
-
     }
 }
