@@ -23,6 +23,8 @@ namespace CanankaTest {
         }
 
 
+        private const int MaxSelectAllItemsCount = 10000;
+
         #region Menu
 
         private bool SuppressMenuKey = false;
@@ -42,8 +44,12 @@ namespace CanankaTest {
                     return true;
 
                 case Keys.Control | Keys.A:
-                    foreach (ListViewItem item in lsvMessages.Items) {
-                        item.Selected = true;
+                    if (lsvMessages.Items.Count < MaxSelectAllItemsCount) {
+                        lsvMessages.BeginUpdate();
+                        foreach (ListViewItem item in lsvMessages.Items) {
+                            item.Selected = true;
+                        }
+                        lsvMessages.EndUpdate();
                     }
                     return true;
 
