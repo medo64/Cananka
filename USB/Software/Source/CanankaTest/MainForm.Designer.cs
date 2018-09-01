@@ -26,19 +26,8 @@ namespace CanankaTest {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mnu = new System.Windows.Forms.ToolStrip();
-            this.mnuNew = new System.Windows.Forms.ToolStripButton();
-            this.mnuCopy = new System.Windows.Forms.ToolStripButton();
-            this.mnuGotoEnd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuPorts = new System.Windows.Forms.ToolStripComboBox();
-            this.mnuConnect = new System.Windows.Forms.ToolStripButton();
-            this.mnuDisconnect = new System.Windows.Forms.ToolStripButton();
-            this.mnuApp = new System.Windows.Forms.ToolStripDropDownButton();
-            this.mnuAppFeedback = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAppUpgrade = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.sta = new System.Windows.Forms.StatusStrip();
             this.mnxFeatures = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnxPowerOn = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +53,19 @@ namespace CanankaTest {
             this.lsvMessages_colID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsvMessages_colData = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsvMessages_colFlags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuNew = new System.Windows.Forms.ToolStripButton();
+            this.mnuCopy = new System.Windows.Forms.ToolStripButton();
+            this.mnuGotoEnd = new System.Windows.Forms.ToolStripButton();
+            this.mnuConnect = new System.Windows.Forms.ToolStripButton();
+            this.mnuDisconnect = new System.Windows.Forms.ToolStripButton();
+            this.mnuApp = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mnuAppFeedback = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAppUpgrade = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSend = new System.Windows.Forms.ToolStripButton();
             this.mnu.SuspendLayout();
             this.sta.SuspendLayout();
             this.mnxFeatures.SuspendLayout();
@@ -81,46 +83,14 @@ namespace CanankaTest {
             this.mnuPorts,
             this.mnuConnect,
             this.mnuDisconnect,
-            this.mnuApp});
+            this.mnuApp,
+            this.toolStripSeparator1,
+            this.mnuSend});
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.mnu.Size = new System.Drawing.Size(602, 29);
             this.mnu.TabIndex = 0;
-            // 
-            // mnuNew
-            // 
-            this.mnuNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuNew.Enabled = false;
-            this.mnuNew.Image = global::CanankaTest.Properties.Resources.mnuNew_16;
-            this.mnuNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(24, 25);
-            this.mnuNew.Text = "New";
-            this.mnuNew.ToolTipText = "New (Ctrl+N)";
-            this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
-            // 
-            // mnuCopy
-            // 
-            this.mnuCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuCopy.Enabled = false;
-            this.mnuCopy.Image = global::CanankaTest.Properties.Resources.mnuCopy_16;
-            this.mnuCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuCopy.Name = "mnuCopy";
-            this.mnuCopy.Size = new System.Drawing.Size(24, 25);
-            this.mnuCopy.Text = "Copy (Ctrl+C)";
-            this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
-            // 
-            // mnuGotoEnd
-            // 
-            this.mnuGotoEnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuGotoEnd.Enabled = false;
-            this.mnuGotoEnd.Image = global::CanankaTest.Properties.Resources.mnuGotoEnd_16;
-            this.mnuGotoEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuGotoEnd.Name = "mnuGotoEnd";
-            this.mnuGotoEnd.Size = new System.Drawing.Size(24, 25);
-            this.mnuGotoEnd.Text = "Move to end";
-            this.mnuGotoEnd.Click += new System.EventHandler(this.mnuGotoEnd_Click);
             // 
             // toolStripSeparator2
             // 
@@ -132,77 +102,6 @@ namespace CanankaTest {
             this.mnuPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mnuPorts.Name = "mnuPorts";
             this.mnuPorts.Size = new System.Drawing.Size(121, 28);
-            // 
-            // mnuConnect
-            // 
-            this.mnuConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuConnect.Image = global::CanankaTest.Properties.Resources.mnuConnect_16;
-            this.mnuConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuConnect.Name = "mnuConnect";
-            this.mnuConnect.Size = new System.Drawing.Size(24, 25);
-            this.mnuConnect.Text = "Connect";
-            this.mnuConnect.ToolTipText = "Connect (F8)";
-            this.mnuConnect.Click += new System.EventHandler(this.mnuConnect_Click);
-            // 
-            // mnuDisconnect
-            // 
-            this.mnuDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuDisconnect.Enabled = false;
-            this.mnuDisconnect.Image = global::CanankaTest.Properties.Resources.mnuDisconnect_16;
-            this.mnuDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuDisconnect.Name = "mnuDisconnect";
-            this.mnuDisconnect.Size = new System.Drawing.Size(24, 25);
-            this.mnuDisconnect.Text = "Disconnect";
-            this.mnuDisconnect.Click += new System.EventHandler(this.mnuDisconnect_Click);
-            // 
-            // mnuApp
-            // 
-            this.mnuApp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.mnuApp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuApp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAppFeedback,
-            this.mnuAppUpgrade,
-            this.mnuAppDonate,
-            this.toolStripMenuItem1,
-            this.mnuAppAbout});
-            this.mnuApp.Image = global::CanankaTest.Properties.Resources.mnuApp_16;
-            this.mnuApp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuApp.Name = "mnuApp";
-            this.mnuApp.Size = new System.Drawing.Size(34, 25);
-            this.mnuApp.Text = "Application";
-            // 
-            // mnuAppFeedback
-            // 
-            this.mnuAppFeedback.Name = "mnuAppFeedback";
-            this.mnuAppFeedback.Size = new System.Drawing.Size(212, 26);
-            this.mnuAppFeedback.Text = "Send &feedback";
-            this.mnuAppFeedback.Click += new System.EventHandler(this.mnuAppFeedback_Click);
-            // 
-            // mnuAppUpgrade
-            // 
-            this.mnuAppUpgrade.Name = "mnuAppUpgrade";
-            this.mnuAppUpgrade.Size = new System.Drawing.Size(212, 26);
-            this.mnuAppUpgrade.Text = "Check for &upgrades";
-            this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
-            // 
-            // mnuAppDonate
-            // 
-            this.mnuAppDonate.Name = "mnuAppDonate";
-            this.mnuAppDonate.Size = new System.Drawing.Size(212, 26);
-            this.mnuAppDonate.Text = "&Donate";
-            this.mnuAppDonate.Click += new System.EventHandler(this.mnuAppDonate_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(209, 6);
-            // 
-            // mnuAppAbout
-            // 
-            this.mnuAppAbout.Name = "mnuAppAbout";
-            this.mnuAppAbout.Size = new System.Drawing.Size(212, 26);
-            this.mnuAppAbout.Text = "&About";
-            this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
             // 
             // sta
             // 
@@ -412,6 +311,127 @@ namespace CanankaTest {
             // 
             this.lsvMessages_colFlags.Text = "Flags";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            // 
+            // mnuNew
+            // 
+            this.mnuNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuNew.Enabled = false;
+            this.mnuNew.Image = global::CanankaTest.Properties.Resources.mnuNew_16;
+            this.mnuNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuNew.Name = "mnuNew";
+            this.mnuNew.Size = new System.Drawing.Size(24, 25);
+            this.mnuNew.Text = "New";
+            this.mnuNew.ToolTipText = "New (Ctrl+N)";
+            this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
+            // 
+            // mnuCopy
+            // 
+            this.mnuCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuCopy.Enabled = false;
+            this.mnuCopy.Image = global::CanankaTest.Properties.Resources.mnuCopy_16;
+            this.mnuCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuCopy.Name = "mnuCopy";
+            this.mnuCopy.Size = new System.Drawing.Size(24, 25);
+            this.mnuCopy.Text = "Copy (Ctrl+C)";
+            this.mnuCopy.Click += new System.EventHandler(this.mnuCopy_Click);
+            // 
+            // mnuGotoEnd
+            // 
+            this.mnuGotoEnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuGotoEnd.Enabled = false;
+            this.mnuGotoEnd.Image = global::CanankaTest.Properties.Resources.mnuGotoEnd_16;
+            this.mnuGotoEnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuGotoEnd.Name = "mnuGotoEnd";
+            this.mnuGotoEnd.Size = new System.Drawing.Size(24, 25);
+            this.mnuGotoEnd.Text = "Move to end";
+            this.mnuGotoEnd.Click += new System.EventHandler(this.mnuGotoEnd_Click);
+            // 
+            // mnuConnect
+            // 
+            this.mnuConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuConnect.Image = global::CanankaTest.Properties.Resources.mnuConnect_16;
+            this.mnuConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuConnect.Name = "mnuConnect";
+            this.mnuConnect.Size = new System.Drawing.Size(24, 25);
+            this.mnuConnect.Text = "Connect";
+            this.mnuConnect.ToolTipText = "Connect (F8)";
+            this.mnuConnect.Click += new System.EventHandler(this.mnuConnect_Click);
+            // 
+            // mnuDisconnect
+            // 
+            this.mnuDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuDisconnect.Enabled = false;
+            this.mnuDisconnect.Image = global::CanankaTest.Properties.Resources.mnuDisconnect_16;
+            this.mnuDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuDisconnect.Name = "mnuDisconnect";
+            this.mnuDisconnect.Size = new System.Drawing.Size(24, 25);
+            this.mnuDisconnect.Text = "Disconnect";
+            this.mnuDisconnect.Click += new System.EventHandler(this.mnuDisconnect_Click);
+            // 
+            // mnuApp
+            // 
+            this.mnuApp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.mnuApp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuApp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAppFeedback,
+            this.mnuAppUpgrade,
+            this.mnuAppDonate,
+            this.toolStripMenuItem1,
+            this.mnuAppAbout});
+            this.mnuApp.Image = global::CanankaTest.Properties.Resources.mnuApp_16;
+            this.mnuApp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuApp.Name = "mnuApp";
+            this.mnuApp.Size = new System.Drawing.Size(34, 25);
+            this.mnuApp.Text = "Application";
+            // 
+            // mnuAppFeedback
+            // 
+            this.mnuAppFeedback.Name = "mnuAppFeedback";
+            this.mnuAppFeedback.Size = new System.Drawing.Size(212, 26);
+            this.mnuAppFeedback.Text = "Send &feedback";
+            this.mnuAppFeedback.Click += new System.EventHandler(this.mnuAppFeedback_Click);
+            // 
+            // mnuAppUpgrade
+            // 
+            this.mnuAppUpgrade.Name = "mnuAppUpgrade";
+            this.mnuAppUpgrade.Size = new System.Drawing.Size(212, 26);
+            this.mnuAppUpgrade.Text = "Check for &upgrades";
+            this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
+            // 
+            // mnuAppDonate
+            // 
+            this.mnuAppDonate.Name = "mnuAppDonate";
+            this.mnuAppDonate.Size = new System.Drawing.Size(212, 26);
+            this.mnuAppDonate.Text = "&Donate";
+            this.mnuAppDonate.Click += new System.EventHandler(this.mnuAppDonate_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // mnuAppAbout
+            // 
+            this.mnuAppAbout.Name = "mnuAppAbout";
+            this.mnuAppAbout.Size = new System.Drawing.Size(212, 26);
+            this.mnuAppAbout.Text = "&About";
+            this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
+            // 
+            // mnuSend
+            // 
+            this.mnuSend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuSend.Image = global::CanankaTest.Properties.Resources.mnuSend_16;
+            this.mnuSend.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuSend.Name = "mnuSend";
+            this.mnuSend.Size = new System.Drawing.Size(24, 25);
+            this.mnuSend.Text = "Send";
+            this.mnuSend.ToolTipText = "Send message";
+            this.mnuSend.Click += new System.EventHandler(this.mnuSend_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -475,6 +495,8 @@ namespace CanankaTest {
         private System.Windows.Forms.ToolStripMenuItem mnxTerminationOn;
         private System.Windows.Forms.ToolStripMenuItem mnxTerminationOff;
         private System.Windows.Forms.ColumnHeader lsvMessages_colTime;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton mnuSend;
     }
 }
 

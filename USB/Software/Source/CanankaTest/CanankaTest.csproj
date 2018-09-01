@@ -64,8 +64,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="%28Medo%29\AboutBox [013].cs" />
@@ -92,6 +94,12 @@
     </Compile>
     <Compile Include="Properties\SolutionInfo.cs" />
     <Compile Include="%28Medo%29\Cananka [001].cs" />
+    <Compile Include="SendMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendMessageForm.Designer.cs">
+      <DependentUpon>SendMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Strings.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -100,6 +108,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendMessageForm.resx">
+      <DependentUpon>SendMessageForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\App.manifest" />

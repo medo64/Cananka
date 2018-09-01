@@ -397,12 +397,12 @@ namespace Medo.Device {
 
 
 
-            private CanankaMessage ToStandardMessage(byte[] buffer, bool isRemoteRequest) {
+            private static CanankaMessage ToStandardMessage(byte[] buffer, bool isRemoteRequest) {
                 if (buffer.Length > 4) {
                     var length = buffer[4] - 0x30;
                     if ((length <= 8) && int.TryParse(Encoding.ASCII.GetString(buffer, 1, 3), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var id)) {
                         var expectedLength = 5 + (isRemoteRequest ? 0 : length * 2) + 1;
-                        if ((id > 0) && (id < 0x7FF) && (buffer.Length == expectedLength)) {
+                        if ((id >= 0) && (id < 0x7FF) && (buffer.Length == expectedLength)) {
                             var dataBytes = isRemoteRequest ? null : new byte[length];
                             if (!isRemoteRequest) {
                                 for (var i = 0; i < length; i++) {
@@ -418,12 +418,12 @@ namespace Medo.Device {
                 return null;
             }
 
-            private CanankaMessage ToExtendedMessage(byte[] buffer, bool isRemoteRequest) {
+            private static CanankaMessage ToExtendedMessage(byte[] buffer, bool isRemoteRequest) {
                 if (buffer.Length > 9) {
                     var length = buffer[9] - 0x30;
                     if ((length <= 8) && int.TryParse(Encoding.ASCII.GetString(buffer, 1, 8), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var id)) {
                         var expectedLength = 10 + (isRemoteRequest ? 0 : length * 2) + 1;
-                        if ((id > 0) && (id < 0x1FFFFFFF) && (buffer.Length == expectedLength)) {
+                        if ((id >= 0) && (id < 0x1FFFFFFF) && (buffer.Length == expectedLength)) {
                             var dataBytes = isRemoteRequest ? null : new byte[length];
                             if (!isRemoteRequest) {
                                 for (var i = 0; i < length; i++) {

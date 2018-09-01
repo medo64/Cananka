@@ -255,6 +255,15 @@ namespace CanankaTest {
         }
 
 
+        private void mnuSend_Click(object sender, EventArgs e) {
+            if ((this.Document != null) && this.Document.IsOpen) {
+                using (var frm = new SendMessageForm(this.Document)) {
+                    frm.ShowDialog(this);
+                }
+            }
+        }
+
+
         private void mnuAppFeedback_Click(object sender, EventArgs e) {
 
         }
@@ -376,6 +385,7 @@ namespace CanankaTest {
                 mnuConnect.Enabled = (mnuPorts.SelectedItem != null) && (this.Document == null) && (!bwDevice.IsBusy);
                 mnuDisconnect.Enabled = (this.Document != null);
                 mnuGotoEnd.Enabled = (this.Document != null);
+                mnuSend.Enabled = (this.Document != null);
 
                 var status = isConnected ? Strings.Connected : Strings.NotConnected;
                 if (staStatus.Text != status) {
@@ -394,5 +404,6 @@ namespace CanankaTest {
                 }
             } catch (NullReferenceException) { } //when closing form, semi-disposed object sometime do this
         }
+
     }
 }
