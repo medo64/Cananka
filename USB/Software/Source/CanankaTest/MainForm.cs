@@ -104,15 +104,21 @@ namespace CanankaTest {
         #region Document
 
         private Cananka Document = null;
-
+        private bool IsCananka = false;
+        private bool SupportsPower = false;
+        private bool SupportsTermination = false;
+        private bool SupportsLoad = false;
+        private bool LastPowerState = false;
+        private bool LastTerminationState = false;
+        private bool LastLoadState = false;
 
         private void bwDevice_DoWork(object sender, DoWorkEventArgs e) {
             var device = (Cananka)e.Argument;
 
             try {
                 var stopwatch = Stopwatch.StartNew();
+                var skipIndex = 0; //to interleave flag checks
                 while (true) {
-                    var skipIndex = 0; //to interleave flag checks
                     if (stopwatch.ElapsedMilliseconds > 500) {
                         if (skipIndex == 0) {
                             if (bwDevice.CancellationPending) { break; }
@@ -121,7 +127,7 @@ namespace CanankaTest {
                             if (bwDevice.CancellationPending) { break; }
                             bwDevice.ReportProgress(-1, device.GetExtendedStatus());
                         }
-                        skipIndex = (skipIndex++ % 2);
+                        skipIndex = (skipIndex + 1) % 2;
 
                         stopwatch.Reset();
                         stopwatch.Start();
@@ -142,10 +148,20 @@ namespace CanankaTest {
             var status = e.UserState as CanankaStatus;
             var extendedStatus = e.UserState as CanankaExtendedStatus;
 
-            if (extendedStatus != null) {
-                staPower.Visible = extendedStatus.PowerEnabled;
-                staTermination.Visible = extendedStatus.TerminationEnabled;
-            } else if (status != null) {
+            if ((extendedStatus != null) && extendedStatus.IsValid) {
+                this.LastPowerState = extendedStatus.PowerEnabled;
+                this.LastTerminationState = extendedStatus.TerminationEnabled;
+                this.LastLoadState = extendedStatus.AnyLoad;
+
+                var newPowerColor = this.LastPowerState ? SystemColors.WindowText : SystemColors.GrayText;
+                if (staPower.ForeColor != newPowerColor) { staPower.ForeColor = newPowerColor; }
+
+                var newTerminationColor = this.LastTerminationState ? SystemColors.WindowText : SystemColors.GrayText;
+                if (staTermination.ForeColor != newTerminationColor) { staTermination.ForeColor = newTerminationColor; }
+
+                var newLoadColor = this.LastLoadState ? SystemColors.WindowText : SystemColors.GrayText;
+                if (staLoad.ForeColor != newLoadColor) { staLoad.ForeColor = newLoadColor; }
+            } else if ((status != null) && status.IsValid) {
                 staRxQueueFull.Visible = status.RxQueueFull;
                 staTxQueueFull.Visible = status.TxQueueFull;
                 staTxRxWarning.Visible = status.TxRxWarning;
@@ -223,6 +239,24 @@ namespace CanankaTest {
                     this.Document = new Cananka(port);
                     this.Document.MessageArrived += this.Document_MessageArrived;
                     this.Document.Open();
+
+                    var version = this.Document.GetVersion();
+                    var extendedStatus = this.Document.GetExtendedStatus();
+
+                    this.IsCananka = extendedStatus.IsValid;
+                    this.SupportsPower = extendedStatus.IsValid && (version.HardwareVersion.Minor == 2);
+                    this.SupportsTermination = extendedStatus.IsValid && (version.HardwareVersion.Minor == 2);
+                    this.SupportsLoad = extendedStatus.IsValid;
+                    this.LastPowerState = extendedStatus.IsValid && extendedStatus.PowerEnabled;
+                    this.LastTerminationState = extendedStatus.IsValid && extendedStatus.TerminationEnabled;
+                    this.LastLoadState = extendedStatus.IsValid && extendedStatus.AnyLoad;
+
+                    bwDevice_ProgressChanged(null, new ProgressChangedEventArgs(-1, extendedStatus));
+
+                    staPower.Visible = this.SupportsPower;
+                    staTermination.Visible = this.SupportsTermination;
+                    staLoad.Visible = this.SupportsLoad;
+
                     bwDevice.RunWorkerAsync(this.Document);
                 } catch (Exception ex) {
                     this.Document = null;
@@ -281,28 +315,9 @@ namespace CanankaTest {
         }
 
 
-        private void mnxFeatures_Opening(object sender, CancelEventArgs e) {
-            mnxPowerOn.Enabled = false;
-            mnxPowerOff.Enabled = false;
-            mnxTerminationOn.Enabled = false;
-            mnxTerminationOff.Enabled = false;
-
-            var flags = this.Document?.GetExtendedStatus();
-            if ((flags != null) && flags.IsValid) {
-                mnxPowerOn.Enabled = !flags.PowerEnabled;
-                mnxPowerOff.Enabled = flags.PowerEnabled;
-                mnxTerminationOn.Enabled = !flags.TerminationEnabled;
-                mnxTerminationOff.Enabled = flags.TerminationEnabled;
-            }
-        }
-
-        private void mnxPowerOn_Click(object sender, EventArgs e) {
-            if (this.Document != null) {
-                try {
-                    this.Document.SetPower(true);
-                } catch (Exception) { }
-                ProcessMenuState();
-            }
+        private void mnxPower_Opening(object sender, CancelEventArgs e) {
+            mnxPowerOn.Enabled = !this.LastPowerState;
+            mnxPowerOff.Enabled = this.LastPowerState;
         }
 
         private void mnxPowerOff_Click(object sender, EventArgs e) {
@@ -314,13 +329,20 @@ namespace CanankaTest {
             }
         }
 
-        private void mnxTerminationOn_Click(object sender, EventArgs e) {
+        private void mnxPowerOn_Click(object sender, EventArgs e) {
             if (this.Document != null) {
                 try {
-                    this.Document.SetTermination(true);
+                    this.LastPowerState = true;
+                    this.Document.SetPower(true);
                 } catch (Exception) { }
                 ProcessMenuState();
             }
+        }
+
+
+        private void mnxTermination_Opening(object sender, CancelEventArgs e) {
+            mnxTerminationOn.Enabled = !this.LastTerminationState;
+            mnxTerminationOff.Enabled = this.LastTerminationState;
         }
 
         private void mnxTerminationOff_Click(object sender, EventArgs e) {
@@ -332,7 +354,144 @@ namespace CanankaTest {
             }
         }
 
+        private void mnxTerminationOn_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastTerminationState = true;
+                    this.Document.SetTermination(true);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+
+        private void mnxLoad_Opening(object sender, CancelEventArgs e) {
+            mnxLoadOff.Enabled = this.LastLoadState;
+            mnxLoadOn1.Enabled = !this.LastLoadState;
+            mnxLoadOn2.Enabled = !this.LastLoadState;
+            mnxLoadOn3.Enabled = !this.LastLoadState;
+            mnxLoadOn4.Enabled = !this.LastLoadState;
+            mnxLoadOn5.Enabled = !this.LastLoadState;
+            mnxLoadOn6.Enabled = !this.LastLoadState;
+            mnxLoadOn7.Enabled = !this.LastLoadState;
+            mnxLoadOn8.Enabled = !this.LastLoadState;
+            mnxLoadOn9.Enabled = !this.LastLoadState;
+
+        }
+
+        private void mnxLoadOff_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.Document.SetLoad(0);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn1_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(1);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn2_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(2);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn3_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(3);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn4_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(4);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn5_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(5);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn6_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(6);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn7_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.Document.SetLoad(7);
+                    this.LastLoadState = true;
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn8_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(8);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
+        private void mnxLoadOn9_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                try {
+                    this.LastLoadState = true;
+                    this.Document.SetLoad(9);
+                } catch (Exception) { }
+                ProcessMenuState();
+            }
+        }
+
         #endregion
+
+
+        private void staPower_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) { mnxPower.Show(Cursor.Position); }
+        }
+
+        private void staTermination_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) { mnxTermination.Show(Cursor.Position); }
+        }
+
+        private void staLoad_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) { mnxLoad.Show(Cursor.Position); }
+        }
 
 
         private string LastPorts = "-";
@@ -393,6 +552,7 @@ namespace CanankaTest {
                     if (!isConnected) {
                         staPower.Visible = false;
                         staTermination.Visible = false;
+                        staLoad.Visible = false;
                         staRxQueueFull.Visible = false;
                         staTxQueueFull.Visible = false;
                         staTxRxWarning.Visible = false;
@@ -404,6 +564,5 @@ namespace CanankaTest {
                 }
             } catch (NullReferenceException) { } //when closing form, semi-disposed object sometime do this
         }
-
     }
 }

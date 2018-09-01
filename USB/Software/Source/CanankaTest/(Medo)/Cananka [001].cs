@@ -1,6 +1,6 @@
 //Josip Medved <jmedved@jmedved.com>  https://www.medo64.com
 
-//2018-08-30: New version.
+//2018-09-01: New version.
 
 
 using System;
@@ -135,6 +135,15 @@ namespace Medo.Device {
             return new CanankaStatus(response?.ToBytes());
         }
 
+        /// <summary>
+        /// Returns device version.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Method is more appropriate than property as it does more than simple field access.")]
+        public CanankaVersion GetVersion() {
+            var response = WriteCommand(new byte[] { (byte)'V', CR });
+            return new CanankaVersion(response?.ToBytes());
+        }
+
 
         /// <summary>
         /// Returns if CAN message is successfully sent.
@@ -199,6 +208,7 @@ namespace Medo.Device {
             return new CanankaExtendedStatus(response?.ToBytes());
         }
 
+
         /// <summary>
         /// Sets state of 5V power output. Works only on Cananka USB/mini.
         /// </summary>
@@ -214,6 +224,17 @@ namespace Medo.Device {
         /// <param name="state">Whether to turn on or off termination resistors.</param>
         public bool SetTermination(bool state) {
             var response = WriteCommand(new byte[] { (byte)'*', (byte)'T', state ? (byte)'1' : (byte)'0', CR });
+            return (response.IsPositive);
+        }
+
+        /// <summary>
+        /// Sets level of dummy load. Works only on Cananka USB devices.
+        /// </summary>
+        /// <param name="level">Load level; 0 is off, 9 is highest.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Level must be between 0 (off) and 9 (highest).</exception>
+        public bool SetLoad(int level) {
+            if ((level < 0) || (level > 9)) { throw new ArgumentOutOfRangeException(nameof(level), "Level must be between 0 (off) and 9 (highest)."); }
+            var response = WriteCommand(new byte[] { (byte)'*', (byte)'L', (byte)(0x30 + level), CR });
             return (response.IsPositive);
         }
 
@@ -501,7 +522,7 @@ namespace Medo.Device {
     public class CanankaStatus {
 
         internal CanankaStatus(byte[] data) {
-            if ((data != null) && (data.Length == 3) && (data[0] == (byte)'F')) {
+            if ((data != null) && (data.Length >= 3) && (data[0] == (byte)'F')) {
                 if (byte.TryParse(Encoding.ASCII.GetString(data, 1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var result)) {
                     this.RxQueueFull = ((result & 0b00000001) != 0);
                     this.TxQueueFull = ((result & 0b00000010) != 0);
@@ -590,13 +611,14 @@ namespace Medo.Device {
     public class CanankaExtendedStatus {
 
         internal CanankaExtendedStatus(byte[] data) {
-            if ((data != null) && (data.Length == 4) && (data[0] == (byte)'*') && (data[1] == (byte)'F')) {
+            if ((data != null) && (data.Length >= 4) && (data[0] == (byte)'*') && (data[1] == (byte)'F')) {
                 if (byte.TryParse(Encoding.ASCII.GetString(data, 2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var result)) {
                     this.BusState = (CanankaBusState)(result & 0b00000011);
                     this.AutoPooling = ((result & 0b00000100) != 0);
                     this.AnyErrors = ((result & 0b00001000) != 0);
                     this.PowerEnabled = ((result & 0b00010000) != 0);
                     this.TerminationEnabled = ((result & 0b00100000) != 0);
+                    this.AnyLoad = ((result & 0b01000000) != 0);
                     this.AnyDebug = ((result & 0b10000000) != 0);
                     this.IsValid = true;
                 }
@@ -636,6 +658,11 @@ namespace Medo.Device {
         public bool TerminationEnabled { get; }
 
         /// <summary>
+        /// Gets if any load is being generated.
+        /// </summary>
+        public bool AnyLoad { get; }
+
+        /// <summary>
         /// Gets if any debug features are turned on.
         /// </summary>
         public bool AnyDebug { get; }
@@ -668,7 +695,69 @@ namespace Medo.Device {
             if ((sb.Length == 0) || ((sb.Length == 1) && (sb[0] == 'O'))) { sb.Append("OK"); }
             return sb.ToString();
         }
+    }
 
+
+    /// <summary>
+    /// Version information.
+    /// </summary>
+    public class CanankaVersion {
+        internal CanankaVersion(byte[] data) {
+            if ((data != null) && (data.Length >= 5) && (data[0] == (byte)'V')) {
+                var hwMajorOK = (data[1] >= 0x30) && (data[1] <= 0x39);
+                var hwMinorOK = (data[2] >= 0x30) && (data[2] <= 0x39);
+                var swMajorOK = (data[3] >= 0x30) && (data[3] <= 0x39);
+                var swMinorOK = (data[4] >= 0x30) && (data[4] <= 0x39);
+                var hwMajor = hwMajorOK ? data[1] - 0x30 : 0;
+                var hwMinor = hwMinorOK ? data[2] - 0x30 : 0;
+                var swMajor = swMajorOK ? data[3] - 0x30 : 0;
+                var swMinor = swMinorOK ? data[4] - 0x30 : 0;
+
+                this.IsValid = hwMajorOK && swMajorOK;
+                this.HardwareVersion = new Version(hwMajor, hwMinor);
+                this.SoftwareVersion = new Version(swMajor, swMinor);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets if content is valid.
+        /// </summary>
+        public bool IsValid { get; }
+
+
+        /// <summary>
+        /// Hardware version.
+        /// If this is a Cananka USB device, minor version is as follows:
+        /// * 0: Cananka USB
+        /// * 1: Cananka USB RJ-45
+        /// * 2: Cananka USB/mini
+        /// * 9: Unknown
+        /// </summary>
+        public Version HardwareVersion { get; }
+
+        /// <summary>
+        /// Software version.
+        /// </summary>
+        public Version SoftwareVersion { get; }
+
+
+        /// <summary>
+        /// Returns a textual description of version.
+        /// </summary>
+        public override string ToString() {
+            var sb = new StringBuilder();
+            if ((this.HardwareVersion.Major > 0) || (this.HardwareVersion.Minor > 0)) {
+                sb.Append("HW:");
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{0}.{1}", this.HardwareVersion.Major, this.HardwareVersion.Minor);
+            }
+            if (sb.Length > 0) { sb.Append(" "); }
+            if ((this.SoftwareVersion.Major > 0) || (this.SoftwareVersion.Minor > 0)) {
+                sb.Append("SW:");
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{0}.{1}", this.SoftwareVersion.Major, this.SoftwareVersion.Minor);
+            }
+            return sb.ToString();
+        }
     }
 
 

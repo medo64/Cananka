@@ -26,15 +26,22 @@ namespace CanankaTest {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mnu = new System.Windows.Forms.ToolStrip();
+            this.mnuNew = new System.Windows.Forms.ToolStripButton();
+            this.mnuCopy = new System.Windows.Forms.ToolStripButton();
+            this.mnuGotoEnd = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuPorts = new System.Windows.Forms.ToolStripComboBox();
+            this.mnuConnect = new System.Windows.Forms.ToolStripButton();
+            this.mnuDisconnect = new System.Windows.Forms.ToolStripButton();
+            this.mnuApp = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mnuAppFeedback = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAppUpgrade = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuSend = new System.Windows.Forms.ToolStripButton();
             this.sta = new System.Windows.Forms.StatusStrip();
-            this.mnxFeatures = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnxPowerOn = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnxPowerOff = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnxTerminationOn = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnxTerminationOff = new System.Windows.Forms.ToolStripMenuItem();
             this.staStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.staRxQueueFull = new System.Windows.Forms.ToolStripStatusLabel();
             this.staTxQueueFull = new System.Windows.Forms.ToolStripStatusLabel();
@@ -45,7 +52,11 @@ namespace CanankaTest {
             this.staBusError = new System.Windows.Forms.ToolStripStatusLabel();
             this.staPower = new System.Windows.Forms.ToolStripStatusLabel();
             this.staTermination = new System.Windows.Forms.ToolStripStatusLabel();
+            this.staLoad = new System.Windows.Forms.ToolStripStatusLabel();
             this.staMessagesPerSecond = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mnxPower = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnxPowerOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxPowerOn = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrRefresh = new System.Windows.Forms.Timer(this.components);
             this.bwDevice = new System.ComponentModel.BackgroundWorker();
             this.lsvMessages = new CanankaTest.ListViewEx();
@@ -53,22 +64,27 @@ namespace CanankaTest {
             this.lsvMessages_colID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsvMessages_colData = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsvMessages_colFlags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuNew = new System.Windows.Forms.ToolStripButton();
-            this.mnuCopy = new System.Windows.Forms.ToolStripButton();
-            this.mnuGotoEnd = new System.Windows.Forms.ToolStripButton();
-            this.mnuConnect = new System.Windows.Forms.ToolStripButton();
-            this.mnuDisconnect = new System.Windows.Forms.ToolStripButton();
-            this.mnuApp = new System.Windows.Forms.ToolStripDropDownButton();
-            this.mnuAppFeedback = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAppUpgrade = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSend = new System.Windows.Forms.ToolStripButton();
+            this.mnxTermination = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnxTerminationOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxTerminationOn = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoad = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnxLoadOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoad1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnxLoadOn1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoad2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnxLoadOn6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnxLoadOn9 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu.SuspendLayout();
             this.sta.SuspendLayout();
-            this.mnxFeatures.SuspendLayout();
+            this.mnxPower.SuspendLayout();
+            this.mnxTermination.SuspendLayout();
+            this.mnxLoad.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnu
@@ -91,230 +107,6 @@ namespace CanankaTest {
             this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.mnu.Size = new System.Drawing.Size(602, 29);
             this.mnu.TabIndex = 0;
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
-            // 
-            // mnuPorts
-            // 
-            this.mnuPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mnuPorts.Name = "mnuPorts";
-            this.mnuPorts.Size = new System.Drawing.Size(121, 28);
-            // 
-            // sta
-            // 
-            this.sta.ContextMenuStrip = this.mnxFeatures;
-            this.sta.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.sta.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.staStatus,
-            this.staRxQueueFull,
-            this.staTxQueueFull,
-            this.staTxRxWarning,
-            this.staRxOverflow,
-            this.staErrorPassive,
-            this.staArbitationLost,
-            this.staBusError,
-            this.staPower,
-            this.staTermination,
-            this.staMessagesPerSecond});
-            this.sta.Location = new System.Drawing.Point(0, 328);
-            this.sta.Name = "sta";
-            this.sta.ShowItemToolTips = true;
-            this.sta.Size = new System.Drawing.Size(602, 25);
-            this.sta.TabIndex = 2;
-            // 
-            // mnxFeatures
-            // 
-            this.mnxFeatures.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.mnxFeatures.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnxPowerOn,
-            this.mnxPowerOff,
-            this.toolStripMenuItem2,
-            this.mnxTerminationOn,
-            this.mnxTerminationOff});
-            this.mnxFeatures.Name = "mnxPower";
-            this.mnxFeatures.Size = new System.Drawing.Size(212, 106);
-            this.mnxFeatures.Opening += new System.ComponentModel.CancelEventHandler(this.mnxFeatures_Opening);
-            // 
-            // mnxPowerOn
-            // 
-            this.mnxPowerOn.Name = "mnxPowerOn";
-            this.mnxPowerOn.Size = new System.Drawing.Size(211, 24);
-            this.mnxPowerOn.Text = "Turn power on";
-            this.mnxPowerOn.Click += new System.EventHandler(this.mnxPowerOn_Click);
-            // 
-            // mnxPowerOff
-            // 
-            this.mnxPowerOff.Name = "mnxPowerOff";
-            this.mnxPowerOff.Size = new System.Drawing.Size(211, 24);
-            this.mnxPowerOff.Text = "Turn power off";
-            this.mnxPowerOff.Click += new System.EventHandler(this.mnxPowerOff_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(208, 6);
-            // 
-            // mnxTerminationOn
-            // 
-            this.mnxTerminationOn.Name = "mnxTerminationOn";
-            this.mnxTerminationOn.Size = new System.Drawing.Size(211, 24);
-            this.mnxTerminationOn.Text = "Turn termination on";
-            this.mnxTerminationOn.Click += new System.EventHandler(this.mnxTerminationOn_Click);
-            // 
-            // mnxTerminationOff
-            // 
-            this.mnxTerminationOff.Name = "mnxTerminationOff";
-            this.mnxTerminationOff.Size = new System.Drawing.Size(211, 24);
-            this.mnxTerminationOff.Text = "Turn termination off";
-            this.mnxTerminationOff.Click += new System.EventHandler(this.mnxTerminationOff_Click);
-            // 
-            // staStatus
-            // 
-            this.staStatus.Name = "staStatus";
-            this.staStatus.Size = new System.Drawing.Size(572, 20);
-            this.staStatus.Spring = true;
-            this.staStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.staStatus.ToolTipText = "Status";
-            // 
-            // staRxQueueFull
-            // 
-            this.staRxQueueFull.Name = "staRxQueueFull";
-            this.staRxQueueFull.Size = new System.Drawing.Size(18, 20);
-            this.staRxQueueFull.Text = "R";
-            this.staRxQueueFull.ToolTipText = "Rx queue full";
-            this.staRxQueueFull.Visible = false;
-            // 
-            // staTxQueueFull
-            // 
-            this.staTxQueueFull.Name = "staTxQueueFull";
-            this.staTxQueueFull.Size = new System.Drawing.Size(17, 20);
-            this.staTxQueueFull.Text = "T";
-            this.staTxQueueFull.ToolTipText = "Tx queue full";
-            this.staTxQueueFull.Visible = false;
-            // 
-            // staTxRxWarning
-            // 
-            this.staTxRxWarning.Name = "staTxRxWarning";
-            this.staTxRxWarning.Size = new System.Drawing.Size(23, 20);
-            this.staTxRxWarning.Text = "W";
-            this.staTxRxWarning.ToolTipText = "Tx/Rx warning";
-            this.staTxRxWarning.Visible = false;
-            // 
-            // staRxOverflow
-            // 
-            this.staRxOverflow.Name = "staRxOverflow";
-            this.staRxOverflow.Size = new System.Drawing.Size(20, 20);
-            this.staRxOverflow.Text = "O";
-            this.staRxOverflow.ToolTipText = "Rx overflow";
-            this.staRxOverflow.Visible = false;
-            // 
-            // staErrorPassive
-            // 
-            this.staErrorPassive.Name = "staErrorPassive";
-            this.staErrorPassive.Size = new System.Drawing.Size(17, 20);
-            this.staErrorPassive.Text = "P";
-            this.staErrorPassive.ToolTipText = "Error-passive";
-            this.staErrorPassive.Visible = false;
-            // 
-            // staArbitationLost
-            // 
-            this.staArbitationLost.Name = "staArbitationLost";
-            this.staArbitationLost.Size = new System.Drawing.Size(19, 20);
-            this.staArbitationLost.Text = "A";
-            this.staArbitationLost.ToolTipText = "Arbitration lost";
-            this.staArbitationLost.Visible = false;
-            // 
-            // staBusError
-            // 
-            this.staBusError.Name = "staBusError";
-            this.staBusError.Size = new System.Drawing.Size(17, 20);
-            this.staBusError.Text = "E";
-            this.staBusError.ToolTipText = "Bus error";
-            this.staBusError.Visible = false;
-            // 
-            // staPower
-            // 
-            this.staPower.Name = "staPower";
-            this.staPower.Size = new System.Drawing.Size(18, 20);
-            this.staPower.Text = "p";
-            this.staPower.ToolTipText = "Power output status";
-            this.staPower.Visible = false;
-            // 
-            // staTermination
-            // 
-            this.staTermination.Name = "staTermination";
-            this.staTermination.Size = new System.Drawing.Size(14, 20);
-            this.staTermination.Text = "t";
-            this.staTermination.ToolTipText = "Termination status";
-            this.staTermination.Visible = false;
-            // 
-            // staMessagesPerSecond
-            // 
-            this.staMessagesPerSecond.Name = "staMessagesPerSecond";
-            this.staMessagesPerSecond.Size = new System.Drawing.Size(15, 20);
-            this.staMessagesPerSecond.Text = "-";
-            this.staMessagesPerSecond.ToolTipText = "Messages per second";
-            // 
-            // tmrRefresh
-            // 
-            this.tmrRefresh.Enabled = true;
-            this.tmrRefresh.Interval = 1000;
-            this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
-            // 
-            // bwDevice
-            // 
-            this.bwDevice.WorkerReportsProgress = true;
-            this.bwDevice.WorkerSupportsCancellation = true;
-            this.bwDevice.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDevice_DoWork);
-            this.bwDevice.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwDevice_ProgressChanged);
-            this.bwDevice.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwDevice_RunWorkerCompleted);
-            // 
-            // lsvMessages
-            // 
-            this.lsvMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lsvMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.lsvMessages_colTime,
-            this.lsvMessages_colID,
-            this.lsvMessages_colData,
-            this.lsvMessages_colFlags});
-            this.lsvMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvMessages.FullRowSelect = true;
-            this.lsvMessages.GridLines = true;
-            this.lsvMessages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lsvMessages.HideSelection = false;
-            this.lsvMessages.Location = new System.Drawing.Point(0, 29);
-            this.lsvMessages.Name = "lsvMessages";
-            this.lsvMessages.Size = new System.Drawing.Size(602, 299);
-            this.lsvMessages.TabIndex = 1;
-            this.lsvMessages.UseCompatibleStateImageBehavior = false;
-            this.lsvMessages.View = System.Windows.Forms.View.Details;
-            // 
-            // lsvMessages_colTime
-            // 
-            this.lsvMessages_colTime.Text = "Time";
-            this.lsvMessages_colTime.Width = 90;
-            // 
-            // lsvMessages_colID
-            // 
-            this.lsvMessages_colID.Text = "ID";
-            this.lsvMessages_colID.Width = 120;
-            // 
-            // lsvMessages_colData
-            // 
-            this.lsvMessages_colData.Text = "Data";
-            this.lsvMessages_colData.Width = 240;
-            // 
-            // lsvMessages_colFlags
-            // 
-            this.lsvMessages_colFlags.Text = "Flags";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // mnuNew
             // 
@@ -349,6 +141,17 @@ namespace CanankaTest {
             this.mnuGotoEnd.Size = new System.Drawing.Size(24, 25);
             this.mnuGotoEnd.Text = "Move to end";
             this.mnuGotoEnd.Click += new System.EventHandler(this.mnuGotoEnd_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
+            // 
+            // mnuPorts
+            // 
+            this.mnuPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mnuPorts.Name = "mnuPorts";
+            this.mnuPorts.Size = new System.Drawing.Size(121, 28);
             // 
             // mnuConnect
             // 
@@ -421,6 +224,11 @@ namespace CanankaTest {
             this.mnuAppAbout.Text = "&About";
             this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            // 
             // mnuSend
             // 
             this.mnuSend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -431,6 +239,323 @@ namespace CanankaTest {
             this.mnuSend.Text = "Send";
             this.mnuSend.ToolTipText = "Send message";
             this.mnuSend.Click += new System.EventHandler(this.mnuSend_Click);
+            // 
+            // sta
+            // 
+            this.sta.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.sta.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.staStatus,
+            this.staRxQueueFull,
+            this.staTxQueueFull,
+            this.staTxRxWarning,
+            this.staRxOverflow,
+            this.staErrorPassive,
+            this.staArbitationLost,
+            this.staBusError,
+            this.staPower,
+            this.staTermination,
+            this.staLoad,
+            this.staMessagesPerSecond});
+            this.sta.Location = new System.Drawing.Point(0, 328);
+            this.sta.Name = "sta";
+            this.sta.ShowItemToolTips = true;
+            this.sta.Size = new System.Drawing.Size(602, 25);
+            this.sta.TabIndex = 2;
+            // 
+            // staStatus
+            // 
+            this.staStatus.Name = "staStatus";
+            this.staStatus.Size = new System.Drawing.Size(390, 20);
+            this.staStatus.Spring = true;
+            this.staStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.staStatus.ToolTipText = "Status";
+            // 
+            // staRxQueueFull
+            // 
+            this.staRxQueueFull.Name = "staRxQueueFull";
+            this.staRxQueueFull.Size = new System.Drawing.Size(18, 20);
+            this.staRxQueueFull.Text = "R";
+            this.staRxQueueFull.ToolTipText = "Rx queue full";
+            this.staRxQueueFull.Visible = false;
+            // 
+            // staTxQueueFull
+            // 
+            this.staTxQueueFull.Name = "staTxQueueFull";
+            this.staTxQueueFull.Size = new System.Drawing.Size(17, 20);
+            this.staTxQueueFull.Text = "T";
+            this.staTxQueueFull.ToolTipText = "Tx queue full";
+            this.staTxQueueFull.Visible = false;
+            // 
+            // staTxRxWarning
+            // 
+            this.staTxRxWarning.Name = "staTxRxWarning";
+            this.staTxRxWarning.Size = new System.Drawing.Size(23, 20);
+            this.staTxRxWarning.Text = "W";
+            this.staTxRxWarning.ToolTipText = "Tx/Rx warning";
+            this.staTxRxWarning.Visible = false;
+            // 
+            // staRxOverflow
+            // 
+            this.staRxOverflow.Name = "staRxOverflow";
+            this.staRxOverflow.Size = new System.Drawing.Size(20, 20);
+            this.staRxOverflow.Text = "O";
+            this.staRxOverflow.ToolTipText = "Rx overflow";
+            this.staRxOverflow.Visible = false;
+            // 
+            // staErrorPassive
+            // 
+            this.staErrorPassive.Name = "staErrorPassive";
+            this.staErrorPassive.Size = new System.Drawing.Size(17, 20);
+            this.staErrorPassive.Text = "P";
+            this.staErrorPassive.ToolTipText = "Error-passive";
+            this.staErrorPassive.Visible = false;
+            // 
+            // staArbitationLost
+            // 
+            this.staArbitationLost.Name = "staArbitationLost";
+            this.staArbitationLost.Size = new System.Drawing.Size(19, 20);
+            this.staArbitationLost.Text = "A";
+            this.staArbitationLost.ToolTipText = "Arbitration lost";
+            this.staArbitationLost.Visible = false;
+            // 
+            // staBusError
+            // 
+            this.staBusError.Name = "staBusError";
+            this.staBusError.Size = new System.Drawing.Size(17, 20);
+            this.staBusError.Text = "E";
+            this.staBusError.ToolTipText = "Bus error";
+            this.staBusError.Visible = false;
+            // 
+            // staPower
+            // 
+            this.staPower.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
+            this.staPower.Name = "staPower";
+            this.staPower.Size = new System.Drawing.Size(49, 20);
+            this.staPower.Text = "Power";
+            this.staPower.ToolTipText = "Power output status";
+            this.staPower.MouseDown += new System.Windows.Forms.MouseEventHandler(this.staPower_MouseDown);
+            // 
+            // staTermination
+            // 
+            this.staTermination.Name = "staTermination";
+            this.staTermination.Size = new System.Drawing.Size(88, 20);
+            this.staTermination.Text = "Termination";
+            this.staTermination.ToolTipText = "Termination status";
+            this.staTermination.MouseDown += new System.Windows.Forms.MouseEventHandler(this.staTermination_MouseDown);
+            // 
+            // staLoad
+            // 
+            this.staLoad.Name = "staLoad";
+            this.staLoad.Size = new System.Drawing.Size(42, 20);
+            this.staLoad.Text = "Load";
+            this.staLoad.ToolTipText = "Load generator status";
+            this.staLoad.MouseDown += new System.Windows.Forms.MouseEventHandler(this.staLoad_MouseDown);
+            // 
+            // staMessagesPerSecond
+            // 
+            this.staMessagesPerSecond.Name = "staMessagesPerSecond";
+            this.staMessagesPerSecond.Size = new System.Drawing.Size(15, 20);
+            this.staMessagesPerSecond.Text = "-";
+            this.staMessagesPerSecond.ToolTipText = "Messages per second";
+            // 
+            // mnxPower
+            // 
+            this.mnxPower.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mnxPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnxPowerOff,
+            this.mnxPowerOn});
+            this.mnxPower.Name = "mnxPower";
+            this.mnxPower.Size = new System.Drawing.Size(177, 52);
+            this.mnxPower.Opening += new System.ComponentModel.CancelEventHandler(this.mnxPower_Opening);
+            // 
+            // mnxPowerOff
+            // 
+            this.mnxPowerOff.Name = "mnxPowerOff";
+            this.mnxPowerOff.Size = new System.Drawing.Size(176, 24);
+            this.mnxPowerOff.Text = "Turn power off";
+            this.mnxPowerOff.Click += new System.EventHandler(this.mnxPowerOff_Click);
+            // 
+            // mnxPowerOn
+            // 
+            this.mnxPowerOn.Name = "mnxPowerOn";
+            this.mnxPowerOn.Size = new System.Drawing.Size(176, 24);
+            this.mnxPowerOn.Text = "Turn power on";
+            this.mnxPowerOn.Click += new System.EventHandler(this.mnxPowerOn_Click);
+            // 
+            // tmrRefresh
+            // 
+            this.tmrRefresh.Enabled = true;
+            this.tmrRefresh.Interval = 1000;
+            this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
+            // 
+            // bwDevice
+            // 
+            this.bwDevice.WorkerReportsProgress = true;
+            this.bwDevice.WorkerSupportsCancellation = true;
+            this.bwDevice.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDevice_DoWork);
+            this.bwDevice.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwDevice_ProgressChanged);
+            this.bwDevice.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwDevice_RunWorkerCompleted);
+            // 
+            // lsvMessages
+            // 
+            this.lsvMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lsvMessages.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lsvMessages_colTime,
+            this.lsvMessages_colID,
+            this.lsvMessages_colData,
+            this.lsvMessages_colFlags});
+            this.lsvMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvMessages.FullRowSelect = true;
+            this.lsvMessages.GridLines = true;
+            this.lsvMessages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lsvMessages.HideSelection = false;
+            this.lsvMessages.Location = new System.Drawing.Point(0, 29);
+            this.lsvMessages.Name = "lsvMessages";
+            this.lsvMessages.Size = new System.Drawing.Size(602, 299);
+            this.lsvMessages.TabIndex = 1;
+            this.lsvMessages.UseCompatibleStateImageBehavior = false;
+            this.lsvMessages.View = System.Windows.Forms.View.Details;
+            // 
+            // lsvMessages_colTime
+            // 
+            this.lsvMessages_colTime.Text = "Time";
+            this.lsvMessages_colTime.Width = 90;
+            // 
+            // lsvMessages_colID
+            // 
+            this.lsvMessages_colID.Text = "ID";
+            this.lsvMessages_colID.Width = 120;
+            // 
+            // lsvMessages_colData
+            // 
+            this.lsvMessages_colData.Text = "Data";
+            this.lsvMessages_colData.Width = 240;
+            // 
+            // lsvMessages_colFlags
+            // 
+            this.lsvMessages_colFlags.Text = "Flags";
+            // 
+            // mnxTermination
+            // 
+            this.mnxTermination.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mnxTermination.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnxTerminationOff,
+            this.mnxTerminationOn});
+            this.mnxTermination.Name = "mnxPower";
+            this.mnxTermination.Size = new System.Drawing.Size(212, 52);
+            this.mnxTermination.Opening += new System.ComponentModel.CancelEventHandler(this.mnxTermination_Opening);
+            // 
+            // mnxTerminationOff
+            // 
+            this.mnxTerminationOff.Name = "mnxTerminationOff";
+            this.mnxTerminationOff.Size = new System.Drawing.Size(211, 24);
+            this.mnxTerminationOff.Text = "Turn termination off";
+            // 
+            // mnxTerminationOn
+            // 
+            this.mnxTerminationOn.Name = "mnxTerminationOn";
+            this.mnxTerminationOn.Size = new System.Drawing.Size(211, 24);
+            this.mnxTerminationOn.Text = "Turn termination on";
+            // 
+            // mnxLoad
+            // 
+            this.mnxLoad.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mnxLoad.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnxLoadOff,
+            this.mnxLoad1,
+            this.mnxLoadOn1,
+            this.mnxLoadOn2,
+            this.mnxLoadOn3,
+            this.mnxLoadOn4,
+            this.mnxLoadOn5,
+            this.mnxLoad2,
+            this.mnxLoadOn6,
+            this.mnxLoadOn7,
+            this.mnxLoadOn8,
+            this.mnxLoadOn9});
+            this.mnxLoad.Name = "mnxPower";
+            this.mnxLoad.Size = new System.Drawing.Size(220, 284);
+            this.mnxLoad.Opening += new System.ComponentModel.CancelEventHandler(this.mnxLoad_Opening);
+            // 
+            // mnxLoadOff
+            // 
+            this.mnxLoadOff.Name = "mnxLoadOff";
+            this.mnxLoadOff.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOff.Text = "Turn load off";
+            this.mnxLoadOff.Click += new System.EventHandler(this.mnxLoadOff_Click);
+            // 
+            // mnxLoad1
+            // 
+            this.mnxLoad1.Name = "mnxLoad1";
+            this.mnxLoad1.Size = new System.Drawing.Size(216, 6);
+            // 
+            // mnxLoadOn1
+            // 
+            this.mnxLoadOn1.Name = "mnxLoadOn1";
+            this.mnxLoadOn1.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn1.Text = "Turn load on (level 1)";
+            this.mnxLoadOn1.Click += new System.EventHandler(this.mnxLoadOn1_Click);
+            // 
+            // mnxLoadOn2
+            // 
+            this.mnxLoadOn2.Name = "mnxLoadOn2";
+            this.mnxLoadOn2.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn2.Text = "Turn load on (level 2)";
+            this.mnxLoadOn2.Click += new System.EventHandler(this.mnxLoadOn2_Click);
+            // 
+            // mnxLoadOn3
+            // 
+            this.mnxLoadOn3.Name = "mnxLoadOn3";
+            this.mnxLoadOn3.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn3.Text = "Turn load on (level 3)";
+            this.mnxLoadOn3.Click += new System.EventHandler(this.mnxLoadOn3_Click);
+            // 
+            // mnxLoadOn4
+            // 
+            this.mnxLoadOn4.Name = "mnxLoadOn4";
+            this.mnxLoadOn4.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn4.Text = "Turn load on (level 4)";
+            this.mnxLoadOn4.Click += new System.EventHandler(this.mnxLoadOn4_Click);
+            // 
+            // mnxLoadOn5
+            // 
+            this.mnxLoadOn5.Name = "mnxLoadOn5";
+            this.mnxLoadOn5.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn5.Text = "Turn load on (level 5)";
+            this.mnxLoadOn5.Click += new System.EventHandler(this.mnxLoadOn5_Click);
+            // 
+            // mnxLoad2
+            // 
+            this.mnxLoad2.Name = "mnxLoad2";
+            this.mnxLoad2.Size = new System.Drawing.Size(216, 6);
+            // 
+            // mnxLoadOn6
+            // 
+            this.mnxLoadOn6.Name = "mnxLoadOn6";
+            this.mnxLoadOn6.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn6.Text = "Turn load on (level 6)";
+            this.mnxLoadOn6.Click += new System.EventHandler(this.mnxLoadOn6_Click);
+            // 
+            // mnxLoadOn7
+            // 
+            this.mnxLoadOn7.Name = "mnxLoadOn7";
+            this.mnxLoadOn7.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn7.Text = "Turn load on (level 7)";
+            this.mnxLoadOn7.Click += new System.EventHandler(this.mnxLoadOn7_Click);
+            // 
+            // mnxLoadOn8
+            // 
+            this.mnxLoadOn8.Name = "mnxLoadOn8";
+            this.mnxLoadOn8.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn8.Text = "Turn load on (level 8)";
+            this.mnxLoadOn8.Click += new System.EventHandler(this.mnxLoadOn8_Click);
+            // 
+            // mnxLoadOn9
+            // 
+            this.mnxLoadOn9.Name = "mnxLoadOn9";
+            this.mnxLoadOn9.Size = new System.Drawing.Size(219, 24);
+            this.mnxLoadOn9.Text = "Turn load on (level 9)";
+            this.mnxLoadOn9.Click += new System.EventHandler(this.mnxLoadOn9_Click);
             // 
             // MainForm
             // 
@@ -448,7 +573,9 @@ namespace CanankaTest {
             this.mnu.PerformLayout();
             this.sta.ResumeLayout(false);
             this.sta.PerformLayout();
-            this.mnxFeatures.ResumeLayout(false);
+            this.mnxPower.ResumeLayout(false);
+            this.mnxTermination.ResumeLayout(false);
+            this.mnxLoad.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -482,7 +609,7 @@ namespace CanankaTest {
         private System.Windows.Forms.ToolStripStatusLabel staPower;
         private System.Windows.Forms.ToolStripStatusLabel staTermination;
         private System.Windows.Forms.ToolStripStatusLabel staTxRxWarning;
-        private System.Windows.Forms.ContextMenuStrip mnxFeatures;
+        private System.Windows.Forms.ContextMenuStrip mnxPower;
         private System.Windows.Forms.ToolStripMenuItem mnxPowerOn;
         private System.Windows.Forms.ToolStripMenuItem mnxPowerOff;
         private System.Windows.Forms.ToolStripStatusLabel staMessagesPerSecond;
@@ -491,12 +618,26 @@ namespace CanankaTest {
         private System.Windows.Forms.ToolStripStatusLabel staErrorPassive;
         private System.Windows.Forms.ToolStripStatusLabel staArbitationLost;
         private System.Windows.Forms.ToolStripStatusLabel staBusError;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem mnxTerminationOn;
-        private System.Windows.Forms.ToolStripMenuItem mnxTerminationOff;
         private System.Windows.Forms.ColumnHeader lsvMessages_colTime;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton mnuSend;
+        private System.Windows.Forms.ToolStripStatusLabel staLoad;
+        private System.Windows.Forms.ContextMenuStrip mnxTermination;
+        private System.Windows.Forms.ToolStripMenuItem mnxTerminationOn;
+        private System.Windows.Forms.ToolStripMenuItem mnxTerminationOff;
+        private System.Windows.Forms.ContextMenuStrip mnxLoad;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOff;
+        private System.Windows.Forms.ToolStripSeparator mnxLoad1;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn1;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn2;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn3;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn4;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn5;
+        private System.Windows.Forms.ToolStripSeparator mnxLoad2;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn6;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn7;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn8;
+        private System.Windows.Forms.ToolStripMenuItem mnxLoadOn9;
     }
 }
 
