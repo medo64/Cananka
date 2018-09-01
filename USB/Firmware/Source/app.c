@@ -8,6 +8,7 @@
 #include "io.h"
 #include "state.h"
 #include "uart.h"
+#include "random.h"
 
 
 #define BEL '\a'
@@ -18,9 +19,12 @@
 void processUart(void);
 void reportBufferMessage(void);
 void reportBufferEmpty(void);
+void sendRandomMessage(void);
+
+uint16_t index = 0;
 
 
-void main(void) {    
+void main(void) {
     init();
     io_setup();
 
@@ -38,10 +42,10 @@ void main(void) {
 
 
     uint16_t ledDelay = 0;
-    
+
     while (true) {
         ClrWdt();
-        
+
         if (can_isOpen()) {
             ledDelay--;
             if (ledDelay == 0xD000) { io_led_on(); }
@@ -78,6 +82,13 @@ void main(void) {
         }
         
         processUart();
+
+        if (State_LoadLevel > 0) {
+            index++;
+            if ((index & (0xFFFF >> State_LoadLevel)) == 0) {
+                sendRandomMessage();
+            }
+        }
     }
 }
 
@@ -162,4 +173,29 @@ void reportBufferMessage() {
 void reportBufferEmpty() {
     uart_writeByte(CR);
     if (State_ExtraLf) { uart_writeByte(LF); }
+}
+
+void sendRandomMessage() {
+    CAN_MESSAGE message;
+    message.Flags.IsExtended = ((random_getByte() & 0x01) == 0); //50% extended
+    if (message.Flags.IsExtended) {
+        message.Header.ID = (random_getByte() >> 5); message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();       message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();       message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();
+    } else {
+        message.Header.ID = (random_getByte() >> 5); message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();
+    }
+
+    message.Flags.IsRemoteRequest = ((random_getByte() & 0x1F) == 0); //3.1% remote frame probability
+    message.Flags.Length = (random_getByte() & 0x07); //select length - each number has 12.5% probability
+    if (!message.Flags.IsRemoteRequest) {
+        if ((message.Flags.Length == 0) && (random_getByte() & 0x80)) { message.Flags.Length = 8; } //lengths 0 and 8 have 6.25% probability
+        for (uint8_t i=0; i<message.Flags.Length; i++) {
+            message.Data[i] = random_getByte();
+        }
+    }
+
+    can_write(message);
 }

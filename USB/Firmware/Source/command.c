@@ -346,9 +346,27 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 if (anyError) { state |= 0b00001000; }
                 if (io_out_getPower()) { state |= 0b00010000; }
                 if (io_out_getTermination()) { state |= 0b00100000; }
+                if (State_LoadLevel > 0) { state |= 0b01000000; }
                 if (State_ExtraLf || State_ErrorDetail || State_Echo || State_Cansend) { state |= 0b10000000; }
                 uart_writeString("*F");
                 uart_writeHexUInt8(state);
+                return true;
+            } else {
+                sendErrorDetail('p');
+                return false;
+            }
+        }
+
+        case 'L': {
+            if (!can_isOpen()) {
+                sendErrorDetail('a');
+                return false;
+            } else if (count == 1) {
+                uart_writeString("*L");
+                uart_writeByte(0x30 + State_LoadLevel);
+                return true;
+            } else if ((count == 2) && (buffer[1] >= '0') && (buffer[1] <= '9')) {
+                State_LoadLevel = buffer[1] - 0x30;
                 return true;
             } else {
                 sendErrorDetail('p');
@@ -418,6 +436,7 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 io_out_powerOff();
                 io_out_terminationOff();
                 State_AutoPoll = true;
+                State_LoadLevel = 0;
 
                 State_ExtraLf = false;
                 State_ErrorDetail = false;

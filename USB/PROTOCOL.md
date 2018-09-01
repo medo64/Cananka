@@ -316,8 +316,29 @@ Following are bits and their meanings:
 |   3 | 0x08  | Any Errors     | Returns if any errors are present                                      |
 |   4 | 0x10  | Power          | Returns if power is turned on                                          |
 |   5 | 0x20  | Termination    | Returns if termination is turned on                                    |
-|   6 | 0x40  | Not used       | -                                                                      |
+|   6 | 0x40  | Any Load       | Returns if artificial load is being produced by the node               |
 |   7 | 0x80  | Any Debug      | Returns if any debug feature is on                                     |
+
+
+###### Load bus (*L) ######
+
+Device will produce artifical load on bus.
+
+|                 | Send            | Receive         | Notes                            |
+|-----------------|-----------------|-----------------|----------------------------------|
+| Syntax (set)    | *L{1:level}`CR` | `CR`            | Set the load level (0:off)       |
+| Syntax (query)  | *L`CR`          | *P{1:state}`CR` | Returns the current load level   |
+| Example         | *L0`CR`         | `CR`            | Turns load off                   |
+| Example         | *L9`CR`         | `CR`            | Maximum load                     |
+| Example (error) | *LA`CR`         | `BEL`           | Invalid value (p!)               |
+
+When it comes to load levels for this command, 1 is the minimum level and 9 is
+the maximum. However, these numbers do not correspond to any particular TPS but
+rather to a relative values. General recommendation is to have each level
+produce double the amount previous level did; e.g. if level 1 corresponds to 1
+TPS, then level 2 will be 2 TPS, level 3 will be 4 TPS and so on. All parameters
+used for these messages will be produced randomly, including ID, length, and
+data.
 
 
 ###### Power CAN bus (*P) ######

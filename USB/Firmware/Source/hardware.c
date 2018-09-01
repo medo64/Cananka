@@ -1,11 +1,14 @@
 #include <p18cxxx.h>
 
 #include "hardware.h"
+#include "random.h"
 
 
 void init(void) {
     //disable interrupts
     GIE = 0;
+
+    random_init();
 
     //wait for PLL lock
     PLLEN = 1;
