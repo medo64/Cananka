@@ -26,7 +26,7 @@ Current: 100 mA
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
 |  4 | R 120 0.125W (0805)                       | R1-R4   | 311-120CRCT-ND             |                                 |
 |  4 | R 330 0.125W (0805)                       | R5-R8   | RMCF0805FT330RCT-ND        | CR0805-FX-3300GLFCT-ND          |
-|  7 | R 1K 0.125W (0805)                        | R9-R15  | RMCF0805FT1K00CT-ND        | 311-1.00KCRCT-ND                |
+|  8 | R 1K 0.125W (0805)                        | R9-R16  | RMCF0805FT1K00CT-ND        | 311-1.00KCRCT-ND                |
 |  1 | U MCP2221A (TSSOP-14)                     | U1      | MCP2221A-I/ST-ND           |                                 |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                                 |
 |  1 | U ISO1050 (SOP-8)                         | U3      | 296-24818-1-ND             |                                 |
