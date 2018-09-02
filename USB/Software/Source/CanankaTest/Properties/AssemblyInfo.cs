@@ -4,8 +4,8 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CanStick")]
-[assembly: AssemblyDescription("CAN bus communication program for a CanStick device.")]
+[assembly: AssemblyTitle("CanankaTest")]
+[assembly: AssemblyDescription("CAN bus communication program for a Cananka or orher SLCAN compatible device.")]
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]

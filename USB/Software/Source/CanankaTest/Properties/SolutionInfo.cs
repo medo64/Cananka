@@ -1,6 +1,6 @@
 using System.Reflection;
 
-[assembly: AssemblyProduct("CanStick")]
+[assembly: AssemblyProduct("Cananka")]
 [assembly: AssemblyCompany("Josip Medved")]
 [assembly: AssemblyCopyright("Copyright (c) 2014 Josip Medved <jmedved@jmedved.com>")]
 
