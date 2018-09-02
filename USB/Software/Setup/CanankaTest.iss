@@ -63,7 +63,7 @@ Source: "..\..\..\LICENSE.md";  DestDir: "{app}";  DestName: "License.txt";  Fla
 
 
 [Icons]
-Name: "{userstartmenu}\CanankaTest"; Filename: "{app}\CanankaTest.exe"
+Name: "{userstartmenu}\Cananka Test"; Filename: "{app}\CanankaTest.exe"
 
 
 [Run]
