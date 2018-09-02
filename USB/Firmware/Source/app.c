@@ -16,12 +16,13 @@
 #define CR  '\r'
 
 
+#define LOAD_MASK  0xFFFF
+
+
 void processUart(void);
 void reportBufferMessage(void);
 void reportBufferEmpty(void);
 void sendRandomMessage(void);
-
-uint16_t index = 0;
 
 
 void main(void) {
@@ -41,6 +42,7 @@ void main(void) {
     can_setup_125k();
 
 
+    uint16_t loadIndex = 0;
     uint16_t ledDelay = 0;
 
     while (true) {
@@ -84,8 +86,8 @@ void main(void) {
         processUart();
 
         if (State_LoadLevel > 0) {
-            index++;
-            if ((index & (0xFFFF >> State_LoadLevel)) == 0) {
+            loadIndex++;
+            if ((loadIndex & (LOAD_MASK >> State_LoadLevel)) == 0) {
                 sendRandomMessage();
             }
         }
