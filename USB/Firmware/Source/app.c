@@ -17,6 +17,7 @@
 
 
 #define LOAD_MASK  0xFFFF
+#define LED_DECAY_START  0x1000
 
 
 void processUart(void);
@@ -43,27 +44,22 @@ void main(void) {
 
 
     uint16_t loadIndex = 0;
-    uint16_t ledDelay = 0;
+    uint16_t ledDecay = 0;
 
     while (true) {
         ClrWdt();
 
-        if (can_isOpen()) {
-            ledDelay--;
-            if (ledDelay == 0xD000) { io_led_on(); }
-        } else {
-            io_led_off();
-        }
-
+        bool toggleCanActivity = false;
+        
         while ( (CanBufferCount < CAN_BUFFER_MAX) && can_tryRead(&CanBuffer[CanBufferEnd]) ) {
-            io_led_off(); ledDelay = 0;
+            toggleCanActivity = true;
             CanBufferEnd++;
             CanBufferCount++;
         }
 
         if (State_AutoPoll) {
             if (CanBufferCount > 0) {
-                io_led_off(); ledDelay = 0;
+                toggleCanActivity = true;
                 reportBufferMessage();
                 CanBufferStart++;
                 CanBufferCount--;
@@ -88,8 +84,23 @@ void main(void) {
         if (State_LoadLevel > 0) {
             loadIndex++;
             if ((loadIndex & (LOAD_MASK >> State_LoadLevel)) == 0) {
+                toggleCanActivity = true;
                 sendRandomMessage();
             }
+        }
+
+        if (can_isOpen()) {
+            if (toggleCanActivity) {
+                io_led_toggle(); //not turned off to prevent it never lighting under load
+                if (ledDecay == 0) { ledDecay = LED_DECAY_START; }
+            } else if (ledDecay == 0) {
+                io_led_on();
+            } else {
+                ledDecay--;
+            }
+        } else {
+            io_led_off();
+            ledDecay = 0;
         }
     }
 }
