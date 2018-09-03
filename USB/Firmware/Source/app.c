@@ -82,10 +82,14 @@ void main(void) {
         processUart();
 
         if (State_LoadLevel > 0) {
-            loadIndex++;
-            if ((loadIndex & (LOAD_MASK >> State_LoadLevel)) == 0) {
-                toggleCanActivity = true;
-                sendRandomMessage();
+            if (can_isOpen()) {
+                loadIndex++;
+                if ((loadIndex & (LOAD_MASK >> State_LoadLevel)) == 0) {
+                    toggleCanActivity = true;
+                    sendRandomMessage();
+                }
+            } else {
+                State_LoadLevel = 0;
             }
         }
 
