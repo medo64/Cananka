@@ -7,6 +7,7 @@
 DEVICE_TYPE cachedType = DEVICE_UNKNOWN;
 bool cachedSupportsPower;
 bool cachedSupportsTermination;
+bool cachedSupportsUsbStatus;
 bool cachedNeedsClockOut;
 uint8_t cachedRevision;
 
@@ -39,6 +40,7 @@ void device_init() {
         cachedRevision = 1;
         cachedSupportsPower = false;
         cachedSupportsTermination = false;
+        cachedSupportsUsbStatus = false;
         cachedNeedsClockOut = true;
     } else if (!bitA3 && bitA5) { //USB
         cachedType = DEVICE_CANANKA_USB;
@@ -46,12 +48,15 @@ void device_init() {
         cachedSupportsTermination = false;
         if (bitB0 && bitB1 && bitB4) { //USB [B]
             cachedRevision = 2;
+            cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = true;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB [D]
             cachedRevision = 4;
+            cachedSupportsUsbStatus = true;
             cachedNeedsClockOut = false;
         } else {
             cachedRevision = 0;
+            cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = false;
         }
     } else if (bitA3 && bitA5) { //USB RJ-45
@@ -60,15 +65,15 @@ void device_init() {
         cachedSupportsTermination = false;
         if (bitB0 && bitB1 && bitB4) { //USB RJ-45 [B]
             cachedRevision = 2;
-            cachedNeedsClockOut = true;
-        } else if (!bitB0 && bitB1 && bitB4) { //USB RJ-45 [C]
-            cachedRevision = 3;
+            cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = true;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
             cachedRevision = 4;
+            cachedSupportsUsbStatus = true;
             cachedNeedsClockOut = false;
         } else {
             cachedRevision = 0;
+            cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = false;
         }
     } else if (!bitA3 && !bitA5) {
@@ -78,14 +83,20 @@ void device_init() {
         cachedNeedsClockOut = false;
         if (bitB0 && bitB1 && bitB4) { //USB/mini [B C D]
             cachedRevision = 1;
+            cachedSupportsUsbStatus = false;
+        } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
+            cachedRevision = 4;
+            cachedSupportsUsbStatus = true;
         } else {
             cachedRevision = 0;
+            cachedSupportsUsbStatus = false;
         }
     } else {
         cachedType = DEVICE_CANANKA_USB;
         cachedRevision = 0;
         cachedSupportsPower = false;
         cachedSupportsTermination = false;
+        cachedSupportsUsbStatus = false;
         cachedNeedsClockOut = false;
     }
 }
