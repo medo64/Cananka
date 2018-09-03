@@ -11,6 +11,9 @@ typedef enum DEVICE_TYPE {
     DEVICE_CANANKA_USB_MINI
 } DEVICE_TYPE;
 
+
+void device_init(void);
+
 DEVICE_TYPE device_getType(void);
 uint8_t device_getRevision(void);
 

@@ -1,5 +1,6 @@
 #include <p18cxxx.h>
 
+#include "device.h"
 #include "hardware.h"
 #include "random.h"
 
@@ -25,9 +26,7 @@ void init(void) {
 
     //versioning
     WPUB = 0; //disable all pull-ups
-    RBPU = 0; //enable port B pull-ups
-    TRISA3 = 0; TRISA5 = 0; TRISB1 = 0; TRISB4 = 0;
-    ANSEL3 = 0; ANSEL4 = 0; ANSEL8 = 0; ANSEL9 = 0;
+    device_init();
 
     //io
     TRISC5 = 0; //O LED
