@@ -15,7 +15,8 @@ typedef enum DEVICE_TYPE {
 void device_init(void);
 
 DEVICE_TYPE device_getType(void);
-uint8_t device_getRevision(void);
+uint8_t device_getMajor(void);
+uint8_t device_getMinor(void);
 
 bool device_supportsPower(void);
 bool device_supportsTermination(void);

@@ -12,40 +12,75 @@ uint8_t cachedRevision;
 
 
 void device_init() {
-    //| A3 | A5 | B0 | B1 | Type     | Revision  | PIC Clock | UART Clock | Termination | Power Supply |
-    //|----|----|----|----|----------|-----------|-----------|------------|-------------|--------------|
-    //| L  | L  | H  | H  | USBmini  | 1 (B C)   | MCP2221A  | MCP2221A   | Yes         | Yes          |
-    //| L  | H  | H  | H  | USB      | 1 (C)     | Crystal   | PIC        | No          | No           |
-    //| L  | H  | H  | L  | USB      | 2 (D)     | Crystal   | MCP2221A   | No          | No           |
-    //| H  | H  | H  | H  | USB-RJ45 | 1 (C)     | Crystal   | PIC        | No          | No           |
-    //| H  | H  | H  | L  | USB-RJ45 | 2 (D)     | Crystal   | MCP2221A   | No          | No           |
+    //| A3 | A5 | B0 | B1 | B4 | Type     | Revision  | PIC Clock | UART Clock | Termination | Power Supply |
+    //|----|----|----|----|----|----------|-----------|-----------|------------|-------------|--------------|
+    //| X  | X  | L  | H  | H  | USB      | 1 (A)     | Crystal   | PIC        | No          | No           |
+    //| L  | L  | H  | H  | H  | USBmini  | 1 (A B C) | MCP2221A  | MCP2221A   | Yes         | Yes          |
+    //| L  | H  | L  | L  | H  | USB      | 3 (D)     | Crystal   | MCP2221A   | No          | No           |
+    //| L  | H  | L  | H  | H  | USB      | 2 (C)     | Crystal   | PIC        | No          | No           |
+    //| L  | H  | H  | H  | H  | USB      | 1 (B)     | Crystal   | PIC        | No          | No           |
+    //| H  | H  | L  | L  | H  | USB-RJ45 | 2 (D)     | Crystal   | MCP2221A   | No          | No           |
+    //| H  | H  | L  | H  | H  | USB-RJ45 | 1 (C)     | Crystal   | PIC        | No          | No           |
+    //| H  | H  | H  | H  | H  | USB-RJ45 | 1 (B)     | Crystal   | PIC        | No          | No           |
 
-    RBPU = 0; //enable port B pull-ups
-    TRISA3 = 0; TRISA5 = 0; TRISB1 = 0; TRISB0 = 0;
-    ANSEL3 = 0; ANSEL4 = 0; ANSEL8 = 0; ANSEL10 = 0;
+    nRBPU = 0; //enable port B pull-ups
+    WPUB0 = 1; WPUB1 = 1; WPUB4 = 1;
+    TRISA3 = 1; TRISA5 = 1; TRISB0 = 1;  TRISB1 = 1; TRISB4 = 1;
+    ANSEL3 = 0; ANSEL4 = 0; ANSEL10 = 0; ANSEL8 = 0; ANSEL9 = 0;
 
-    unsigned bitA5 = PORTAbits.RA5;
-    unsigned bitA3 = PORTAbits.RA3;
-    unsigned bitB1 = PORTBbits.RB1;
+    unsigned bitA5 = PORTAbits.RA5; //Device Type (1)
+    unsigned bitA3 = PORTAbits.RA3; //Device Type (2)
+    unsigned bitB0 = PORTBbits.RB0; //Aux (1)
+    unsigned bitB1 = PORTBbits.RB1; //Clock out (i.e. FTDI)
+    unsigned bitB4 = PORTBbits.RB4; //Aux (2)
 
-    if (!bitA3 && bitA5) {
+    if (!bitB0 && bitB1 && bitB4) { //USB [A C]
         cachedType = DEVICE_CANANKA_USB;
-        cachedRevision = !bitB1 ? 2 : 1;
+        cachedRevision = 1;
         cachedSupportsPower = false;
         cachedSupportsTermination = false;
-        cachedNeedsClockOut = (cachedRevision > 1);
-    } else if (bitA3 && bitA5) {
+        cachedNeedsClockOut = true;
+    } else if (!bitA3 && bitA5) { //USB
+        cachedType = DEVICE_CANANKA_USB;
+        cachedSupportsPower = false;
+        cachedSupportsTermination = false;
+        if (bitB0 && bitB1 && bitB4) { //USB [B]
+            cachedRevision = 2;
+            cachedNeedsClockOut = true;
+        } else if (!bitB0 && !bitB1 && bitB4) { //USB [D]
+            cachedRevision = 4;
+            cachedNeedsClockOut = false;
+        } else {
+            cachedRevision = 0;
+            cachedNeedsClockOut = false;
+        }
+    } else if (bitA3 && bitA5) { //USB RJ-45
         cachedType = DEVICE_CANANKA_USB_RJ45;
-        cachedRevision = !bitB1 ? 2 : 1;
         cachedSupportsPower = false;
         cachedSupportsTermination = false;
-        cachedNeedsClockOut = (cachedRevision > 1);
+        if (bitB0 && bitB1 && bitB4) { //USB RJ-45 [B]
+            cachedRevision = 2;
+            cachedNeedsClockOut = true;
+        } else if (!bitB0 && bitB1 && bitB4) { //USB RJ-45 [C]
+            cachedRevision = 3;
+            cachedNeedsClockOut = true;
+        } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
+            cachedRevision = 4;
+            cachedNeedsClockOut = false;
+        } else {
+            cachedRevision = 0;
+            cachedNeedsClockOut = false;
+        }
     } else if (!bitA3 && !bitA5) {
         cachedType = DEVICE_CANANKA_USB_MINI;
-        cachedRevision = 1;
         cachedSupportsPower = true;
         cachedSupportsTermination = true;
         cachedNeedsClockOut = false;
+        if (bitB0 && bitB1 && bitB4) { //USB/mini [B C D]
+            cachedRevision = 1;
+        } else {
+            cachedRevision = 0;
+        }
     } else {
         cachedType = DEVICE_CANANKA_USB;
         cachedRevision = 0;
@@ -61,9 +96,19 @@ DEVICE_TYPE device_getType() {
     return cachedType;
 }
 
-uint8_t device_getRevision() {
+uint8_t device_getMajor() {
     if (cachedType == DEVICE_UNKNOWN) { device_init(); }
     return cachedRevision;
+}
+
+uint8_t device_getMinor() {
+    if (cachedType == DEVICE_UNKNOWN) { device_init(); }
+    switch (device_getType()) {
+        case DEVICE_CANANKA_USB: return 0;
+        case DEVICE_CANANKA_USB_RJ45: return 1;
+        case DEVICE_CANANKA_USB_MINI: return 2;
+        default: return 9;
+    }
 }
 
 bool device_supportsPower() {

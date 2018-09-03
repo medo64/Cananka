@@ -198,13 +198,8 @@ bool command_process(uint8_t *buffer, uint8_t count) {
         case 'V': { //Version
             if (count == 1) {
                 uart_writeString("V");
-                uart_writeUInt8(device_getRevision());
-                switch (device_getType()) {
-                    case DEVICE_CANANKA_USB: uart_writeString("0"); break;
-                    case DEVICE_CANANKA_USB_RJ45: uart_writeString("1"); break;
-                    case DEVICE_CANANKA_USB_MINI: uart_writeString("2"); break;
-                    default: uart_writeString("9"); break;
-                }
+                uart_writeUInt8(device_getMajor());
+                uart_writeUInt8(device_getMinor());
                 uart_writeString("10"); //software version
                 return true;
             } else {
