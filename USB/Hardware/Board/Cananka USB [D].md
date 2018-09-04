@@ -33,7 +33,7 @@ Current: 100 mA
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                | VR1     | 945-1655-5-ND              |                                 |
 |  1 | Y Crystal 12MHz 50ppm 20pF                | Y1      | 887-2011-ND                | 887-1238-ND                     |
 |  1 | H Enclosure 1593DBK                       |         | HM861-ND                   |                                 |
-|  4 | H PCB Screw Self-tapping #4 1/4" (M3x6mm) |         | SR6004-ND                  |                                 |
+|  4 | H PCB Screw Self-tapping M3 6mm (#4 1/4") |         | 36-9191-3-ND               | SR6004-ND                       |
 |  2 | P MC 1,5/ 4-ST-3,81                       |         | ED2877-ND                  | 277-1163-ND                     |
 
 
