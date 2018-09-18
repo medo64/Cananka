@@ -31,6 +31,7 @@ void main(void) {
     io_setup();
 
     if (device_needsClockOut()) { activate_clockOut(); } //for older FTDI-based devices
+    if (device_supportsTermination()) { io_out_terminationOn(); } //termination on by default
 
     for (uint8_t i = 0; i < 3; i++) {
         io_led_on();

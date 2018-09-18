@@ -429,7 +429,7 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 can_setup_125k();
 
                 io_out_powerOff();
-                io_out_terminationOff();
+                if (device_supportsTermination()) { io_out_terminationOn(); } //termination on by default
                 State_AutoPoll = true;
                 State_LoadLevel = 0;
 
