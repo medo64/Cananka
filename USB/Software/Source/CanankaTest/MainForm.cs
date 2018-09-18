@@ -515,7 +515,23 @@ namespace CanankaTest {
             if (mnuPorts.Enabled == false) { return; } //don't update when already connected
 
             var ports = System.IO.Ports.SerialPort.GetPortNames();
-            Array.Sort(ports);
+            Array.Sort(ports, delegate (string text1, string text2) {
+                var value1 = 0;
+                foreach (var ch in text1) {
+                    if ((ch >= '0') && (ch <= '9')) { value1 = (value1 * 10) + (ch - 0x30); }
+                }
+
+                var value2 = 0;
+                foreach (var ch in text2) {
+                    if ((ch >= '0') && (ch <= '9')) { value2 = (value2 * 10) + (ch - 0x30); }
+                }
+
+                if ((value1 > 0) && (value2 > 0)) {
+                    return value1 > value2 ? +1 : value1 < value2 ? -1 : 0;
+                } else {
+                    return string.Compare(text1, text2);
+                }
+            });
             var nextPorts = String.Join(" ", ports);
             if (nextPorts != LastPorts) {
                 var lastSelected = mnuPorts.SelectedItem;
