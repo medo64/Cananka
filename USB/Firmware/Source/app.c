@@ -120,8 +120,8 @@ void processUart() {
         if (State_Echo) { uart_writeByte(data); }
 
         if ((data == CR) || (data == LF)) {
-            if (UartBufferCount > 0) {
-                if (command_process(UartBuffer, UartBufferCount)) {
+            if (CommandBufferCount > 0) {
+                if (command_process(CommandBuffer, CommandBufferCount)) {
                     uart_writeByte(CR);
                     if (State_ExtraLf) { uart_writeByte(LF); }
                 } else {
@@ -129,15 +129,15 @@ void processUart() {
                     uart_writeByte(BEL);
                 }
 
-                UartBufferCount = 0;
+                CommandBufferCount = 0;
             }
 
         } else {
-            if (UartBufferCount < UART_BUFFER_MAX) {
-                UartBuffer[UartBufferCount] = data;
-                UartBufferCount++;
+            if (CommandBufferCount < COMMAND_BUFFER_MAX) {
+                CommandBuffer[CommandBufferCount] = data;
+                CommandBufferCount++;
             } else {
-                UartBufferCount = 255; //overflow
+                CommandBufferCount = 255; //overflow
             }
         }
     }

@@ -442,7 +442,7 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
                 while(can_tryRead(&message));
                 CanBufferStart = 0;
                 CanBufferEnd = 0;
-                UartBufferCount = 0;
+                CommandBufferCount = 0;
 
                 return true;
             } else {

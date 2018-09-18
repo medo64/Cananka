@@ -15,9 +15,9 @@ uint8_t State_LoadLevel = 0;
 bool State_AutoPoll = true;
 uint8_t State_ManualPollCount = 0; //UINT8_MAX to poll 
 
-#define UART_BUFFER_MAX  64
-uint8_t UartBuffer[UART_BUFFER_MAX];
-uint8_t UartBufferCount = 0;
+#define COMMAND_BUFFER_MAX  64
+uint8_t CommandBuffer[COMMAND_BUFFER_MAX];
+uint8_t CommandBufferCount = 0;
 
 #define CAN_BUFFER_MAX  255
 CAN_MESSAGE CanBuffer[CAN_BUFFER_MAX];
