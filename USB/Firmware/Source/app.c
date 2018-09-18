@@ -40,7 +40,10 @@ void main(void) {
         wait_short();
     }
 
+    uart_init_withReadInterrupt();
     uart_setup(115200);
+    interrupt_enable();
+
     can_setup_125k();
 
 
@@ -110,10 +113,20 @@ void main(void) {
     }
 }
 
+void __interrupt() isr() {
+    while ( (UartBufferCount < UART_BUFFER_MAX) && uart_tryReadByte(&UartBuffer[UartBufferEnd]) ) {
+        UartBufferEnd = (UartBufferEnd + 1) % UART_BUFFER_MAX;
+        UartBufferCount++;
+    }
+}
 
 void processUart() {
     uint8_t data;
-    while (uart_tryReadByte(&data)) {
+    while (UartBufferCount > 0) {
+        data = UartBuffer[UartBufferStart];
+        UartBufferStart = (UartBufferStart + 1) % UART_BUFFER_MAX;
+        UartBufferCount--;
+
         ClrWdt();
         if (can_isOpen()) { io_led_off(); } else { io_led_on(); } //toggle LED
 
