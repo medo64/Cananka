@@ -9,6 +9,9 @@ bool cachedSupportsPower;
 bool cachedSupportsTermination;
 bool cachedSupportsUsbStatus;
 bool cachedNeedsClockOut;
+bool cachedSupports230K;
+bool cachedSupports460K;
+bool cachedSupports920K;
 uint8_t cachedRevision;
 
 
@@ -43,6 +46,9 @@ void device_init() {
         cachedSupportsTermination = false;
         cachedSupportsUsbStatus = false;
         cachedNeedsClockOut = true;
+        cachedSupports230K = true;
+        cachedSupports460K = true;
+        cachedSupports920K = true;
     } else if (!bitA3 && bitA5) { //USB
         cachedType = DEVICE_CANANKA_USB;
         cachedSupportsPower = false;
@@ -51,14 +57,23 @@ void device_init() {
             cachedRevision = 2;
             cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = true;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = true;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB [D]
             cachedRevision = 4;
             cachedSupportsUsbStatus = true;
             cachedNeedsClockOut = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         } else {
             cachedRevision = 0;
             cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         }
     } else if (bitA3 && bitA5) { //USB RJ-45
         cachedType = DEVICE_CANANKA_USB_RJ45;
@@ -68,14 +83,23 @@ void device_init() {
             cachedRevision = 2;
             cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = true;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = true;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
             cachedRevision = 4;
             cachedSupportsUsbStatus = true;
             cachedNeedsClockOut = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         } else {
             cachedRevision = 0;
             cachedSupportsUsbStatus = false;
             cachedNeedsClockOut = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         }
     } else if (!bitA3 && !bitA5) {
         cachedType = DEVICE_CANANKA_USB_MINI;
@@ -85,15 +109,27 @@ void device_init() {
         if (bitB0 && bitB1 && bitB4) { //USB/mini [B C]
             cachedRevision = 1;
             cachedSupportsUsbStatus = false;
+            cachedSupports230K = false;
+            cachedSupports460K = false;
+            cachedSupports920K = false;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB/mini [D]
             cachedRevision = 4;
             cachedSupportsUsbStatus = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
             cachedRevision = 4;
             cachedSupportsUsbStatus = true;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
         } else {
             cachedRevision = 0;
             cachedSupportsUsbStatus = false;
+            cachedSupports230K = false;
+            cachedSupports460K = false;
+            cachedSupports920K = false;
         }
     } else {
         cachedType = DEVICE_CANANKA_USB;
@@ -102,6 +138,9 @@ void device_init() {
         cachedSupportsTermination = false;
         cachedSupportsUsbStatus = false;
         cachedNeedsClockOut = false;
+        cachedSupports230K = false;
+        cachedSupports460K = false;
+        cachedSupports920K = false;
     }
 }
 
@@ -139,4 +178,19 @@ bool device_supportsTermination() {
 bool device_needsClockOut() {
     if (cachedType == DEVICE_UNKNOWN) { device_init(); }
     return cachedNeedsClockOut;
+}
+
+bool device_supports230K() {
+    if (cachedType == DEVICE_UNKNOWN) { device_init(); }
+    return cachedSupports230K;
+}
+
+bool device_supports460K() {
+    if (cachedType == DEVICE_UNKNOWN) { device_init(); }
+    return cachedSupports460K;
+}
+
+bool device_supports920K() {
+    if (cachedType == DEVICE_UNKNOWN) { device_init(); }
+    return cachedSupports920K;
 }

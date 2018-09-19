@@ -12,6 +12,7 @@
       <itemPath>state.h</itemPath>
       <itemPath>hardware.h</itemPath>
       <itemPath>random.h</itemPath>
+      <itemPath>settings.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -28,6 +29,7 @@
       <itemPath>device.c</itemPath>
       <itemPath>hardware.c</itemPath>
       <itemPath>random.c</itemPath>
+      <itemPath>settings.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

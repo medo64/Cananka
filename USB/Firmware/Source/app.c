@@ -6,9 +6,10 @@
 #include "device.h"
 #include "hardware.h"
 #include "io.h"
+#include "random.h"
+#include "settings.h"
 #include "state.h"
 #include "uart.h"
-#include "random.h"
 
 
 #define BEL '\a'
@@ -41,7 +42,7 @@ void main(void) {
     }
 
     uart_init_withReadInterrupt();
-    uart_setup(115200);
+    uart_setup(settings_getUsartBaudRate());
     interrupt_enable();
 
     can_setup_125k();

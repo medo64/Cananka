@@ -1,11 +1,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <pic18f25k80.h>
+
 #include "can.h"
 #include "device.h"
 #include "hardware.h"
 #include "io.h"
 #include "uart.h"
+#include "settings.h"
 #include "state.h"
 
 
@@ -194,7 +196,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
             }
         }
 
-        
+
         case 'V': { //Version
             if (count == 1) {
                 uart_writeString("V");
@@ -234,6 +236,58 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                 return true;
             } else {
                 return command_process_cansend(&buffer[0], count); //behave as this is ID for sending message
+            }
+        }
+
+
+        case 'U': { //Set USART speed
+            if (can_isOpen()) {
+                sendErrorDetail('a');
+                return false;
+            }
+            if (count == 2) {
+                switch (buffer[1]) {
+                    case 'Y':
+                        if (device_supports920K()) {
+                            settings_setUsartBaudRate(921600);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case 'Z':
+                        if (device_supports460K()) {
+                            settings_setUsartBaudRate(460800);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case '0':
+                        if (device_supports230K()) {
+                            settings_setUsartBaudRate(230400);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case '1': settings_setUsartBaudRate(115200); reset(); return true;
+                    case '2':  settings_setUsartBaudRate(57600); reset(); return true;
+                    case '3':  settings_setUsartBaudRate(38400); reset(); return true;
+                    case '4':  settings_setUsartBaudRate(19200); reset(); return true;
+                    case '5':   settings_setUsartBaudRate(9600); reset(); return true;
+                    case '6':   settings_setUsartBaudRate(2400); reset(); return true;
+                    default: {
+                        sendErrorDetail('p');
+                        return false;
+                    }
+                }
+            } else {
+                sendErrorDetail('p');
+                return false;
             }
         }
         

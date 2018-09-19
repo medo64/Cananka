@@ -22,4 +22,8 @@ bool device_supportsPower(void);
 bool device_supportsTermination(void);
 bool device_needsClockOut(void);
 
+bool device_supports230K(void);
+bool device_supports460K(void);
+bool device_supports920K(void);
+
 #endif

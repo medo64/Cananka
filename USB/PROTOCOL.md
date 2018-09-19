@@ -252,6 +252,36 @@ Following are bits and their meanings:
 |   7 | 0x80  | Bus error        |
 
 
+##### Permanent commands #####
+
+###### Set UART speed (U) ######
+
+This command will set the UART speed. Device will reset afterward. Speed will be
+set permanently and used upon the next startup.
+
+|                 | Send            | Receive         | Notes                                                      |
+|-----------------|-----------------|-----------------|------------------------------------------------------------|
+| Syntax          | U{1:index}`CR`  | `CR` -or- `BEL` |                                                            |
+| Example         | U1`CR`          | `CR`            | Speed is set to 115200 baud (default)                      |
+| Example (error) | Ux`CR`          | `BEL`           | Invalid speed (p!)                                         |
+| Example (error) | U4`CR`          | `BEL`           | Setting speed on open channel (a!)                         |
+| Example (error) | U9`CR`          | `BEL`           | Unsupported speed (e!)                                     |
+
+The following values are allowed (default is 115200 baud):
+
+| Index | Baud Rate  | Notes                                               |
+|------:|-----------:|-----------------------------------------------------|
+|   Y   |  *921600*  | Supported only on USB revision C (FTDI) devices     |
+|   Z   |  *460800*  | Supported only on USB revision D (MCP2221A) devices |
+|   0   |  *230400*  | Supported only on USB revision D (MCP2221A) devices |
+| **1** | **115200** |                                                     |
+|   2   |    57600   |                                                     |
+|   3   |    38400   |                                                     |
+|   4   |    19200   |                                                     |
+|   5   |     9600   |                                                     |
+|   6   |     2400   |                                                     |
+
+
 ##### Extra commands #####
 
 In addition to standard SLCAN commands, there are additional commands available.
