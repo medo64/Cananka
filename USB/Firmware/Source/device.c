@@ -15,14 +15,15 @@ uint8_t cachedRevision;
 void device_init() {
     //| A3 | A5 | B0 | B1 | B4 | Type     | Revision  | PIC Clock | UART Clock | Termination | Power Supply |
     //|----|----|----|----|----|----------|-----------|-----------|------------|-------------|--------------|
-    //| X  | X  | L  | H  | H  | USB      | 1 (A)     | Crystal   | PIC        | No          | No           |
-    //| L  | L  | H  | H  | H  | USBmini  | 1 (A B C) | MCP2221A  | MCP2221A   | Yes         | Yes          |
-    //| L  | H  | L  | L  | H  | USB      | 3 (D)     | Crystal   | MCP2221A   | No          | No           |
-    //| L  | H  | L  | H  | H  | USB      | 2 (C)     | Crystal   | PIC        | No          | No           |
-    //| L  | H  | H  | H  | H  | USB      | 1 (B)     | Crystal   | PIC        | No          | No           |
-    //| H  | H  | L  | L  | H  | USB-RJ45 | 2 (D)     | Crystal   | MCP2221A   | No          | No           |
-    //| H  | H  | L  | H  | H  | USB-RJ45 | 1 (C)     | Crystal   | PIC        | No          | No           |
-    //| H  | H  | H  | H  | H  | USB-RJ45 | 1 (B)     | Crystal   | PIC        | No          | No           |
+    //| X  | X  | L  | H  | H  | USB      | 3 (A)     | Crystal   | PIC        | No          | No           |
+    //| L  | L  | L  | L  | H  | USBmini  | 4 (D)     | MCP2221A  | MCP2221A   | Yes         | Yes          |
+    //| L  | L  | H  | H  | H  | USBmini  | 1 (A B C) | MCP2221   | MCP2221    | Yes         | Yes          |
+    //| L  | H  | L  | L  | H  | USB      | 4 (D)     | Crystal   | MCP2221A   | No          | No           |
+    //| L  | H  | L  | H  | H  | USB      | 3 (C)     | Crystal   | PIC        | No          | No           |
+    //| L  | H  | H  | H  | H  | USB      | 2 (B)     | Crystal   | PIC        | No          | No           |
+    //| H  | H  | L  | L  | H  | USB-RJ45 | 4 (D)     | Crystal   | MCP2221A   | No          | No           |
+    //| H  | H  | L  | H  | H  | USB-RJ45 | 3 (C)     | Crystal   | PIC        | No          | No           |
+    //| H  | H  | H  | H  | H  | USB-RJ45 | 2 (B)     | Crystal   | PIC        | No          | No           |
 
     nRBPU = 0; //enable port B pull-ups
     WPUB0 = 1; WPUB1 = 1; WPUB4 = 1;
@@ -32,12 +33,12 @@ void device_init() {
     unsigned bitA5 = PORTAbits.RA5; //Device Type (1)
     unsigned bitA3 = PORTAbits.RA3; //Device Type (2)
     unsigned bitB0 = PORTBbits.RB0; //Aux (1)
-    unsigned bitB1 = PORTBbits.RB1; //Clock out (i.e. FTDI)
-    unsigned bitB4 = PORTBbits.RB4; //Aux (2)
+    unsigned bitB1 = PORTBbits.RB1; //Aux (2)
+    unsigned bitB4 = PORTBbits.RB4; //Aux (3)
 
     if (!bitB0 && bitB1 && bitB4) { //USB [A C]
         cachedType = DEVICE_CANANKA_USB;
-        cachedRevision = 1;
+        cachedRevision = 3;
         cachedSupportsPower = false;
         cachedSupportsTermination = false;
         cachedSupportsUsbStatus = false;
@@ -81,8 +82,11 @@ void device_init() {
         cachedSupportsPower = true;
         cachedSupportsTermination = true;
         cachedNeedsClockOut = false;
-        if (bitB0 && bitB1 && bitB4) { //USB/mini [B C D]
+        if (bitB0 && bitB1 && bitB4) { //USB/mini [B C]
             cachedRevision = 1;
+            cachedSupportsUsbStatus = false;
+        } else if (!bitB0 && !bitB1 && bitB4) { //USB/mini [D]
+            cachedRevision = 4;
             cachedSupportsUsbStatus = false;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB RJ-45 [D]
             cachedRevision = 4;
