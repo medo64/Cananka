@@ -27,7 +27,7 @@ Current: 500 mA
 |  6 | R 1K 0.125W (0805)                        | R8-R13  | RMCF0805FT1K00CT-ND        | 311-1.00KCRCT-ND                |
 |  1 | U MCP2221A (TSSOP-14)                     | U1      | MCP2221A-I/ST-ND           |                                 |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                                 |
-|  1 | U MCP2561 (SOIC-8)                        | U3      | MCP2561-E/SN-ND            | MCP2562-E/SN-ND 568-10289-1-ND  |
+|  1 | U MCP2561 (SOIC-8)                        | U3      | MCP2561-E/SN-ND            | 568-10289-1-ND                  |
 |  1 | P MC 1,5/ 4-ST-3,81                       |         | ED2877-ND                  | 277-1163-ND                     |
 
 1/2" heat-shrink tubing, 50mm
