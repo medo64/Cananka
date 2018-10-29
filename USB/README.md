@@ -26,6 +26,18 @@ code generally works just fine. However, if any issues are found, it is unlikely
 they will be addressed.
 
 
+#### Cananka USB-RJ45 ####
+
+[Cananka USB-RJ45](README-RJ45.md) is essentially the same board but with RJ-45
+connector on CAN bus end.
+
+
+#### Cananka USB/mini ####
+
+[Cananka USB/mini](README-mini.md) is smaller variant directly pluggable into
+USB type A connector and without CAN bus isolation.
+
+
 ---
 
 *You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/)*

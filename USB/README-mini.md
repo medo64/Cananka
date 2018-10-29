@@ -16,6 +16,18 @@ bus side.
 | Cxxxx    | Yes        | Yes          | Yes          | First revision.                                |
 
 
+#### Cananka USB ####
+
+[Cananka USB](README.md) is essentially the same board but with Phoenix 4-pin
+connector on CAN bus end.
+
+
+#### Cananka USB-RJ45 ####
+
+[Cananka USB-RJ45](README-RJ45.md) is essentially the same board but with RJ-45
+connector on CAN bus end.
+
+
 ---
 
 *You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/)*

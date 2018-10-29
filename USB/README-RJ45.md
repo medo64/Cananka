@@ -21,6 +21,17 @@ code generally works just fine. However, if any issues are found, it is unlikely
 they will be addressed.
 
 
+#### Cananka USB ####
+
+[Cananka USB](README.md) is essentially the same board but with Phoenix 4-pin
+connector on CAN bus end.
+
+
+#### Cananka USB/mini ####
+
+[Cananka USB/mini](README-mini.md) is smaller variant directly pluggable into
+USB type A connector and without CAN bus isolation.
+
 ---
 
 *You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/)*

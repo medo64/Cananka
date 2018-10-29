@@ -9,8 +9,8 @@ read-me file:
 
 * [HAT](HAT/README.md)
 * [USB](USB/README.md)
-* [USB-RJ45](USB-RJ45/README.md)
-* [USB/mini](USBmini/README.md)
+* [USB-RJ45](USB/README-RJ45.md)
+* [USB/mini](USB/README-mini.md)
 
 ---
 
