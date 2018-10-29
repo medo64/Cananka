@@ -20,7 +20,7 @@ Current: 100 mA
 |  3 | C 10uF X5R 16V (0805)                     | C8-C10  | 1276-1096-1-ND             |                                 |
 |  1 | D TVS 150W Zenner CAN (SOT23-3)           | D1      | 497-13262-1-ND             | 568-4032-1-ND                   |
 |  1 | DS LED RGB CA (1204)                      | DS1     | 160-2234-1-ND              |                                 |
-|  6 | DS LED (0805)                             | DS2-DS7 | 475-1415-1-ND              |                                 |
+|  5 | DS LED (0805)                             | DS2-DS6 | 475-1415-1-ND              |                                 |
 |  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                                 |
 |  1 | J MC 1,5/ 4-G-3,81                        | J2      | ED2810-ND                  | 277-1208-ND                     |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
