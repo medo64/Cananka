@@ -94,7 +94,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\SolutionInfo.cs" />
-    <Compile Include="%28Medo%29\Cananka [001].cs" />
+    <Compile Include="%28Medo%29\Cananka [002].cs" />
     <Compile Include="SendMessageForm.cs">
       <SubType>Form</SubType>
     </Compile>
