@@ -41,6 +41,8 @@ namespace CanankaTest {
             this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSend = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuVersion = new System.Windows.Forms.ToolStripButton();
             this.sta = new System.Windows.Forms.StatusStrip();
             this.staStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.staRxQueueFull = new System.Windows.Forms.ToolStripStatusLabel();
@@ -101,7 +103,9 @@ namespace CanankaTest {
             this.mnuDisconnect,
             this.mnuApp,
             this.toolStripSeparator1,
-            this.mnuSend});
+            this.mnuSend,
+            this.toolStripSeparator3,
+            this.mnuVersion});
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
@@ -239,6 +243,21 @@ namespace CanankaTest {
             this.mnuSend.Text = "Send";
             this.mnuSend.ToolTipText = "Send message";
             this.mnuSend.Click += new System.EventHandler(this.mnuSend_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 28);
+            // 
+            // mnuVersion
+            // 
+            this.mnuVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuVersion.Image = global::CanankaTest.Properties.Resources.mnuVersion_16;
+            this.mnuVersion.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuVersion.Name = "mnuVersion";
+            this.mnuVersion.Size = new System.Drawing.Size(24, 25);
+            this.mnuVersion.Text = "toolStripButton1";
+            this.mnuVersion.Click += new System.EventHandler(this.mnuVersion_Click);
             // 
             // sta
             // 
@@ -638,6 +657,8 @@ namespace CanankaTest {
         private System.Windows.Forms.ToolStripMenuItem mnxLoadOn7;
         private System.Windows.Forms.ToolStripMenuItem mnxLoadOn8;
         private System.Windows.Forms.ToolStripMenuItem mnxLoadOn9;
+        private System.Windows.Forms.ToolStripButton mnuVersion;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

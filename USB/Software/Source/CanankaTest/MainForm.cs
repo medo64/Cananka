@@ -104,6 +104,8 @@ namespace CanankaTest {
         #region Document
 
         private Cananka Document = null;
+
+        private CanankaVersion Version = null;
         private bool IsCananka = false;
         private bool SupportsPower = false;
         private bool SupportsTermination = false;
@@ -243,6 +245,7 @@ namespace CanankaTest {
                     var version = this.Document.GetVersion();
                     var extendedStatus = this.Document.GetExtendedStatus();
 
+                    this.Version = version;
                     this.IsCananka = extendedStatus.IsValid;
                     this.SupportsPower = extendedStatus.IsValid && (version.HardwareVersion.Minor == 2);
                     this.SupportsTermination = extendedStatus.IsValid && (version.HardwareVersion.Minor == 2);
@@ -293,6 +296,21 @@ namespace CanankaTest {
             if ((this.Document != null) && this.Document.IsOpen) {
                 using (var frm = new SendMessageForm(this.Document)) {
                     frm.ShowDialog(this);
+                }
+            }
+        }
+
+        private void mnuVersion_Click(object sender, EventArgs e) {
+            if (this.Document != null) {
+                var version = this.Version;
+                if (version.IsValid) {
+                    var sb = new StringBuilder();
+                    sb.AppendFormat(CultureInfo.CurrentCulture, "Hardware: {0}.{1}", version.HardwareVersion.Major, version.HardwareVersion.Minor);
+                    sb.AppendLine();
+                    sb.AppendFormat(CultureInfo.CurrentCulture, "Software: {0}.{1}", version.SoftwareVersion.Major, version.SoftwareVersion.Minor);
+                    Medo.MessageBox.ShowDialog(this, sb.ToString());
+                } else {
+                    Medo.MessageBox.ShowWarning(this, "Version not retrieved.");
                 }
             }
         }
@@ -561,6 +579,7 @@ namespace CanankaTest {
                 mnuDisconnect.Enabled = (this.Document != null);
                 mnuGotoEnd.Enabled = (this.Document != null);
                 mnuSend.Enabled = (this.Document != null);
+                mnuVersion.Enabled = (this.Document != null);
 
                 var status = isConnected ? Strings.Connected : Strings.NotConnected;
                 if (staStatus.Text != status) {
