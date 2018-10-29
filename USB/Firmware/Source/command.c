@@ -290,6 +290,25 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                 return false;
             }
         }
+
+        case 'Q': { //Set auto-startup
+            if (count == 2) {
+                if ((buffer[1] == '0') || (buffer[1] == '1') || (buffer[1] == '2')) {
+                    uint8_t autoOpenIndex = (buffer[1] - '0');
+                    settings_setCanBusConfig(BRGCON1bits.BRP, BRGCON2bits.PRSEG, BRGCON2bits.SEG1PH, BRGCON3bits.SEG2PH, BRGCON1bits.SJW, BRGCON2bits.SAM, autoOpenIndex);
+                    return true;
+                } else if (buffer[1] == '~') {
+                    settings_setCanBusConfig(0, 0, 0, 0, 0, 0, 0);
+                    return true;
+                } else {
+                    sendErrorDetail('p');
+                    return false;
+                }
+            } else {
+                sendErrorDetail('p');
+                return false;
+            }
+        }
         
         
         case '*': { //extended commands

@@ -282,6 +282,22 @@ The following values are allowed (default is 115200 baud):
 |   6   |     2400   |                                                     |
 
 
+###### Auto-startup (Q) ######
+
+Saves current CAN bus settings for use upon the next boot. Optionally it can
+also open port automatically.
+
+|                 | Send            | Receive         | Notes                                                                                    |
+|-----------------|-----------------|-----------------|------------------------------------------------------------------------------------------|
+| Syntax          | Q{1:index}`CR`  | `CR` -or- `BEL` |                                                                                          |
+| Example         | Q0`CR`          | `CR`            | Current CAN bus speed is saved for use on next boot                                      |
+| Example         | Q1`CR`          | `CR`            | Same as previous, with the addition of automatically opening CAN bus                     |
+| Example         | Q2`CR`          | `CR`            | Same as previous, with the addition of automatically opening CAN bus in listen-only mode |
+| Example         | Q~`CR`          | `CR`            | Revert to default (i.e. no auto-startup, 125 Kbit/s)                                     |
+| Example (error) | Qx`CR`          | `BEL`           | Invalid index (p!)                                                                       |
+| Example (error) | Q9`CR`          | `BEL`           | Unsupported index (e!)                                                                   |
+
+
 ##### Extra commands #####
 
 In addition to standard SLCAN commands, there are additional commands available.
