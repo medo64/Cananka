@@ -18,6 +18,7 @@ namespace Medo.Device {
     /// <summary>
     /// Communication with Cananka, SLCAN-compatible device.
     /// </summary>
+    [DebuggerDisplay("Cananka: {Uart?.PortName,nq}")]
     public class Cananka : IDisposable {
 
         /// <summary>
