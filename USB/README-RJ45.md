@@ -2,7 +2,7 @@
 
 Cananka USB-RJ45 is a small device connecting to CAN bus using USB serial port
 (SLCAN compatible). More information about the protocol is available in a
-[separate document](../USB/PROTOCOL.md).
+[separate document](PROTOCOL.md).
 
 It has USB type-B connector on computer side and RJ-45 connector toward CAN bus.
 

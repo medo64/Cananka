@@ -2,7 +2,7 @@
 
 Cananka USBmini is a minimalistic device connecting to CAN bus using USB serial
 port (SLCAN compatible). More information about the protocol is available in a
-[separate document](../USB/PROTOCOL.md).
+[separate document](PROTOCOL.md).
 
 It has USB type-A connector on computer side and 3.81 mm strip headers on CAN
 bus side.
