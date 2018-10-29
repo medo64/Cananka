@@ -3,8 +3,11 @@
 
 #include "can.h"
 #include "command.h"
+#include "device.h"
 #include "hardware.h"
 #include "io.h"
+#include "random.h"
+#include "settings.h"
 #include "state.h"
 #include "uart.h"
 
@@ -14,25 +17,23 @@
 #define CR  '\r'
 
 
-#define UART_BUFFER_MAX  64
-uint8_t UartBuffer[UART_BUFFER_MAX];
-uint8_t UartBufferCount = 0;
+#define LOAD_MASK  0xFFFF
+#define LED_DECAY_START  0x1000
 
-#define CAN_BUFFER_MAX  255
-CAN_MESSAGE CanBuffer[CAN_BUFFER_MAX];
-uint8_t CanBufferStart = 0;
-uint8_t CanBufferEnd = 0;
-uint8_t CanBufferCount = 0;
 
 void processUart(void);
 void reportBufferMessage(void);
 void reportBufferEmpty(void);
+void sendRandomMessage(void);
 
 
-void main(void) {    
+void main(void) {
     init();
-
     io_setup();
+
+    if (device_needsClockOut()) { activate_clockOut(); } //for older FTDI-based devices
+    if (device_supportsTermination()) { io_out_terminationOn(); } //termination on by default
+
     for (uint8_t i = 0; i < 3; i++) {
         io_led_on();
         wait_short();
@@ -40,31 +41,30 @@ void main(void) {
         wait_short();
     }
 
-    uart_setup(115200);
+    uart_init_withReadInterrupt();
+    uart_setup(settings_getUsartBaudRate());
+    interrupt_enable();
+
     can_setup_125k();
 
 
-    uint16_t ledDelay = 0;
-    
+    uint16_t loadIndex = 0;
+    uint16_t ledDecay = 0;
+
     while (true) {
         ClrWdt();
-        
-        if (can_isOpen()) {
-            ledDelay--;
-            if (ledDelay == 0xD000) { io_led_on(); }
-        } else {
-            io_led_off();
-        }
 
+        bool toggleCanActivity = false;
+        
         while ( (CanBufferCount < CAN_BUFFER_MAX) && can_tryRead(&CanBuffer[CanBufferEnd]) ) {
-            io_led_off(); ledDelay = 0;
+            toggleCanActivity = true;
             CanBufferEnd++;
             CanBufferCount++;
         }
 
         if (State_AutoPoll) {
             if (CanBufferCount > 0) {
-                io_led_off(); ledDelay = 0;
+                toggleCanActivity = true;
                 reportBufferMessage();
                 CanBufferStart++;
                 CanBufferCount--;
@@ -85,21 +85,57 @@ void main(void) {
         }
         
         processUart();
+
+        if (State_LoadLevel > 0) {
+            if (can_isOpen()) {
+                loadIndex++;
+                if ((loadIndex & (LOAD_MASK >> State_LoadLevel)) == 0) {
+                    toggleCanActivity = true;
+                    sendRandomMessage();
+                }
+            } else {
+                State_LoadLevel = 0;
+            }
+        }
+
+        if (can_isOpen()) {
+            if (toggleCanActivity) {
+                io_led_toggle(); //not turned off to prevent it never lighting under load
+                if (ledDecay == 0) { ledDecay = LED_DECAY_START; }
+            } else if (ledDecay == 0) {
+                io_led_on();
+            } else {
+                ledDecay--;
+            }
+        } else {
+            io_led_off();
+            ledDecay = 0;
+        }
     }
 }
 
+void __interrupt() isr() {
+    while ( (UartBufferCount < UART_BUFFER_MAX) && uart_tryReadByte(&UartBuffer[UartBufferEnd]) ) {
+        UartBufferEnd = (UartBufferEnd + 1) % UART_BUFFER_MAX;
+        UartBufferCount++;
+    }
+}
 
 void processUart() {
     uint8_t data;
-    while (uart_tryReadByte(&data)) {
+    while (UartBufferCount > 0) {
+        data = UartBuffer[UartBufferStart];
+        UartBufferStart = (UartBufferStart + 1) % UART_BUFFER_MAX;
+        UartBufferCount--;
+
         ClrWdt();
         if (can_isOpen()) { io_led_off(); } else { io_led_on(); } //toggle LED
 
         if (State_Echo) { uart_writeByte(data); }
 
         if ((data == CR) || (data == LF)) {
-            if (UartBufferCount > 0) {
-                if (command_process(UartBuffer, UartBufferCount)) {
+            if (CommandBufferCount > 0) {
+                if (command_process(CommandBuffer, CommandBufferCount)) {
                     uart_writeByte(CR);
                     if (State_ExtraLf) { uart_writeByte(LF); }
                 } else {
@@ -107,15 +143,15 @@ void processUart() {
                     uart_writeByte(BEL);
                 }
 
-                UartBufferCount = 0;
+                CommandBufferCount = 0;
             }
 
         } else {
-            if (UartBufferCount < UART_BUFFER_MAX) {
-                UartBuffer[UartBufferCount] = data;
-                UartBufferCount++;
+            if (CommandBufferCount < COMMAND_BUFFER_MAX) {
+                CommandBuffer[CommandBufferCount] = data;
+                CommandBufferCount++;
             } else {
-                UartBufferCount = 255; //overflow
+                CommandBufferCount = 255; //overflow
             }
         }
     }
@@ -169,4 +205,29 @@ void reportBufferMessage() {
 void reportBufferEmpty() {
     uart_writeByte(CR);
     if (State_ExtraLf) { uart_writeByte(LF); }
+}
+
+void sendRandomMessage() {
+    CAN_MESSAGE message;
+    message.Flags.IsExtended = ((random_getByte() & 0x01) == 0); //50% extended
+    if (message.Flags.IsExtended) {
+        message.Header.ID = (random_getByte() >> 5); message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();       message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();       message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();
+    } else {
+        message.Header.ID = (random_getByte() >> 5); message.Header.ID <<= 8;
+        message.Header.ID |= random_getByte();
+    }
+
+    message.Flags.IsRemoteRequest = ((random_getByte() & 0x1F) == 0); //3.1% remote frame probability
+    message.Flags.Length = (random_getByte() & 0x07); //select length - each number has 12.5% probability
+    if (!message.Flags.IsRemoteRequest) {
+        if ((message.Flags.Length == 0) && (random_getByte() & 0x80)) { message.Flags.Length = 8; } //lengths 0 and 8 have 6.25% probability
+        for (uint8_t i=0; i<message.Flags.Length; i++) {
+            message.Data[i] = random_getByte();
+        }
+    }
+
+    can_write(message);
 }

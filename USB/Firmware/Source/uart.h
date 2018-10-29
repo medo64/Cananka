@@ -6,6 +6,12 @@
 
 
 /** Initializes UART. */
+void uart_init(void);
+
+/** Initializes UART and enables read interrupts. */
+void uart_init_withReadInterrupt(void);
+
+/** Setup UART. */
 void uart_setup(uint32_t desiredBaudRate);
 
 /** Returns true if there is data waiting to be read. */

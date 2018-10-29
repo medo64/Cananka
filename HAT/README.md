@@ -56,6 +56,19 @@ Then you can use cansend and candump (in two different windows), e.g.:
     cansend can0 02A#FEED
     candump can0
 
+
+#### Revisions ####
+
+| Revision | Functional | Supported | Description                       |
+|----------|------------|-----------|-----------------------------------|
+| Dxxxx    | Yes        | Yes       | Latest revision.                  |
+| Cxxxx    | Partially  | No        | Power-back circuit does not work. |
+| Bxxxx    | No         | No        | Test revision.                    |
+| Axxxx    | No         | No        | Test revision.                    |
+
+More details about board revisions can be found at [medo64.com](https://www.medo64.com/2016/10/cananka-the-raspberry-pi-hat-problems/).
+
+
 ---
 
 *You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/).*

@@ -1,4 +1,4 @@
-#include <pic18f25k80.h>
+#include <xc.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -6,27 +6,31 @@
 #include "uart.h"
 
 
-void resetRx() {
-    CREN1 = 0; //disable continous receive, also clears errors
-    CREN1 = 1; //enable continous receive
-    uint8_t dummyRead;
-    dummyRead = RCREG1;
-    dummyRead = RCREG1;
-    dummyRead = RCREG1; //read data to clear FIFO
-    SPEN1 = 0; //disable USART.
-    SPEN1 = 1; //enable USART.
+void uart_init() {
+    TRISC6 = 1;
+    TRISC7 = 1;
 }
 
+void uart_init_withReadInterrupt() {
+    uart_init();
+    RC1IE = 1; //enables the receive interrupt
+    RC1IP = 1; //high priority (only makes difference if IPEN=1)
+    if (IPEN == 0) { //compatibility mode (default)
+        PEIE = 1; //enables all unmasked peripheral interrupts
+    }
+}
 
-void uart_setup(uint32_t desiredBaudRate) { //must be 19200 or less
+void uart_setup(uint32_t desiredBaudRate) {
     SPBRG = (uint16_t)(_XTAL_FREQ / desiredBaudRate / 4);
     BRG161 = 1; //16-bit
     BRGH1  = 1; //high speed
     SYNC1  = 0; //asynchronous mode
     SPEN1  = 1; //serial port enabled
-    TXEN1  = 1;
-    CREN1  = 1;
-    resetRx();
+    TXEN1  = 1; //enable transmit
+    CREN1  = 1; //enable receive
+
+    uint8_t dummyRead;
+    dummyRead = RCREG1; dummyRead = RCREG1; dummyRead = RCREG1; //read data to clear FIFO
 }
 
 
@@ -40,15 +44,29 @@ bool uart_canWrite() {
 
 
 uint8_t uart_readByte() {
-    if (FERR1) { resetRx(); } //framing error
-    if (OERR1) { resetRx(); } //overrun error
+    if (FERR1 || OERR1) { //framing or overrun error
+        CREN1 = 0; //disable receive, also clears errors
+        CREN1 = 1; //enable receive
+        uint8_t dummyRead;
+        dummyRead = RCREG1; dummyRead = RCREG1; dummyRead = RCREG1; //read data to clear FIFO
+        SPEN1 = 0; //disable USART.
+        SPEN1 = 1; //enable USART.
+    }
+
     while (!RC1IF);
     return RCREG1;
 }
 
 bool uart_tryReadByte(uint8_t* value) {
-    if (FERR1) { resetRx(); } //framing error
-    if (OERR1) { resetRx(); } //overrun error
+    if (FERR1 || OERR1) { //framing or overrun error
+        CREN1 = 0; //disable receive, also clears errors
+        CREN1 = 1; //enable receive
+        uint8_t dummyRead;
+        dummyRead = RCREG1; dummyRead = RCREG1; dummyRead = RCREG1; //read data to clear FIFO
+        SPEN1 = 0; //disable USART.
+        SPEN1 = 1; //enable USART.
+    }
+
     if (RC1IF) {
         *value = RCREG1;
         return true;

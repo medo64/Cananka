@@ -1,11 +1,15 @@
 #include <p18cxxx.h>
 
+#include "device.h"
 #include "hardware.h"
+#include "random.h"
 
 
 void init(void) {
     //disable interrupts
     GIE = 0;
+
+    random_init();
 
     //wait for PLL lock
     PLLEN = 1;
@@ -18,14 +22,11 @@ void init(void) {
     REFOCONbits.RODIV0 = 0;
     REFOCONbits.ROSEL = 1;
     REFOCONbits.ROSSLP = 1;
-    REFOCONbits.ROON = 1;
     TRISC3 = 0;
 
     //versioning
     WPUB = 0; //disable all pull-ups
-    RBPU = 0; //enable port B pull-ups
-    TRISA3 = 0; TRISA5 = 0; TRISB1 = 0; TRISB4 = 0;
-    ANSEL3 = 0; ANSEL4 = 0; ANSEL8 = 0; ANSEL9 = 0;
+    device_init();
 
     //io
     TRISC5 = 0; //O LED
@@ -35,7 +36,7 @@ void init(void) {
     //clear all outputs
     LATA = 0b00000000;
     LATB = 0b00000000;
-    LATC = 0b00001000;
+    LATC = 0b00000000;
 }
 
 void reset(void) {
@@ -44,4 +45,9 @@ void reset(void) {
 
 void wait_short(void) {
     __delay_ms(150);
+}
+
+void activate_clockOut() {
+    LC3 = 1;
+    REFOCONbits.ROON = 1;
 }

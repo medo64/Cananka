@@ -1,11 +1,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <pic18f25k80.h>
+
 #include "can.h"
 #include "device.h"
 #include "hardware.h"
 #include "io.h"
 #include "uart.h"
+#include "settings.h"
 #include "state.h"
 
 
@@ -17,6 +19,7 @@ bool command_process_send(bool isExtended, bool isRemote, uint8_t *buffer, uint8
 bool command_process_cansend(uint8_t *buffer, uint8_t count);
 
 bool parseHex(uint8_t hexValue, uint8_t *value);
+void sendErrorDetail(char error);
 
 
 bool command_process(uint8_t *buffer, uint8_t count) {
@@ -25,13 +28,13 @@ bool command_process(uint8_t *buffer, uint8_t count) {
 
         case 'S': { //Set speed
             if (can_isOpen()) {
-                if (State_ExtendedError) { uart_writeString("a!"); }
+                sendErrorDetail('a');
                 return false;
             }
             if (count == 2) {
                 switch (buffer[1]) {
                     case '0':
-                        if (State_ExtendedError) { uart_writeString("e!"); }
+                        sendErrorDetail('e');
                         return false;
                     case '1':   can_setup_20k(); return true;
                     case '2':   can_setup_50k(); return true;
@@ -42,19 +45,19 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     case '7':  can_setup_800k(); return true;
                     case '8': can_setup_1000k(); return true;
                     default: {
-                        if (State_ExtendedError) { uart_writeString("p!"); }
+                        sendErrorDetail('p');
                         return false;
                     }
                 }
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
 
         case 's': { //Set speed
             if (can_isOpen()) {
-                if (State_ExtendedError) { uart_writeString("a!"); }
+                sendErrorDetail('a');
                 return false;
             }
             if (count == 5) {
@@ -71,54 +74,54 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                         can_setup(newBrp, newPrseg, newSeg1Ph, newSeg2Ph, newSjw, newSam);
                         return true;
                     } else {
-                        if (State_ExtendedError) { uart_writeString("e!"); }
+                        sendErrorDetail('e');
                         return false;
                     }
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
         
         case 'O': { //Open channel
             if (can_isOpen()) {
-                if (State_ExtendedError) { uart_writeString("a!"); }
+                sendErrorDetail('a');
                 return false;
             } else if (count == 1) {
                 can_open();
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
 
         case 'L': { //Open channel (listen-only)
             if (can_isOpen()) {
-                if (State_ExtendedError) { uart_writeString("a!"); }
+                sendErrorDetail('a');
                 return false;
             } else if (count == 1) {
                 can_openListenOnly();
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
 
         case 'l': { //Open channel (loopback)
             if (can_isOpen()) {
-                if (State_ExtendedError) { uart_writeString("a!"); }
+                sendErrorDetail('a');
                 return false;
             } else if (count == 1) {
                 can_openLoopback();
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -129,7 +132,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     can_close();
                     return true;
                 } else {
-                    if (State_ExtendedError) { uart_writeString("a!"); }
+                    sendErrorDetail('a');
                     return false;
                 }
             } else {
@@ -154,12 +157,12 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     case '0': State_AutoPoll = false; return true;
                     case '1': State_AutoPoll = true; return true;
                     default: {
-                        if (State_ExtendedError) { uart_writeString("p!"); }
+                        sendErrorDetail('p');
                         return false;
                     }
                 }
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -167,14 +170,14 @@ bool command_process(uint8_t *buffer, uint8_t count) {
         case 'P': { //Poll one
             if (count == 1) {
                 if (State_AutoPoll) {
-                    if (State_ExtendedError) { uart_writeString("e!"); }
+                    sendErrorDetail('e');
                     return false;
                 } else {
                     State_ManualPollCount = 1;
                     return true;
                 }
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -182,7 +185,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
         case 'A': { //Poll all
             if (count == 1) {
                 if (State_AutoPoll) {
-                    if (State_ExtendedError) { uart_writeString("e!"); }
+                    sendErrorDetail('e');
                     return false;
                 } else {
                     State_ManualPollCount = UINT8_MAX;
@@ -193,21 +196,16 @@ bool command_process(uint8_t *buffer, uint8_t count) {
             }
         }
 
-        
+
         case 'V': { //Version
             if (count == 1) {
                 uart_writeString("V");
-                uart_writeUInt8(device_getRevision());
-                switch (device_getType()) {
-                    case DEVICE_CANANKA_USB: uart_writeString("0"); break;
-                    case DEVICE_CANANKA_USB_RJ45: uart_writeString("1"); break;
-                    case DEVICE_CANANKA_USB_MINI: uart_writeString("2"); break;
-                    default: uart_writeString("9"); break;
-                }
+                uart_writeUInt8(device_getMajor());
+                uart_writeUInt8(device_getMinor());
                 uart_writeString("10"); //software version
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -217,7 +215,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                 uart_writeString("N0000");
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -240,28 +238,71 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                 return command_process_cansend(&buffer[0], count); //behave as this is ID for sending message
             }
         }
+
+
+        case 'U': { //Set USART speed
+            if (can_isOpen()) {
+                sendErrorDetail('a');
+                return false;
+            }
+            if (count == 2) {
+                switch (buffer[1]) {
+                    case 'Y':
+                        if (device_supports920K()) {
+                            settings_setUsartBaudRate(921600);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case 'Z':
+                        if (device_supports460K()) {
+                            settings_setUsartBaudRate(460800);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case '0':
+                        if (device_supports230K()) {
+                            settings_setUsartBaudRate(230400);
+                            reset();
+                            return true;
+                        } else {
+                            sendErrorDetail('e');
+                            return false;
+                        }
+                    case '1': settings_setUsartBaudRate(115200); reset(); return true;
+                    case '2':  settings_setUsartBaudRate(57600); reset(); return true;
+                    case '3':  settings_setUsartBaudRate(38400); reset(); return true;
+                    case '4':  settings_setUsartBaudRate(19200); reset(); return true;
+                    case '5':   settings_setUsartBaudRate(9600); reset(); return true;
+                    case '6':   settings_setUsartBaudRate(2400); reset(); return true;
+                    default: {
+                        sendErrorDetail('p');
+                        return false;
+                    }
+                }
+            } else {
+                sendErrorDetail('p');
+                return false;
+            }
+        }
         
         
         case '*': { //extended commands
             if (count > 1) {
                 return command_process_extra(&buffer[1], count - 1);
             } else { //no second char
-                if (State_ExtendedError) { uart_writeString("x!"); }
-                return false;
-            }
-        }
-
-        case '?': { //query commands
-            if (count > 1) {
-                return command_process_query(&buffer[1], count - 1);
-            } else { //no second char
-                if (State_ExtendedError) { uart_writeString("x!"); }
+                sendErrorDetail('x');
                 return false;
             }
         }
 
         default: {
-            if (State_ExtendedError) { uart_writeString("x!"); }
+            sendErrorDetail('x');
             return false;        
         }
     }
@@ -273,232 +314,111 @@ bool command_process_extra(uint8_t *buffer, uint8_t count) {
 
         case 'D': {
             if (count == 1) {
-                State_ExtraLf = true;
-                State_ExtendedError = true;
-                State_Cansend = true;
-                State_Echo = true;
+                uint8_t state = 0;
+                if (State_ExtraLf)     { state |= 0b00000001; }
+                if (State_ErrorDetail) { state |= 0b00000010; }
+                if (State_Echo)        { state |= 0b00010000; }
+                if (State_Cansend)     { state |= 0b00100000; }
+                uart_writeString("*D");
+                uart_writeHexUInt8(state);
                 return true;
+            } else if (count == 2) {
+                switch (buffer[1]) {
+                    case '0':
+                        State_ExtraLf     = false;
+                        State_ErrorDetail = false;
+                        State_Echo        = false;
+                        State_Cansend     = false;
+                        return true;
+                    case '1':
+                        State_ExtraLf     = true;
+                        State_ErrorDetail = true;
+                        State_Echo        = true;
+                        State_Cansend     = true;
+                        return true;
+                    default: {
+                        sendErrorDetail('p');
+                        return false;
+                    }
+                }
             } else if (count == 3) {
                 uint8_t newState;
                 if (parseHex(buffer[1], &newState) && parseHex(buffer[2], &newState)) {
                     if ((newState & 0b01111000) > 0) { //check for invalid bits set
-                        if (State_ExtendedError) { uart_writeString("x!"); }
+                        sendErrorDetail('x');
                         return false;
                     } else {
-                        State_ExtraLf       = ((newState & 0b00000001) > 0);
-                        State_ExtendedError = ((newState & 0b00000010) > 0);
-                        State_Cansend       = ((newState & 0b00000100) > 0);
-                        State_Echo          = ((newState & 0b10000000) > 0);
+                        State_ExtraLf     = ((newState & 0b00000001) > 0);
+                        State_ErrorDetail = ((newState & 0b00000010) > 0);
+                        State_Echo        = ((newState & 0b00010000) > 0);
+                        State_Cansend     = ((newState & 0b00100000) > 0);
                         return true;
                     }
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
 
-        case 'T': {
-            if (device_supportsTermination()) {
-                if (count == 1) {
-                    io_out_terminationOn();
-                    return true;
-                } else if ((count == 2) && (buffer[1] == '0')) {
-                    io_out_terminationOff();
-                    return true;
-                } else if ((count == 2) && (buffer[1] == '1')) {
-                    io_out_terminationOn();
-                    return true;
-                } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
-                    return false;
-                }
-            } else { //only supported on some devices
-                if (State_ExtendedError) { uart_writeString("x!"); }
-                return false;
-            }
-        }
-
-        case 'P': {
-            if (device_supportsPower()) {
-                if (count == 1) {
-                    io_out_powerOn();
-                    return true;
-                } else if ((count == 2) && (buffer[1] == '0')) {
-                    io_out_powerOff();
-                    return true;
-                } else if ((count == 2) && (buffer[1] == '1')) {
-                    io_out_powerOn();
-                    return true;
-                } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
-                    return false;
-                }
-            } else { //only supported on some devices
-                if (State_ExtendedError) { uart_writeString("x!"); }
-                return false;
-            }
-        }
-
-        case 'R': {
-            if (count == 1) {
-                reset();
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        default: {
-            if (State_ExtendedError) { uart_writeString("x!"); }
-            return false;        
-        }
-    }
-}
-
-bool command_process_query(uint8_t *buffer, uint8_t count) {
-    switch (buffer[0]) {
-
-        case 'S': { //Get speed
-            if (count == 1) {
-                switch (can_getSpeed()) {
-                    case   20: uart_writeString("S1"); return true;
-                    case   50: uart_writeString("S2"); return true;
-                    case  100: uart_writeString("S3"); return true;
-                    case  125: uart_writeString("S4"); return true;
-                    case  250: uart_writeString("S5"); return true;
-                    case  500: uart_writeString("S6"); return true;
-                    case  800: uart_writeString("S7"); return true;
-                    case 1000: uart_writeString("S8"); return true;
-                    default: {
-                        if (State_ExtendedError) { uart_writeString("x!"); }
-                        return false;
-                    }
-                }
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        case 's': { //Get speed
-            if (count == 1) {
-                uint8_t seg1 = (BRGCON2bits.PRSEG + 1) + (BRGCON2bits.SEG1PH + 1) - 1;
-                uint8_t btr0 = (BRGCON1bits.SJW << 6) | BRGCON1bits.BRP;
-                uint8_t btr1 = (BRGCON2bits.SAM << 7) | (BRGCON3bits.SEG2PH << 4) | seg1;
-                uart_writeString("s");
-                uart_writeHexUInt8(btr0);
-                uart_writeHexUInt8(btr1);
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        case 'O': { //Open channel
-            if (count == 1) {
-                if (can_getState() == CAN_STATE_OPEN) { uart_writeString("O1"); } else { uart_writeString("O0"); }
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        case 'L': { //Open channel (listen-only)
-            if (count == 1) {
-                if (can_getState() == CAN_STATE_OPEN_LISTENONLY) { uart_writeString("L1"); } else { uart_writeString("L0"); }
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        case 'l': { //Open channel (loopback)
-            if (count == 1) {
-                if (can_getState() == CAN_STATE_OPEN_LOOPBACK) { uart_writeString("l1"); } else { uart_writeString("l0"); }
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-        case 'C': { //Close channel
-            if (count == 1) {
-                if (can_getState() == CAN_STATE_CLOSED) { uart_writeString("C1"); } else { uart_writeString("C0"); }
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-
-        case 'X': { //Auto-polling
-            if (count == 1) {
-                if (State_AutoPoll) { uart_writeString("X1"); } else { uart_writeString("X0"); }
-                return true;
-            } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
-                return false;
-            }
-        }
-
-
-        case '*': { //extended commands
-            if (count > 1) {
-                return command_process_query_extra(&buffer[1], count - 1);
-            } else { //no second char
-                if (State_ExtendedError) { uart_writeString("x!"); }
-                return false;
-            }
-        }
-
-        default: {
-            if (State_ExtendedError) { uart_writeString("x!"); }
-            return false;        
-        }
-    }
-}
-
-bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
-    switch (buffer[0]) {
-
-        case 'D': {
+        case 'F': {
             if (count == 1) {
                 uint8_t state = 0;
-                if (State_ExtraLf)       { state |= 0b00000001; }
-                if (State_ExtendedError) { state |= 0b00000010; }
-                if (State_Cansend)       { state |= 0b00000100; }
-                if (State_Echo)          { state |= 0b10000000; }
-                uart_writeString("*D");
+                switch (can_getState()) {
+                    case CAN_STATE_CLOSED:
+                        state = 0b00000000;
+                        break;
+                    case CAN_STATE_OPEN_LOOPBACK:
+                        state = 0b00000001;
+                        break;
+                    case CAN_STATE_OPEN_LISTENONLY:
+                        state = 0b00000010;
+                        break;
+                    case CAN_STATE_OPEN:
+                        state = 0b00000011;
+                        break;
+                }
+                if (State_AutoPoll) { state |= 0b00000100; }
+                bool anyError = (RXB0CONbits.RXFUL & RXB1CONbits.RXFUL & B0CONbits.RXFUL & B1CONbits.RXFUL & B2CONbits.RXFUL & B3CONbits.RXFUL & B4CONbits.RXFUL & B5CONbits.RXFUL);
+                if (!anyError) {
+                    CAN_STATUS status = can_getStatus();
+                    anyError |= (TXB0CONbits.TXREQ);
+                    anyError |= (status.RxWarning | status.TxWarning);
+                    anyError |= (status.RxOverflow);
+                    anyError |= (status.RxPassive | status.TxPassive);
+                    anyError |= (TXB0CONbits.TXLARB);
+                    anyError |= (status.TxOff);
+                }
+                if (anyError) { state |= 0b00001000; }
+                if (io_out_getPower()) { state |= 0b00010000; }
+                if (io_out_getTermination()) { state |= 0b00100000; }
+                if (State_LoadLevel > 0) { state |= 0b01000000; }
+                if (State_ExtraLf || State_ErrorDetail || State_Echo || State_Cansend) { state |= 0b10000000; }
+                uart_writeString("*F");
                 uart_writeHexUInt8(state);
                 return true;
             } else {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
         }
 
-        case 'T': {
-            if (device_supportsTermination()) {
-                if (count == 1) {
-                    uart_writeString("*T");
-                    if (io_out_getTermination()) { uart_writeByte('1'); } else { uart_writeByte('0'); }
-                    return true;
-                } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
-                    return false;
-                }
-            } else { //only supported on some devices
-                if (State_ExtendedError) { uart_writeString("x!"); }
+        case 'L': {
+            if (!can_isOpen()) {
+                sendErrorDetail('a');
+                return false;
+            } else if (count == 1) {
+                uart_writeString("*L");
+                uart_writeByte(0x30 + State_LoadLevel);
+                return true;
+            } else if ((count == 2) && (buffer[1] >= '0') && (buffer[1] <= '9')) {
+                State_LoadLevel = buffer[1] - 0x30;
+                return true;
+            } else {
+                sendErrorDetail('p');
                 return false;
             }
         }
@@ -509,18 +429,84 @@ bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
                     uart_writeString("*P");
                     if (io_out_getPower()) { uart_writeByte('1'); } else { uart_writeByte('0'); }
                     return true;
+                } else if ((count == 2) && (buffer[1] == '0')) {
+                    io_out_powerOff();
+                    return true;
+                } else if ((count == 2) && (buffer[1] == '1')) {
+                    io_out_powerOn();
+                    return true;
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
             } else { //only supported on some devices
-                if (State_ExtendedError) { uart_writeString("x!"); }
+                sendErrorDetail('x');
+                return false;
+            }
+        }
+
+        case 'T': {
+            if (device_supportsTermination()) {
+                if (count == 1) {
+                    uart_writeString("*T");
+                    if (io_out_getTermination()) { uart_writeByte('1'); } else { uart_writeByte('0'); }
+                    return true;
+                } else if ((count == 2) && (buffer[1] == '0')) {
+                    io_out_terminationOff();
+                    return true;
+                } else if ((count == 2) && (buffer[1] == '1')) {
+                    io_out_terminationOn();
+                    return true;
+                } else {
+                    sendErrorDetail('p');
+                    return false;
+                }
+            } else { //only supported on some devices
+                sendErrorDetail('x');
+                return false;
+            }
+        }
+
+        case 'R': {
+            if (count == 1) {
+                reset();
+                return true;
+            } else {
+                sendErrorDetail('p');
+                return false;
+            }
+        }
+
+        case 'r': {
+            if (count == 1) {
+                can_close();
+                can_setup_125k();
+
+                io_out_powerOff();
+                if (device_supportsTermination()) { io_out_terminationOn(); } //termination on by default
+                State_AutoPoll = true;
+                State_LoadLevel = 0;
+
+                State_ExtraLf = false;
+                State_ErrorDetail = false;
+                State_Echo = false;
+                State_Cansend = false;
+
+                CAN_MESSAGE message;
+                while(can_tryRead(&message));
+                CanBufferStart = 0;
+                CanBufferEnd = 0;
+                CommandBufferCount = 0;
+
+                return true;
+            } else {
+                sendErrorDetail('p');
                 return false;
             }
         }
 
         default: {
-            if (State_ExtendedError) { uart_writeString("x!"); }
+            sendErrorDetail('x');
             return false;        
         }
     }
@@ -529,35 +515,35 @@ bool command_process_query_extra(uint8_t *buffer, uint8_t count) {
 
 bool command_process_send(bool isExtended, bool isRemote, uint8_t *buffer, uint8_t count) {
     if (!can_isOpen()) { //channel not open
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
 
     if (can_getState() == CAN_STATE_OPEN_LISTENONLY) { //channel is listen-only
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
     
     uint8_t lenIndex = isExtended ? 8 : 3;
     if (count <= lenIndex) {
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
     }
 
     uint8_t len = buffer[lenIndex] - 0x30;
     if (len > 8) {
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
     }
     
     if (isRemote) {
         if (count != (lenIndex + 1)) { //no data bytes for remote
-            if (State_ExtendedError) { uart_writeString("p!"); }
+            sendErrorDetail('p');
             return false;
         }
     } else {
         if (count != (lenIndex + 1 + len * 2)) { //too many or not enough data bytes
-            if (State_ExtendedError) { uart_writeString("p!"); }
+            sendErrorDetail('p');
             return false;
         }
     }
@@ -574,13 +560,13 @@ bool command_process_send(bool isExtended, bool isRemote, uint8_t *buffer, uint8
         || !parseHex(buffer[4], &message.Header.ID1) || !parseHex(buffer[5], &message.Header.ID1)
         || !parseHex(buffer[6], &message.Header.ID0) || !parseHex(buffer[7], &message.Header.ID0)
         || (message.Header.ID > 0x1FFFFFFF)) {
-            if (State_ExtendedError) { uart_writeString("p!"); }
+            sendErrorDetail('p');
             return false;
         }
     } else {
         if (!parseHex(buffer[0], &message.Header.ID1) || !parseHex(buffer[1], &message.Header.ID0) || !parseHex(buffer[2], &message.Header.ID0)
         || (message.Header.ID > 0x7FF)) {
-            if (State_ExtendedError) { uart_writeString("p!"); }
+            sendErrorDetail('p');
             return false;
         }
     }
@@ -589,7 +575,7 @@ bool command_process_send(bool isExtended, bool isRemote, uint8_t *buffer, uint8
         uint8_t i = isExtended ? 9 : 4;
         for (uint8_t j = 0; j<len; j++) {
             if (!parseHex(buffer[i], &message.Data[j]) || !parseHex(buffer[i+1], &message.Data[j])) {
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
             }
             i+=2;
@@ -599,24 +585,24 @@ bool command_process_send(bool isExtended, bool isRemote, uint8_t *buffer, uint8
     if (can_tryWrite(message)) {
         return true;
     } else { //if buffer is full
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
 }
 
 bool command_process_cansend(uint8_t *buffer, uint8_t count) {
     if (!can_isOpen()) { //channel not open
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
 
     if (can_getState() == CAN_STATE_OPEN_LISTENONLY) { //channel is listen-only
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
     
     if (count == 0) {
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
     }
     
@@ -650,7 +636,7 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
                         dataHexLength++;
                         state = 2; //->Data
                     } else { //way too long
-                        if (State_ExtendedError) { uart_writeString("p!"); }
+                        sendErrorDetail('p');
                         return false;
                     }
                 } else if (state == 3) { //RemoteLength
@@ -658,11 +644,11 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
                         message.Flags.Length = value;
                         state = 255; //->Done
                     } else {
-                        if (State_ExtendedError) { uart_writeString("p!"); }
+                        sendErrorDetail('p');
                         return false;
                     }
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
                 break;
@@ -671,7 +657,7 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
                 if (state == 0) { //ID
                     state = 1; //->DataOrRemote
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
                 break;
@@ -685,7 +671,7 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
                     message.Flags.IsRemoteRequest = true;
                     state = 3; //->RemoteLength
                 } else {
-                    if (State_ExtendedError) { uart_writeString("p!"); }
+                    sendErrorDetail('p');
                     return false;
                 }
                 break;
@@ -695,18 +681,18 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
                 break;
 
             default:
-                if (State_ExtendedError) { uart_writeString("p!"); }
+                sendErrorDetail('p');
                 return false;
         }
     }
     
     if ((state == 0) && (idHexLength == 0)) { //not even ID is present
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
     }
     
     if ((dataHexLength % 2) != 0) { //not all data bytes are here
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
     }
     
@@ -715,9 +701,9 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
     }
     
     if (idHexLength > 8) { //cannot have more than 8 characters in ID
-        if (State_ExtendedError) { uart_writeString("p!"); }
+        sendErrorDetail('p');
         return false;
-    } else if ((idHexLength <= 3) && (message.Header.ID < 0x1FF)) {
+    } else if ((idHexLength <= 3) && (message.Header.ID < 0x7FF)) {
         message.Flags.IsExtended = false;
     } else {
         message.Flags.IsExtended = true;
@@ -726,7 +712,7 @@ bool command_process_cansend(uint8_t *buffer, uint8_t count) {
     if (can_tryWrite(message)) {
         return true;
     } else { //if buffer is full
-        if (State_ExtendedError) { uart_writeString("a!"); }
+        sendErrorDetail('a');
         return false;
     }
 }
@@ -744,4 +730,11 @@ bool parseHex(uint8_t hexValue, uint8_t *value) {
         return false;
     }
     return true;
+}
+
+void sendErrorDetail(char error) {
+    if (State_ErrorDetail) {
+        uart_writeString(&error);
+        uart_writeString("!");
+    }
 }

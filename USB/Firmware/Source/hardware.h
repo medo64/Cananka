@@ -55,10 +55,16 @@
 #define _XTAL_FREQ 48000000
 
 
+#define interrupt_enable()   GIE = 1
+#define interrupt_disable()  GIE = 0
+
+
 void init(void);
 void reset(void);
 
 void wait_short(void);
+
+void activate_clockOut(void);
 
 
 #endif	/* HARDWARE_H */
