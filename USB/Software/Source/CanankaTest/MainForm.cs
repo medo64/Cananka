@@ -571,7 +571,7 @@ namespace CanankaTest {
 
         private void ProcessMenuState() {
             try {
-                var isConnected = (this.Document != null);
+                var isConnected = (this.Document != null) && (this.Document.IsOpen);
                 mnuNew.Enabled = (lsvMessages.Items.Count > 0);
                 mnuCopy.Enabled = (lsvMessages.SelectedItems.Count > 0);
                 mnuPorts.Enabled = (this.Document == null);
