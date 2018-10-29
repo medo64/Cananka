@@ -469,12 +469,14 @@ namespace CanankaTest {
             this.mnxTerminationOff.Name = "mnxTerminationOff";
             this.mnxTerminationOff.Size = new System.Drawing.Size(211, 24);
             this.mnxTerminationOff.Text = "Turn termination off";
+            this.mnxTerminationOff.Click += new System.EventHandler(this.mnxTerminationOff_Click);
             // 
             // mnxTerminationOn
             // 
             this.mnxTerminationOn.Name = "mnxTerminationOn";
             this.mnxTerminationOn.Size = new System.Drawing.Size(211, 24);
             this.mnxTerminationOn.Text = "Turn termination on";
+            this.mnxTerminationOn.Click += new System.EventHandler(this.mnxTerminationOn_Click);
             // 
             // mnxLoad
             // 
