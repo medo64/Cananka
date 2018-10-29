@@ -263,6 +263,7 @@ set permanently and used upon the next startup.
 |-----------------|-----------------|-----------------|------------------------------------------------------------|
 | Syntax          | U{1:index}`CR`  | `CR` -or- `BEL` |                                                            |
 | Example         | U1`CR`          | `CR`            | Speed is set to 115200 baud (default)                      |
+| Example         | Q~`CR`          | `CR`            | Revert to default (i.e. 115200)                            |
 | Example (error) | Ux`CR`          | `BEL`           | Invalid speed (p!)                                         |
 | Example (error) | U4`CR`          | `BEL`           | Setting speed on open channel (a!)                         |
 | Example (error) | U9`CR`          | `BEL`           | Unsupported speed (e!)                                     |

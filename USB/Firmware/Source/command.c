@@ -280,6 +280,7 @@ bool command_process(uint8_t *buffer, uint8_t count) {
                     case '4':  settings_setUsartBaudRate(19200); reset(); return true;
                     case '5':   settings_setUsartBaudRate(9600); reset(); return true;
                     case '6':   settings_setUsartBaudRate(2400); reset(); return true;
+                    case '~':      settings_setUsartBaudRate(0); reset(); return true;
                     default: {
                         sendErrorDetail('p');
                         return false;
