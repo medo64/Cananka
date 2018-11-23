@@ -1,12 +1,12 @@
 ### Cananka ###
 
+|                         |                           |
 |-------------------------|---------------------------|
 | Board size              | 65.0 x 56.0 mm ~ 5.7 sqin |
 | Current used (3.3 V)    | 15 mA                     |
 | Current used (5 V)      | 110 mA                    |
 | Current used (12 V CAN) | 1.8 A (maximum)           |
 | Current provided (5 V)  | 2 A (maximum)             |
-|-------------------------|---------------------------|
 
 
 #### Parts ####
