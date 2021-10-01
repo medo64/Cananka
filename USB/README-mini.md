@@ -30,4 +30,4 @@ connector on CAN bus end.
 
 ---
 
-*You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/)*
+*You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/cananka/usbmini/)*

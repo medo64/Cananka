@@ -40,4 +40,4 @@ USB type A connector and without CAN bus isolation.
 
 ---
 
-*You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/electronics/)*
+*You can check my blog and other projects at [www.medo64.com](https://www.medo64.com/cananka/usb/)*
