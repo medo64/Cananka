@@ -20,6 +20,7 @@ void device_init() {
     //|----|----|----|----|----|----------|-----------|-----------|------------|-------------|--------------|
     //| X  | X  | L  | H  | H  | USB      | 3 (A)     | Crystal   | PIC        | No          | No           |
     //| L  | L  | L  | L  | H  | USBmini  | 4 (D)     | MCP2221A  | MCP2221A   | Yes         | Yes          |
+    //| L  | L  | H  | L  | H  | USBframe | 4 (D)     | MCP2221A  | MCP2221A   | Yes         | No           |
     //| L  | L  | H  | H  | H  | USBmini  | 1 (A B C) | MCP2221   | MCP2221    | Yes         | Yes          |
     //| L  | H  | L  | L  | H  | USB      | 4 (D)     | Crystal   | MCP2221A   | No          | No           |
     //| L  | H  | L  | H  | H  | USB      | 3 (C)     | Crystal   | PIC        | No          | No           |
@@ -114,6 +115,13 @@ void device_init() {
             cachedSupports920K = false;
         } else if (!bitB0 && !bitB1 && bitB4) { //USB/mini [D]
             cachedRevision = 4;
+            cachedSupportsUsbStatus = false;
+            cachedSupports230K = true;
+            cachedSupports460K = true;
+            cachedSupports920K = false;
+        } else if (bitB0 && !bitB1 && bitB4) { //USB/framework [D]
+            cachedRevision = 4;
+            cachedSupportsPower = false;
             cachedSupportsUsbStatus = false;
             cachedSupports230K = true;
             cachedSupports460K = true;
