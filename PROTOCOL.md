@@ -212,9 +212,9 @@ Returns hardware and software version.
 | Example (error) | V0`CR`  | `BEL`                                    | Invalid parameters (p!)                   |
 
 Second digit of hardware revisions shows board type:
-  * 0: Cananka USB
-  * 1: Cananka USB-RJ45
-  * 2: Cananka USB/mini
+  * 0: Cananka
+  * 1: Cananka RJ45
+  * 2: Cananka Mini
 
 
 ###### Serial number (N) ######
@@ -390,7 +390,7 @@ data.
 
 ###### Power CAN bus (*P) ######
 
-Powers CAN bus from the device itself. Works only on Cananka USB/mini.
+Powers CAN bus from the device itself. Works only on Cananka Mini.
 
 |                 | Send            | Receive         | Notes                            |
 |-----------------|-----------------|-----------------|----------------------------------|
@@ -424,7 +424,7 @@ state.
 
 ###### Terminate CAN bus (*T) ######
 
-Turns on termination resistors on CAN bus. Works only on Cananka USB/mini.
+Turns on termination resistors on CAN bus. Works only on Cananka Mini.
 
 |                 | Send            | Receive         | Notes                               |
 |-----------------|-----------------|-----------------|-------------------------------------|

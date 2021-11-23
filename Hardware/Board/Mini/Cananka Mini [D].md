@@ -1,4 +1,4 @@
-### Cananka USB/mini ###
+### Cananka Mini ###
 
 Board size: 54.0 x 16.5 mm ~ 1.4 sqin
 
