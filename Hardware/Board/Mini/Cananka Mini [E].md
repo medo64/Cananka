@@ -44,10 +44,15 @@ changes:
 
 The following changes are suggested:
 
-    * Required Current: 100 mA (minimum)
-    * Descriptor: Cananka
-    * Manufacturer: Medo64
-    * Enumerate with serial number: Yes
+| Property                     | Value            |
+|------------------------------|------------------|
+| VID:                         | 0x04D8           |
+| PID:                         | 0xE866           |
+| Required Current:            | 100 mA (minimum) |
+| Descriptor:                  | Cananka          |
+| Manufacturer:                | Medo64           |
+| Enumerate with serial number | Yes              |
+| GP1                          | CLK_OUT          |
 
 All other settings should remain default.
 
