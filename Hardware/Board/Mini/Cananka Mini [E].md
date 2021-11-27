@@ -1,6 +1,6 @@
 ### Cananka Mini ###
 
-Board size: 45.5.0 x 16.5 mm ~ 1.2 sqin
+Board size: 44.0 x 16.5 mm ~ 1.2 sqin
 
 
 #### Input ####
@@ -30,10 +30,8 @@ Current: 100 mA
 
 1/2" heat-shrink tubing, 50mm
 
-
 WARNING: This is a non-isolated board - beware of ground loops and all the fun
 that can happen with different ground potentials.
-
 
 
 #### UART Configuration ####
@@ -46,9 +44,17 @@ changes:
 
 The following changes are suggested:
 
-    * Required Current: 100 mA
+    * Required Current: 100 mA (minimum)
     * Descriptor: Cananka
     * Manufacturer: Medo64
     * Enumerate with serial number: Yes
 
 All other settings should remain default.
+
+
+#### JP1 ####
+
+For testing purposes, it is possible to power other devices from 5V USB
+connection. However, considering CAN bus is usually 12V based, this is
+definitely not a recommendation. If one wants to have 5V output on CAN
+connector, solder a SOD123FL diode at this location.
