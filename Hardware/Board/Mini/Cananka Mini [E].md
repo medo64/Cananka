@@ -49,7 +49,7 @@ The following changes are suggested:
 | VID:                         | 0x04D8           |
 | PID:                         | 0xE866           |
 | Required Current:            | 100 mA (minimum) |
-| Descriptor:                  | Cananka          |
+| Descriptor:                  | Cananka Mini     |
 | Manufacturer:                | Medo64           |
 | Enumerate with serial number | Yes              |
 | GP1                          | CLK_OUT          |
