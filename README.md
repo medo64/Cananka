@@ -15,7 +15,6 @@ Features:
 * USB 2.0 interface (type B)
 
 There are alternative versions available too:
-* [RJ45](README-RJ45.md) (uses RJ-45 connector)
 * [Mini](README-Mini.md) (directly pluggable, non-insulated, and without a case)
 
 

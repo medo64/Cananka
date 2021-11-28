@@ -213,7 +213,7 @@ Returns hardware and software version.
 
 Second digit of hardware revisions shows board type:
   * 0: Cananka
-  * 1: Cananka RJ45
+  * 1: Cananka RJ45 (abandoned)
   * 2: Cananka Mini
 
 
@@ -390,7 +390,8 @@ data.
 
 ###### Power CAN bus (*P) ######
 
-Powers CAN bus from the device itself. Works only on Cananka Mini.
+Powers CAN bus from the device itself. No Cananka device currently supports
+this functionality.
 
 |                 | Send            | Receive         | Notes                            |
 |-----------------|-----------------|-----------------|----------------------------------|
@@ -413,8 +414,8 @@ Resets the device.
 
 ###### Reset settings (*r) ######
 
-Resets all settings to their default value. Used to bring device to power on
-state.
+Resets all settings to their default value. Used to bring device to the initial
+power-on state.
 
 |                 | Send    | Receive         | Notes                            |
 |-----------------|---------|-----------------|----------------------------------|
