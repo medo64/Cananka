@@ -8,15 +8,15 @@
 |  3 | C 10uF X5R 16V (0805)                     | C8-C10  | 1276-1096-1-ND             |                                 |
 |  1 | D TVS 150W Zenner CAN (SOT23-3)           | D1      | 497-13262-1-ND             | 568-4032-1-ND                   |
 |  6 | DS LED (0805)                             | DS1-DS6 | 475-1415-1-ND              |                                 |
-|  1 | J USB B, horizontal                       | J1      | ED2982-ND                  |                                 |
+|  1 | J USB C 2.0, horizontal                   | J1      | 2073-USB4085-GF-ACT-ND     |                                 |
 |  1 | J MC 1,5/ 4-G-3,81 (4w)                   | J2      | ED2810-ND                  | 277-1208-ND                     |
 |  1 | L Ferrite 40Ohm (0805)                    | L1      | 445-2201-1-ND              |                                 |
 |  1 | Q P-MOSFET 20V LowVgs {DMP3085LSD} (SO-8) | Q1      | DMP3085LSD-13DICT-ND       | 785-AOSD21311CCT-ND             |
 |  4 | R 118 0.125W (0805)                       | R1-R4   | P118CCT-ND                 |                                 |
 |  9 | R 470 0.125W (0805)                       | R5-R13  | RMCF0805FT470RCT-ND        |                                 |
-|  1 | R 5.1K 0.125W (0805)                      | R14     | RMCF0805FT5K10CT-ND        |                                 |
-|  1 | U MCP2221A (SOIC-14)                      | U1      | MCP2221A-I/SL              |                                 |
-|  1 | U PIC18F25K80 (SOIC-28)                   | U2      | PIC18F25K80-I/SO-ND        |                                 |
+|  3 | R 5.1K 0.125W (0805)                      | R14-R16 | RMCF0805FT5K10CT-ND        |                                 |
+|  1 | U MCP2221A (TSSOP-14)                     | U1      | MCP2221A-I/ST-ND           |                                 |
+|  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                                 |
 |  1 | U ISO1050 (SOP-8)                         | U3      | 296-24818-1-ND             |                                 |
 |  1 | U Optocoupler 817S (SMD-4)                | U4      | 160-1367-5-ND              | 732-140817143200CT-ND           |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                | VR1     | 945-1655-5-ND              |                                 |
@@ -51,5 +51,5 @@ All other settings should remain default.
 
 |       |      Dimensions | Area    | Thickness |
 |-------|-----------------|---------|-----------|
-| PCB   | 105.0 x 26.0 mm | 4.3 in² |    1.6 mm |
+| PCB   | 105.0 x 26.0 mm | 4.3 in² |    0.8 mm |
 | Panel |  29.5 x 20.3 mm | 1.0 in² |    1.6 mm |
