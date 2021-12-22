@@ -23,7 +23,7 @@
 |  1 | Y Crystal 12MHz 50ppm 20pF                | Y1      | 887-2011-ND                | 887-1238-ND                     |
 |  1 | H Enclosure 1593DBK                       |         | HM861-ND                   |                                 |
 |  4 | H PCB Screw Self-tapping M3 6mm (#4 1/4") |         | 36-9191-3-ND               | SR6004-ND                       |
-|  2 | P MC 1,5/ 4-ST-3,81 (4w)                  |         | ED2877-ND                  | 277-1163-ND                     |
+|  1 | P MC 1,5/ 4-ST-3,81 (4w)                  |         | ED2877-ND                  | 277-1163-ND                     |
 
 Please note pretty much any of these components can be replaced with a carefully
 chosen replacement.
