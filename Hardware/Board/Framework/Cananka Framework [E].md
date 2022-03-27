@@ -23,13 +23,14 @@ Current: 100 mA
 |  1 | P USB C, plug, straddle 0.8mm             | P1      | WM12855-ND                 |                                 |
 |  2 | Q P-MOSFET 20V LowVgs {DMG2305UX}         | Q1-Q2   | DMG2305UX-13DICT-ND        | 785-AOSS21319CCT-ND             |
 |  1 | R 118 0.125W (0805)                       | R1      | P118CCT-ND                 |                                 |
-|  4 | R 5.1K 0.125W (0805)                      | R2-R5   | RMCF0805FT5K10CT-ND        |                                 |
+|  5 | R 5.1K 0.125W (0805)                      | R2-R6   | RMCF0805FT5K10CT-ND        |                                 |
 |  1 | U MCP2221A (TSSOP-14)                     | U1      | MCP2221A-I/ST-ND           |                                 |
 |  1 | U PIC18F25K80 (SSOP-28)                   | U2      | PIC18F25K80-I/SS-ND        |                                 |
 |  1 | U MCP2561 (SOIC-8)                        | U3      | MCP2561-E/SN-ND            | 568-10289-1-ND                  |
 
 WARNING: This is a non-isolated board - beware of ground loops and all the fun
-that can happen with different ground potentials.
+that can happen with different ground potentials. Ideally avoid connecting either
+power or ground unless really necessary.
 
 
 #### UART Configuration ####
