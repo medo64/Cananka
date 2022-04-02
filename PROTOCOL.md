@@ -369,7 +369,7 @@ Following are bits and their meanings:
 
 ###### Load bus (*L) ######
 
-Device will produce artifical load on bus.
+Device will produce an artificial load on bus.
 
 |                 | Send            | Receive         | Notes                            |
 |-----------------|-----------------|-----------------|----------------------------------|
