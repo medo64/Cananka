@@ -732,9 +732,9 @@ namespace Medo.Device {
         /// <summary>
         /// Hardware version.
         /// If this is a Cananka USB device, minor version is as follows:
-        /// * 0: Cananka USB
-        /// * 1: Cananka USB RJ-45
-        /// * 2: Cananka USB/mini
+        /// * 0: Cananka
+        /// * 1: Cananka (RJ-45) (obsoleted)
+        /// * 2: Cananka Mini
         /// * 9: Unknown
         /// </summary>
         public Version HardwareVersion { get; }
