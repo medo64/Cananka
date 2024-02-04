@@ -1,6 +1,6 @@
+#include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <pic18f25k80.h>
 
 #include "can.h"
 #include "device.h"

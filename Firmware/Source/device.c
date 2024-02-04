@@ -1,6 +1,6 @@
-#include <pic18f25k80.h>
+#include <xc.h>
+#include <stdbool.h>
 #include <stdint.h>
-
 #include "device.h"
 
 
