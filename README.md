@@ -19,5 +19,6 @@ There are alternative versions available too:
 
 Firmware is available in [a separate repository](https://github.com/medo64/Cananka.Firmware)
 
+
 ---
 *You can check my blog and other projects at [www.medo64.com](https://medo64.com/electronics/).*
