@@ -14,13 +14,16 @@ Features:
 * 3.81 mm strip headers CAN bus connector
 * USB 2.0 interface (type B)
 
-There are alternative versions available too:
+The following hardware version are also available:
 * [RJ45](README-RJ45.md) (uses RJ-45 connector)
-* [Mini](README-Mini.md) (directly pluggable, non-insulated, and without a case)
+* [Mini](https://github.com/medo64/CanankaMini) (USB A connector, non-isolated, and without a case)
+* [Framework Expansion Card](https://github.com/medo64/CanankaFEC) (non-isolated, in framework expansion card format)
+* [HAT](https://github.com/medo64/CanankaHAT) (intended for Raspberry Pi)
 
-Firmware is available in [a separate repository](https://github.com/medo64/Cananka.Firmware)
+The following additional repositories might be of interest:
+* [Firmware](https://github.com/medo64/Cananka.Firmware)
+* [Test software](https://github.com/medo64/Cananka.Software)
 
-Test software is also available in [a separate repository](https://github.com/medo64/Cananka.Software)
 
 ---
 *You can check my blog and other projects at [www.medo64.com](https://medo64.com/electronics/).*
