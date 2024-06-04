@@ -17,25 +17,7 @@ Features:
 There are alternative versions available too:
 * [Mini](README-Mini.md) (directly pluggable, non-insulated, and without a case)
 
-
-### Hardware Revisions ###
-
-| Revision | Functional | HW Supported | FW Supported | Description                                    |
-|----------|------------|--------------|--------------|------------------------------------------------|
-| Dxxxx    | Yes        | Yes          | Yes          | Latest revision using MCP2221A UART interface. |
-| Cxxxx †  | Yes        | Yes          | Yes          | Last revision to use FT232RL UART.             |
-| Bxxxx    | No         | No           | Probably ‡   | Test revision.                                 |
-| Axxxx    | No         | No           | Probably ‡   | Test revision.                                 |
-
-† Early revision D test boards might carry revision C markings (slight
-versioning oversight). However, they can be visually distingushed by the
-difference in UART chip (FT232RL vs MCP2221A) and a lowercase c used on the
-silkscreen. In firmware they will be correctly recognized as revision D.
-
-‡ As these test revisions are quite close to what revision C became, firmware
-code generally works just fine. However, if any issues are found, it is unlikely
-they will be addressed.
-
+Firmware is available in [a separate repository](https://github.com/medo64/Cananka.Firmware)
 
 ---
 *You can check my blog and other projects at [www.medo64.com](https://medo64.com/electronics/).*
