@@ -22,6 +22,7 @@ The following hardware version are also available:
 
 The following additional repositories might be of interest:
 * [Firmware](https://github.com/medo64/Cananka.Firmware)
+* [Protocol](https://github.com/medo64/Cananka.Firmware/blob/main/PROTOCOL.md)
 * [Test software](https://github.com/medo64/Cananka.Software)
 
 
