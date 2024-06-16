@@ -1,5 +1,8 @@
-syntax: glob
-
-**/Datasheets/**
-**/Research/**
-**/Releases/**
+datasheets/**
+dist/**
+src/*-backups
+src/fp-info-cache
+src/*.kicad_prl
+src/*.kicad_*.lck
+src/*.gcode
+research/

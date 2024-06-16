@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FT_EEPROM>
+  <Chip_Details>
+    <Type>FT X Series</Type>
+  </Chip_Details>
+  <USB_Device_Descriptor>
+    <VID_PID>0</VID_PID>
+    <idVendor>0403</idVendor>
+    <idProduct>6015</idProduct>
+    <bcdUSB>USB 2.0</bcdUSB>
+  </USB_Device_Descriptor>
+  <USB_Config_Descriptor>
+    <bmAttributes>
+      <RemoteWakeupEnabled>false</RemoteWakeupEnabled>
+      <SelfPowered>false</SelfPowered>
+      <BusPowered>true</BusPowered>
+    </bmAttributes>
+    <IOpullDown>true</IOpullDown>
+    <MaxPower>300</MaxPower>
+  </USB_Config_Descriptor>
+  <USB_String_Descriptors>
+    <Manufacturer>Medo64</Manufacturer>
+    <Product_Description>Cananka</Product_Description>
+    <SerialNumber_Enabled>true</SerialNumber_Enabled>
+    <SerialNumber />
+    <SerialNumberPrefix>JM</SerialNumberPrefix>
+    <SerialNumber_AutoGenerate>true</SerialNumber_AutoGenerate>
+  </USB_String_Descriptors>
+  <Hardware_Specific>
+    <USB_Suspend_VBus>false</USB_Suspend_VBus>
+    <RS485_Echo_Suppress>false</RS485_Echo_Suppress>
+    <Port_A>
+      <Hardware>
+        <Device>FT230X/FT231X/FT234X (UART)</Device>
+      </Hardware>
+      <Driver>
+        <D2XX>false</D2XX>
+        <VCP>true</VCP>
+      </Driver>
+    </Port_A>
+    <Battery_Charge_Detect>
+      <Enable>false</Enable>
+      <Power_Enable>false</Power_Enable>
+      <Deactivate_Sleep>false</Deactivate_Sleep>
+    </Battery_Charge_Detect>
+    <Invert_RS232_Signals>
+      <TXD>false</TXD>
+      <RXD>false</RXD>
+      <RTS>false</RTS>
+      <CTS>false</CTS>
+      <DTR>false</DTR>
+      <DSR>true</DSR>
+      <DCD>false</DCD>
+      <RI>false</RI>
+    </Invert_RS232_Signals>
+    <CBUS_Signals>
+      <C0>TXDEN</C0>
+      <C1>TXLED</C1>
+      <C2>TX&amp;RXLED#</C2>
+      <C3>PWREN#</C3>
+    </CBUS_Signals>
+    <IO_Pins>
+      <DBUS>
+        <SlowSlew>false</SlowSlew>
+        <Schmitt>false</Schmitt>
+        <Drive>4mA</Drive>
+      </DBUS>
+      <CBUS>
+        <SlowSlew>false</SlowSlew>
+        <Schmitt>false</Schmitt>
+        <Drive>16mA</Drive>
+      </CBUS>
+    </IO_Pins>
+  </Hardware_Specific>
+</FT_EEPROM>
