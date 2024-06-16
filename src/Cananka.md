@@ -1,4 +1,4 @@
-### CanankaMini
+### Cananka
 
 #### Parts
 
@@ -12,7 +12,7 @@
 |  3 | C 10uF X5R 16V (0805)                              | C16-C18 | 1276-1096-1-ND              |
 |  1 | D TVS 150W Zenner CAN (SOT23-3)                    | D1      | 497-13262-1-ND              |
 |  4 | DS LED (0805)                                      | DS1-DS4 | 475-1415-1-ND               |
-|  1 | J USB C 2.0 Receptacle (16w)                       | J1      | 2073-USB4085-GF-ACT-ND      |
+|  1 | J USB C 2.0 Receptacle (16w) †                     | J1      | 2073-USB4085-GF-ACT-ND      |
 |  1 | J MC 1,5/ 4-G-3,81                                 | J2      | ED2810-ND                   |
 |  1 | L Ferrite 40Ohm (0805)                             | L1      | 445-2201-1-ND               |
 |  1 | Q P-MOSFET 30V LowVgs {DMP3085LSD} (SO-8)          | Q1      | DMP3085LSD-13DICT-ND        |
@@ -32,12 +32,13 @@
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                         | VR2     | 945-1655-5-ND               |
 |  1 | P MC 1,5/ 4-ST-3,81                                | P2      | ED2877-ND                   |
 
+† Alternatively USB type B connector can be used.
 
 
 #### Specifications
 
-| Property      | Value                      |
-|---------------|----------------------------|
-| PCB size      | 105.8 x 26.0 mm ~ 4.3 sqin  |
-| Voltage (in)  | 5 V ±10%                   |
-| Current (in)  | 300 mA (max)               |
+| Property      | Value                             |
+|---------------|-----------------------------------|
+| PCB size      | 105.8 x 26.0 x 0.8 mm ~ 4.3 sqin  |
+| Voltage (in)  | 5 V ±10%                          |
+| Current (in)  | 300 mA (max)                      |
