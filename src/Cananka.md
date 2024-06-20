@@ -42,3 +42,17 @@
 | PCB size      | 105.8 x 26.0 x 0.8 mm ~ 4.3 sqin  |
 | Voltage (in)  | 5 V ±10%                          |
 | Current (in)  | 300 mA (max)                      |
+
+
+#### Extra Testing Parts
+
+For purpose of testing, a permanent 5V 100mA output can be achieved. This is to
+be considered for test only and not used in production devices.
+
+|  # | Part                                               | RefDes    | Preferred Part Number       |
+|---:|----------------------------------------------------|-----------|-----------------------------|
+|  2 | C 100nF X7R 25V (0805)                             | C101-C102 | 478-5311-1-ND               |
+|  2 | C 10uF X5R 25V (0805)                              | C103-C104 | 1276-1096-1-ND              |
+|  1 | D Schottky 30V 800mA [CUS08F30,H3F] (SOD323)       | D101      | CUS08F30H3FCT-ND            |
+|  1 | R 300K 0.125W (0805)                               | R101      | RMCF0805FT300KCT-ND         |
+|  1 | U LoadSwitch Adjustable [AP22653W6-7] (SOT23-6)    | U101      | 31-AP22653W6-7CT-ND         |
