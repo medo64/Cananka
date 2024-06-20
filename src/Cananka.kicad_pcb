@@ -12734,6 +12734,19 @@
 		(layer "Margin")
 		(uuid "ff4e708e-eb45-4305-bf6e-87e7dc1ea1eb")
 	)
+	(gr_text "Cananka EXXXX"
+		(at 106 21 0)
+		(layer "F.SilkS")
+		(uuid "d17dfe47-2c12-461d-86a9-738fdc81ac60")
+		(effects
+			(font
+				(size 1.2 0.8)
+				(thickness 0.2)
+				(bold yes)
+			)
+			(justify left top)
+		)
+	)
 	(segment
 		(start 117.35 23.35)
 		(end 117.1 23.1)
