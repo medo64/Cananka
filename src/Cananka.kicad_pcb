@@ -486,7 +486,7 @@
 				)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "30p"
 			(at 2.7 0 0)
 			(layer "F.SilkS")
 			(uuid "ae6810f9-a6b3-41f5-9fc8-4c49e2ff789d")
@@ -5434,7 +5434,7 @@
 				)
 			)
 		)
-		(property "Value" "22p"
+		(property "Value" "30p"
 			(at 2.7 0 0)
 			(layer "F.SilkS")
 			(uuid "94b92646-8002-413e-9e1d-912315299eab")

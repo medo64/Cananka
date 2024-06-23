@@ -4,7 +4,7 @@
 
 |  # | Part                                               | RefDes  | Preferred Part Number       |
 |---:|----------------------------------------------------|---------|-----------------------------|
-|  2 | C 22pF NP0 16V (0805)                              | C1-C2   | 399-8036-1-ND               |
+|  2 | C 30pF NP0 16V (0805)                              | C1-C2   | 738-CML0805C0G300JT50VCT-ND |
 |  2 | C 47pF NP0 16V (0805)                              | C3-C4   | 399-C0805C470J5GAC7800CT-ND |
 |  1 | C 10nF X7R 16V (0805)                              | C5      | 399-17617-1-ND              |
 |  5 | C 100nF X7R 16V (0805)                             | C6-C12  | 478-5311-1-ND               |
@@ -30,6 +30,7 @@
 |  1 | U LevelTranslator [74LVC1T45] (SOT23-6)            | U5      | 74LVC1T45W6-7DICT-ND        |
 |  1 | VR Linear 3.3V 250mA [MCP1700] (SOT-23)            | VR1     | MCP1700T3302ETTCT-ND        |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                         | VR2     | 945-1655-5-ND               |
+|  1 | Y Crystal 12MHz 50ppm 20pF	                      | Y1      | 887-2011-ND	              |
 |  1 | P MC 1,5/ 4-ST-3,81                                | P2      | ED2877-ND                   |
 
 † Alternatively USB type B connector can be used.
