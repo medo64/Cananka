@@ -4,12 +4,13 @@
 
 |  # | Part                                               | RefDes  | Preferred Part Number       |
 |---:|----------------------------------------------------|---------|-----------------------------|
+|  1 | AT Optocoupler 817S (SMD-4)                        | AT1     | 160-1367-5-ND               |
 |  2 | C 30pF NP0 16V (0805)                              | C1-C2   | 738-CML0805C0G300JT50VCT-ND |
 |  2 | C 47pF NP0 16V (0805)                              | C3-C4   | 399-C0805C470J5GAC7800CT-ND |
 |  1 | C 10nF X7R 16V (0805)                              | C5      | 399-17617-1-ND              |
-|  5 | C 100nF X7R 16V (0805)                             | C6-C12  | 478-5311-1-ND               |
+|  7 | C 100nF X7R 16V (0805)                             | C6-C12  | 478-5311-1-ND               |
 |  2 | C 1uF X7R 16V (0805)                               | C13-C14 | 311-1365-1-ND               |
-|  3 | C 10uF X5R 16V (0805)                              | C16-C18 | 1276-1096-1-ND              |
+|  4 | C 10uF X5R 16V (0805)                              | C15-C18 | 1276-1096-1-ND              |
 |  1 | D TVS 150W Zenner CAN (SOT23-3)                    | D1      | 497-13262-1-ND              |
 |  4 | DS LED (0805)                                      | DS1-DS4 | 475-1415-1-ND               |
 |  1 | J USB C 2.0 Receptacle (16w) †                     | J1      | 2073-USB4085-GF-ACT-ND      |
@@ -26,8 +27,7 @@
 |  1 | U Transciever Uart FT230XS (SSOP-16)               | U1      | 768-1154-5-ND               |
 |  1 | U PIC18F25K80 (SSOP-28)                            | U2      | PIC18F25K80-I/SS-ND         |
 |  1 | U ISO1050 (SOP-8)                                  | U3      | 296-24818-1-ND              |
-|  1 | U Optocoupler 817S (SMD-4)                         | U4      | 160-1367-5-ND               |
-|  1 | U LevelTranslator [74LVC1T45] (SOT23-6)            | U5      | 74LVC1T45W6-7DICT-ND        |
+|  1 | U LevelTranslator [74LVC1T45] (SOT23-6)            | U4      | 74LVC1T45W6-7DICT-ND        |
 |  1 | VR Linear 3.3V 250mA [MCP1700] (SOT-23)            | VR1     | MCP1700T3302ETTCT-ND        |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                         | VR2     | 945-1655-5-ND               |
 |  1 | Y Crystal 12MHz 50ppm 20pF	                      | Y1      | 887-2011-ND	              |

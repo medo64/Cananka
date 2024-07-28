@@ -1204,7 +1204,7 @@
 		(uuid "1db51ee4-11b9-4dc6-a19c-defbce64709c")
 		(at 87.1 42.5)
 		(tags "SOIC127P600X170-9N")
-		(property "Reference" "U4"
+		(property "Reference" "AT1"
 			(at 0 -0.7 0)
 			(layer "F.SilkS")
 			(uuid "5133a456-fbe2-491f-a393-563bcd9f83a4")
@@ -2608,7 +2608,7 @@
 		(uuid "42baa934-f263-44ab-94e2-847477ebf595")
 		(at 65.2 30.1)
 		(descr "Diodes 74LVC1T45W6-7")
-		(property "Reference" "U5"
+		(property "Reference" "U4"
 			(at 0 -2.2 0)
 			(layer "F.SilkS")
 			(uuid "e6e41a9d-0ac6-4c6d-814f-b30a492272bb")
@@ -2619,7 +2619,7 @@
 				)
 			)
 		)
-		(property "Value" "  74LVC1T45"
+		(property "Value" " 74LVC1T45"
 			(at 0 2.4 180)
 			(layer "F.SilkS")
 			(hide yes)
