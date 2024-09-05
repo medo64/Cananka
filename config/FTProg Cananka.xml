@@ -15,8 +15,8 @@
       <SelfPowered>false</SelfPowered>
       <BusPowered>true</BusPowered>
     </bmAttributes>
-    <IOpullDown>true</IOpullDown>
-    <MaxPower>300</MaxPower>
+    <IOpullDown>false</IOpullDown>
+    <MaxPower>200</MaxPower>
   </USB_Config_Descriptor>
   <USB_String_Descriptors>
     <Manufacturer>Medo64</Manufacturer>
