@@ -334,7 +334,7 @@
 				)
 			)
 		)
-		(property "Value" "118"
+		(property "Value" "120"
 			(at -2.3 0 0)
 			(layer "F.SilkS")
 			(uuid "dc81f075-fba0-4c87-a933-a9f0d08abd5e")
@@ -3332,7 +3332,7 @@
 				)
 			)
 		)
-		(property "Value" "118"
+		(property "Value" "120"
 			(at 2.35 0 0)
 			(layer "F.SilkS")
 			(uuid "83d3ec99-4a1d-4fb0-b899-c826e578cce9")
@@ -5857,7 +5857,7 @@
 				)
 			)
 		)
-		(property "Value" "118"
+		(property "Value" "120"
 			(at -2.3 0 0)
 			(layer "F.SilkS")
 			(uuid "d14e5396-b98b-47a4-828b-8f4be93bfa18")
@@ -10981,7 +10981,7 @@
 				)
 			)
 		)
-		(property "Value" "118"
+		(property "Value" "120"
 			(at 2.35 0 0)
 			(layer "F.SilkS")
 			(uuid "33d9d301-0f26-481a-8be7-f9fccf41758f")

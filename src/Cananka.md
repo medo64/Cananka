@@ -19,7 +19,7 @@
 |  1 | Q MOSFET P 3.9A 30V ±25Vgs [DMP3085LSD] (SO-8)     | Q1      | DMP3085LSD-13DICT-ND        |
 |  1 | Q MOSFET P 2.5A 20V ±8Vgs [DMG2301U-7] (SOT23-3)   | Q2      | DMG2301U-7DICT-ND           |
 |  2 | R 27 1% (0805)                                     | R1-R2   | 738-RMCF0805FT27R0CT-ND     |
-|  4 | R 118 0.125W (0805)                                | R3-R6   | P118CCT-ND                  |
+|  4 | R 120 1% 0.25W (0805)                              | R3-R6   | 2019-RK73H2ATTD1200FCT-ND   |
 |  6 | R 470 0.125W (0805)                                | R7-R12  | RMCF0805FT470RCT-ND         |
 |  2 | R 1K 0.125W (0805)                                 | R13-R14 | RMCF0805FT1K00CT-ND         |
 |  2 | R 5.1K 0.125W (0805)                               | R15-R16 | RMCF0805FT5K10CT-ND         |
