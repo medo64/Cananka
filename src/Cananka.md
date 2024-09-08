@@ -16,8 +16,8 @@
 |  1 | J USB C 2.0 Receptacle (16w) †                     | J1      | 2073-USB4085-GF-ACT-ND      |
 |  1 | J MC 1,5/ 4-G-3,81                                 | J2      | ED2810-ND                   |
 |  1 | L Ferrite 40Ohm (0805)                             | L1      | 445-2201-1-ND               |
-|  1 | Q P-MOSFET 30V LowVgs {DMP3085LSD} (SO-8)          | Q1      | DMP3085LSD-13DICT-ND        |
-|  1 | Q P-MOSFET 50V 120mA [BSS84] (SOT23-3)             | Q2      | BSS84CT-ND                  |
+|  1 | Q MOSFET P 3.9A 30V ±25Vgs [DMP3085LSD] (SO-8)     | Q1      | DMP3085LSD-13DICT-ND        |
+|  1 | Q MOSFET P 2.5A 20V ±8Vgs [DMG2301U-7] (SOT23-3)   | Q2      | DMG2301U-7DICT-ND           |
 |  2 | R 27 1% (0805)                                     | R1-R2   | 738-RMCF0805FT27R0CT-ND     |
 |  4 | R 118 0.125W (0805)                                | R3-R6   | P118CCT-ND                  |
 |  6 | R 470 0.125W (0805)                                | R7-R12  | RMCF0805FT470RCT-ND         |
