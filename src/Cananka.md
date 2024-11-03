@@ -31,6 +31,7 @@
 |  1 | VR Linear 3.3V 250mA [MCP1700] (SOT-23)            | VR1     | MCP1700T3302ETTCT-ND        |
 |  1 | VR DC-DC 5V->5V 1W (SIP-4)                         | VR2     | 945-1655-5-ND               |
 |  1 | Y Crystal 12MHz 50ppm 20pF	                      | Y1      | 887-2011-ND	              |
+|  1 | H Enclosure Bud HP-3653-B                          |         | 377-1653-ND                 |
 |  1 | P MC 1,5/ 4-ST-3,81                                | P2      | ED2877-ND                   |
 
 † Alternatively USB type B connector can be used.
