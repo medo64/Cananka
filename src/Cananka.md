@@ -20,10 +20,9 @@
 |  1 | Q MOSFET P 2.5A 20V ±8Vgs [DMG2301U-7] (SOT23-3)   | Q2      | DMG2301U-7DICT-ND           |
 |  2 | R 27 1% (0805)                                     | R1-R2   | 738-RMCF0805FT27R0CT-ND     |
 |  4 | R 120 1% 0.25W (0805)                              | R3-R6   | 2019-RK73H2ATTD1200FCT-ND   |
-|  6 | R 470 0.125W (0805)                                | R7-R12  | RMCF0805FT470RCT-ND         |
-|  2 | R 1K 0.125W (0805)                                 | R13-R14 | RMCF0805FT1K00CT-ND         |
+|  8 | R 470 0.125W (0805)                                | R7-R14  | RMCF0805FT470RCT-ND         |
 |  2 | R 5.1K 0.125W (0805)                               | R15-R16 | RMCF0805FT5K10CT-ND         |
-|  2 | R 100K 0.125W (0805)                               | R17-R18 | RMCF0805FT100KCT-ND         |
+|  2 | R 10K 0.125W (0805)                                | R17-R18 | RMCF0805FT10K0CT-ND         |
 |  1 | U Transciever Uart FT230XS (SSOP-16)               | U1      | 768-1154-5-ND               |
 |  1 | U PIC18F25K80 (SSOP-28)                            | U2      | PIC18F25K80-I/SS-ND         |
 |  1 | U ISO1050 (SOP-8)                                  | U3      | 296-24818-1-ND              |
